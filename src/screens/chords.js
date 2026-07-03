@@ -4,7 +4,7 @@
  * Content is data-driven from /data/chords.json (rule f). Diagrams mirror for
  * left-handed players when Left-handed mode is on (rule e).
  */
-import chordData from '../../data/chords.json';
+import { CHORDS } from '../content.js';
 import { el } from '../ui/dom.js';
 import { chordDiagramSVG } from '../ui/chord-diagram.js';
 import { openModal } from '../ui/modal.js';
@@ -25,7 +25,7 @@ export function render() {
   );
 
   const grid = el('div', { class: 'chord-grid' });
-  for (const chord of chordData.chords) {
+  for (const chord of CHORDS) {
     grid.append(
       el(
         'button',

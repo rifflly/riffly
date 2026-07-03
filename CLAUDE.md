@@ -149,8 +149,19 @@ Done:
   shows a tappable grid → detail modal with the big diagram + a beginner tip.
   Nine beginner open chords (Em, Am, D, E, A, Dm, C, G, G7).
 
-Next in Phase 1: lessons stage 1–2, progress. Rule (d)'s "New version ready"
-update banner + real service-worker caching still to come.
+- **Lessons + progress** (Learn screen): guided path, stages 1–2, data-driven
+  from `/data/lessons.json` (rule f). `src/content.js` centralises lesson/chord
+  data + `getChord()`. `src/storage/progress.js` persists completed lessons to
+  IndexedDB (loaded at boot). `src/ui/lesson-steps.js` renders step types
+  (text, tip, chord, practice checklist, metronome). `src/ui/lesson-metronome.js`
+  embeds the shared metronome inside a lesson step. `src/screens/learn.js` has
+  two in-screen views (path with progress bar + per-lesson checkmarks, and the
+  lesson player with "I did it!"). Chords screen now also reads from content.js.
+
+**Phase 1 is feature-complete** (shell, timing engine, metronome, chord library,
+lessons 1–2, progress). Still to come before calling Phase 1 fully done: rule
+(d)'s real service-worker caching (offline) + "New version ready" update banner.
+Then Phase 2.
 
 ### Testing
 

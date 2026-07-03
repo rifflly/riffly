@@ -1,5 +1,226 @@
 {
   "version": 1,
-  "comment": "Lesson content, organised by stage. Stages 1-2 land in Phase 1, stages 3-4 in Phase 2, stage 5 in Phase 3.",
-  "stages": []
+  "comment": "Lesson content by stage. Step types: text {heading?, body}, tip {body}, chord {chordId, body?}, practice {heading?, body?, checklist[]}, metronome {bpm, body}. Stages 3-4 arrive in Phase 2, stage 5 in Phase 3.",
+  "stages": [
+    {
+      "id": "stage-1",
+      "number": 1,
+      "title": "First Steps",
+      "subtitle": "Get comfortable and make your very first sounds.",
+      "lessons": [
+        {
+          "id": "1-1",
+          "title": "Meet your guitar",
+          "minutes": 5,
+          "summary": "Get comfy and learn the six strings.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Get comfy",
+              "body": "Sit up in a chair with both feet on the floor. Rest the curve of the guitar on your right leg and let it hug your body. There's no wrong way to feel relaxed."
+            },
+            {
+              "type": "text",
+              "heading": "The six strings",
+              "body": "Your guitar has six strings. The thickest one is at the top and the thinnest at the bottom. We count them from thickest (6th) to thinnest (1st)."
+            },
+            {
+              "type": "tip",
+              "body": "Drop your shoulders and unclench your jaw. Loose and relaxed always sounds better than tense."
+            },
+            {
+              "type": "practice",
+              "heading": "Try it",
+              "body": "Spend a minute just holding your guitar and getting comfortable.",
+              "checklist": [
+                "Rest the guitar on your leg so it doesn't slide",
+                "Let your left hand gently cradle the neck",
+                "Keep your strumming arm loose and relaxed"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1-2",
+          "title": "Your first sounds",
+          "minutes": 5,
+          "summary": "Strum across the strings and pluck them one by one.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Give it a strum",
+              "body": "Brush your thumb (or a pick) gently down across all the strings, from thickest to thinnest. Hear that? You're playing guitar already."
+            },
+            {
+              "type": "text",
+              "heading": "One string at a time",
+              "body": "Now pluck each string on its own, slowly, from the thickest to the thinnest. Listen to how each one sounds a little higher than the last."
+            },
+            {
+              "type": "tip",
+              "body": "Aim for a smooth, even brush when you strum — not too hard. You're stroking the strings, not hitting them."
+            },
+            {
+              "type": "practice",
+              "body": "Get used to the feel of the strings.",
+              "checklist": [
+                "Strum down slowly five times",
+                "Pluck each string one by one",
+                "Notice which strings sound low and which sound high"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1-3",
+          "title": "Your first chord: E minor",
+          "minutes": 8,
+          "summary": "Learn Em — the friendliest first chord.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "What's a chord?",
+              "body": "A chord is a few notes played together to make one full sound. E minor (Em) is the perfect first one — it uses just two fingers."
+            },
+            {
+              "type": "chord",
+              "chordId": "Em",
+              "body": "Place your fingers on the two dots shown. Both go on the second fret, on the two strings next to the thickest one."
+            },
+            {
+              "type": "tip",
+              "body": "Press just behind the metal fret line, not on top of it, and press firmly. Curl your fingers so they don't touch the other strings."
+            },
+            {
+              "type": "practice",
+              "heading": "Strum it",
+              "body": "With your fingers in place, strum all six strings slowly. It should ring out clearly.",
+              "checklist": [
+                "Both fingers pressing on the second fret",
+                "Strum all six strings",
+                "Every string rings clearly — no buzzing"
+              ]
+            },
+            {
+              "type": "metronome",
+              "bpm": 60,
+              "body": "Now let's add a steady beat. Start the metronome and strum Em once on every click."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-2",
+      "number": 2,
+      "title": "Making Music",
+      "subtitle": "Add a second chord and change between them in time.",
+      "lessons": [
+        {
+          "id": "2-1",
+          "title": "Meet A minor",
+          "minutes": 8,
+          "summary": "Learn Am, your second chord.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "A new shape",
+              "body": "A minor (Am) uses three fingers, but it sits right next to the Em shape you already know. You've got this."
+            },
+            {
+              "type": "chord",
+              "chordId": "Am",
+              "body": "Place your three fingers on the dots shown. Don't strum the thickest string — start your strum from the second-thickest."
+            },
+            {
+              "type": "tip",
+              "body": "Keep your fingertips curled and press with the very tips, so each string can ring out freely."
+            },
+            {
+              "type": "practice",
+              "body": "Get the Am shape feeling natural.",
+              "checklist": [
+                "All three fingers in place",
+                "Strum from the 5th string down (skip the thickest)",
+                "Every note rings clearly"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2-2",
+          "title": "Your first chord change",
+          "minutes": 10,
+          "summary": "Switch smoothly between Em and Am.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Switching chords",
+              "body": "The magic of guitar is changing between chords. Em and Am are close cousins, so this is a great first switch to learn."
+            },
+            {
+              "type": "chord",
+              "chordId": "Em",
+              "body": "Start on Em."
+            },
+            {
+              "type": "chord",
+              "chordId": "Am",
+              "body": "Then move to Am. Notice your fingers only shift a little."
+            },
+            {
+              "type": "tip",
+              "body": "Go slowly. It's completely normal for changes to feel clumsy at first — every guitarist started exactly here."
+            },
+            {
+              "type": "metronome",
+              "bpm": 50,
+              "body": "Set a slow beat. Strum Em for four clicks, then Am for four clicks, and keep looping."
+            },
+            {
+              "type": "practice",
+              "body": "Loop the change until it feels smoother.",
+              "checklist": [
+                "Four strums of Em, four strums of Am",
+                "Keep the beat steady — don't rush the change",
+                "Let it sound a little messy at first; it gets easier fast"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2-3",
+          "title": "Strum in time",
+          "minutes": 10,
+          "summary": "Play steady downstrokes with the beat.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Downstrokes",
+              "body": "A strumming pattern is just a rhythm. We'll start with the simplest: one downward strum on every beat."
+            },
+            {
+              "type": "metronome",
+              "bpm": 70,
+              "body": "Start the beat and strum Em down once per click. Aim to land right on each click."
+            },
+            {
+              "type": "tip",
+              "body": "Count out loud: 1, 2, 3, 4. Counting really does make your timing steadier."
+            },
+            {
+              "type": "practice",
+              "heading": "Put it together",
+              "body": "Combine everything you've learned into a tiny piece of music.",
+              "checklist": [
+                "Strum Em in time for four beats",
+                "Change to Am and strum four beats",
+                "Loop it — that's a real progression you're playing!"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -741,6 +741,284 @@ button,
   to { opacity: 1; transform: scale(1); }
 }
 
+/* ---- Learn: lesson path ------------------------------------------------- */
+
+.progress-card {
+  background: linear-gradient(135deg, var(--color-primary-soft), var(--color-secondary-soft));
+  border: none;
+}
+
+.progress-count {
+  font-weight: 600;
+  margin-bottom: var(--space-3);
+}
+
+.progress-bar {
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.6);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  transition: width 0.4s ease;
+}
+
+.stage {
+  margin-bottom: var(--space-5);
+}
+
+.stage-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  padding: 0 var(--space-1);
+}
+
+.stage-badge {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stage-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.stage-subtitle {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.lesson-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.lesson-row:active {
+  transform: scale(0.99);
+}
+
+.lesson-check {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.lesson-row.is-done .lesson-check {
+  background: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.lesson-row-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lesson-row-title {
+  font-weight: 700;
+}
+
+.lesson-row-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.lesson-chevron {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* ---- Learn: lesson view ------------------------------------------------- */
+
+.back-btn {
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  padding: var(--space-2) 0;
+  margin-bottom: var(--space-2);
+}
+
+.lesson-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.lesson-meta {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.step {
+  margin-bottom: var(--space-3);
+}
+
+.step-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: var(--space-2);
+}
+
+.step-heading--inline {
+  margin-bottom: 0;
+}
+
+.step-body {
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.step-body + .step-body {
+  margin-top: var(--space-2);
+}
+
+.step--tip {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  background: var(--color-primary-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+}
+
+.tip-icon {
+  font-size: 1.2rem;
+  line-height: 1.4;
+}
+
+.tip-body {
+  color: var(--color-primary-dark);
+  font-weight: 500;
+}
+
+.step-chord-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.step-chord-diagram {
+  flex-shrink: 0;
+  width: 110px;
+}
+
+.step-chord-diagram svg {
+  width: 100%;
+  height: auto;
+}
+
+.step-chord-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.checklist {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  color: var(--color-text);
+}
+
+.checklist-item .icon {
+  color: var(--color-success);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.step-metro-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-secondary);
+  margin-bottom: var(--space-2);
+}
+
+.lesson-metro-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.metro-mini-dot {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--color-secondary);
+}
+
+.metro-mini-dot.is-down {
+  background: var(--color-primary);
+}
+
+.lesson-done {
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+.btn-secondary {
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
+}
+
+.lesson-done-note {
+  text-align: center;
+  color: var(--color-success);
+  font-weight: 600;
+  margin-top: var(--space-4);
+}
+
 /* ---- Left-handed mode (rule e) -----------------------------------------
    Any element marked .mirror-when-left flips horizontally. Chord diagrams in
    Phase 1 will opt in with this class so left-handed players see them mirrored. */
