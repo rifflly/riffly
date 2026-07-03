@@ -110,3 +110,36 @@ index.html            App entry (Vite entry point)
   spacing, and the 44px touch minimum — don't hard-code palette values.
 - Musical timing must go through the shared Web Audio lookahead scheduler
   (rule b) — never `setInterval`/`setTimeout`.
+- UI is built with the tiny `el()`/`clear()` helpers in `src/ui/dom.js` (no
+  framework). Screens are modules under `src/screens/` exporting `render()`.
+- Routing is hash-based (`#/learn`, …) so it works on static hosting.
+
+### Build status
+
+**Phase 1 — in progress.**
+
+Done:
+- **Storage:** `src/storage/kv.js` (IndexedDB key/value, degrades gracefully) +
+  `settings.js` (cached settings) + `persist.js` (`storage.persist()` on first run).
+- **Audio:** `src/audio/audio-engine.js` — one global AudioContext + iOS unlock
+  (`unlockAudio()` resumes + plays a silent buffer inside a user gesture).
+- **Timing engine:** `src/audio/timing-engine.js` — the shared Web Audio
+  lookahead scheduler (rule b). NOTE: the `setTimeout` inside `_loop()` only
+  *wakes* the scheduler; every musical event is stamped on
+  `audioContext.currentTime`. This is the mandated pattern, not a violation.
+  Deterministic test: `npm test` (`scripts/test-timing.mjs`, fake clock).
+- **Shell:** header + screen router + bottom tab bar (Learn / Chords / Practice /
+  Settings) in `src/ui/shell.js`; audio-unlock banner and one-time iOS install
+  banner; functional Settings screen (sound status, left-handed toggle, install
+  help, app version). Other screens are friendly placeholders.
+
+Next in Phase 1: metronome (first real consumer of the timing engine, lives on
+Practice), then chord library, lessons stage 1–2, progress. Rule (d)'s "New
+version ready" update banner + real service-worker caching still to come.
+
+### Testing
+
+- `npm test` runs the timing-engine unit test (no browser needed).
+- Browser check (testing rule): `npm run dev`, then load in a browser and
+  confirm no console errors. During development this was verified with a headless
+  Chrome DevTools-Protocol smoke test capturing console output + rendered DOM.
