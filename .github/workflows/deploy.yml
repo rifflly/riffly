@@ -48,8 +48,31 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.a1.outputs.page_url || steps.a2.outputs.page_url || steps.a3.outputs.page_url }}
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      # GitHub Pages' publish API intermittently returns "Deployment failed, try
+      # again later." even when the build + artifact are fine. Retry with backoff
+      # (dependency-free) so a transient hiccup doesn't fail the deploy.
+      - name: Deploy to GitHub Pages (attempt 1)
+        id: a1
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait before retry
+        if: steps.a1.outcome == 'failure'
+        run: sleep 20
+
+      - name: Deploy to GitHub Pages (attempt 2)
+        id: a2
+        if: steps.a1.outcome == 'failure'
+        continue-on-error: true
+        uses: actions/deploy-pages@v4
+
+      - name: Wait before final retry
+        if: steps.a1.outcome == 'failure' && steps.a2.outcome == 'failure'
+        run: sleep 40
+
+      - name: Deploy to GitHub Pages (attempt 3)
+        id: a3
+        if: steps.a1.outcome == 'failure' && steps.a2.outcome == 'failure'
         uses: actions/deploy-pages@v4
