@@ -142,8 +142,15 @@ Done:
   persisted to settings. Screens can set `el._dispose` for cleanup; the shell
   calls it on navigation so the metronome stops when you leave the tab.
 
-Next in Phase 1: chord library, lessons stage 1–2, progress. Rule (d)'s "New
-version ready" update banner + real service-worker caching still to come.
+- **Chord library** (Chords screen): data-driven from `/data/chords.json`
+  (rule f). `src/ui/chord-diagram.js` renders SVG diagrams and mirrors them for
+  left-handed mode (rule e) by reversing string index mapping (text stays
+  upright). `src/ui/modal.js` is a reusable overlay. `src/screens/chords.js`
+  shows a tappable grid → detail modal with the big diagram + a beginner tip.
+  Nine beginner open chords (Em, Am, D, E, A, Dm, C, G, G7).
+
+Next in Phase 1: lessons stage 1–2, progress. Rule (d)'s "New version ready"
+update banner + real service-worker caching still to come.
 
 ### Testing
 

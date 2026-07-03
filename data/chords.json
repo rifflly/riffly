@@ -1,5 +1,96 @@
 {
   "version": 1,
-  "comment": "Chord library. Populated in Phase 1. Each chord describes finger positions so diagrams can be rendered (and mirrored for left-handed mode).",
-  "chords": []
+  "comment": "Beginner open chords. strings order = low E (6th) to high E (1st). fret: -1 muted, 0 open, >0 fretted. finger: 0 none, 1 index .. 4 pinky. Diagrams mirror for left-handed mode (rule e).",
+  "chords": [
+    {
+      "id": "Em",
+      "name": "Em",
+      "longName": "E minor",
+      "difficulty": "easy",
+      "baseFret": 1,
+      "frets": [0, 2, 2, 0, 0, 0],
+      "fingers": [0, 2, 3, 0, 0, 0],
+      "tip": "A perfect first chord — just two fingers, and strum all six strings."
+    },
+    {
+      "id": "Am",
+      "name": "Am",
+      "longName": "A minor",
+      "difficulty": "easy",
+      "baseFret": 1,
+      "frets": [-1, 0, 2, 2, 1, 0],
+      "fingers": [0, 0, 2, 3, 1, 0],
+      "tip": "Don't strum the thickest (low E) string. Keep your fingers curled."
+    },
+    {
+      "id": "D",
+      "name": "D",
+      "longName": "D major",
+      "difficulty": "easy",
+      "baseFret": 1,
+      "frets": [-1, -1, 0, 2, 3, 2],
+      "fingers": [0, 0, 0, 1, 3, 2],
+      "tip": "Strum from the D string down — the two thickest strings stay quiet."
+    },
+    {
+      "id": "E",
+      "name": "E",
+      "longName": "E major",
+      "difficulty": "easy",
+      "baseFret": 1,
+      "frets": [0, 2, 2, 1, 0, 0],
+      "fingers": [0, 2, 3, 1, 0, 0],
+      "tip": "Same shape as E minor, with one extra finger. Strum all six strings."
+    },
+    {
+      "id": "A",
+      "name": "A",
+      "longName": "A major",
+      "difficulty": "easy",
+      "baseFret": 1,
+      "frets": [-1, 0, 2, 2, 2, 0],
+      "fingers": [0, 0, 1, 2, 3, 0],
+      "tip": "Three fingers in a little row on the second fret. Skip the low E."
+    },
+    {
+      "id": "Dm",
+      "name": "Dm",
+      "longName": "D minor",
+      "difficulty": "medium",
+      "baseFret": 1,
+      "frets": [-1, -1, 0, 2, 3, 1],
+      "fingers": [0, 0, 0, 2, 3, 1],
+      "tip": "A softer, sadder D. Strum from the D string down."
+    },
+    {
+      "id": "C",
+      "name": "C",
+      "longName": "C major",
+      "difficulty": "medium",
+      "baseFret": 1,
+      "frets": [-1, 3, 2, 0, 1, 0],
+      "fingers": [0, 3, 2, 0, 1, 0],
+      "tip": "Stretch your ring finger to the third fret. Skip the low E string."
+    },
+    {
+      "id": "G",
+      "name": "G",
+      "longName": "G major",
+      "difficulty": "medium",
+      "baseFret": 1,
+      "frets": [3, 2, 0, 0, 0, 3],
+      "fingers": [2, 1, 0, 0, 0, 3],
+      "tip": "Spread your fingers across the neck and strum all six strings."
+    },
+    {
+      "id": "G7",
+      "name": "G7",
+      "longName": "G dominant 7",
+      "difficulty": "medium",
+      "baseFret": 1,
+      "frets": [3, 2, 0, 0, 0, 1],
+      "fingers": [3, 2, 0, 0, 0, 1],
+      "tip": "A bluesy G. Often used to lead nicely into a C chord."
+    }
+  ]
 }
