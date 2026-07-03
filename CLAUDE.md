@@ -133,8 +133,16 @@ Done:
   banner; functional Settings screen (sound status, left-handed toggle, install
   help, app version). Other screens are friendly placeholders.
 
-Next in Phase 1: metronome (first real consumer of the timing engine, lives on
-Practice), then chord library, lessons stage 1–2, progress. Rule (d)'s "New
+- **Metronome** (Practice screen): first real consumer of the timing engine.
+  `src/audio/click.js` (Web Audio tick synth, accented downbeat),
+  `src/audio/timing.js` (the single shared engine instance — rule b),
+  `src/audio/metronome.js` (controller: click scheduler + rAF visual sync),
+  `src/screens/practice.js` (UI: tempo slider/steppers, tap tempo, beats-per-bar,
+  pulsing beat dots, Start/Stop). Gated behind audio unlock. Tempo + beats
+  persisted to settings. Screens can set `el._dispose` for cleanup; the shell
+  calls it on navigation so the metronome stops when you leave the tab.
+
+Next in Phase 1: chord library, lessons stage 1–2, progress. Rule (d)'s "New
 version ready" update banner + real service-worker caching still to come.
 
 ### Testing

@@ -39,9 +39,13 @@ export function mountShell(root) {
   const iosBanner = maybeCreateIosInstallBanner();
   if (iosBanner) bannerHost.append(iosBanner);
 
+  let currentScreen = null;
   const router = createRouter(ROUTES, DEFAULT_ROUTE, (route) => {
+    // Let the outgoing screen clean up (e.g. stop the metronome).
+    if (currentScreen && typeof currentScreen._dispose === 'function') currentScreen._dispose();
     clear(main);
-    main.append(SCREENS[route.path].render());
+    currentScreen = SCREENS[route.path].render();
+    main.append(currentScreen);
     title.textContent = route.label;
     renderTabBar(tabBar, route.path, (path) => router.go(path));
     main.scrollTop = 0;

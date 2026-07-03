@@ -420,6 +420,173 @@ button,
   margin: 0 auto var(--space-2);
 }
 
+/* ---- Metronome (Practice screen) ---------------------------------------- */
+
+.enable-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.enable-block .btn {
+  margin-top: var(--space-2);
+}
+
+.beat-dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0 var(--space-4);
+}
+
+.beat-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-surface-alt);
+  border: 2px solid var(--color-border);
+  transition: background 0.1s ease, border-color 0.1s ease;
+}
+
+.beat-dot.is-active {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.beat-dot.is-active.is-down {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.bpm-display {
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.bpm-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.bpm-num {
+  font-size: 3.4rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.bpm-unit {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.bpm-term {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.tempo-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.stepper {
+  flex-shrink: 0;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.stepper:active {
+  background: var(--color-primary-soft);
+}
+
+.bpm-slider {
+  flex: 1;
+  height: var(--touch-min);
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.field-label {
+  font-weight: 600;
+}
+
+.segmented {
+  display: inline-flex;
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-pill);
+  padding: 4px;
+  gap: 4px;
+}
+
+.seg {
+  min-width: 44px;
+  height: 40px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.seg.is-active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.action-row {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.btn-tap {
+  flex: 0 0 auto;
+  background: var(--color-secondary-soft);
+  color: var(--color-secondary);
+}
+
+.btn-tap:active {
+  transform: scale(0.97);
+}
+
+.btn-start {
+  flex: 1;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.btn-start.is-running {
+  background: var(--color-secondary);
+}
+
 /* ---- Left-handed mode (rule e) -----------------------------------------
    Any element marked .mirror-when-left flips horizontally. Chord diagrams in
    Phase 1 will opt in with this class so left-handed players see them mirrored. */

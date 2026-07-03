@@ -12,6 +12,8 @@ export const DEFAULT_SETTINGS = {
   leftHanded: false, // rule e — mirrors all chord diagrams when on
   iosInstallDismissed: false, // one-time iOS "Add to Home Screen" banner
   persistRequested: false, // whether navigator.storage.persist() was requested
+  metronomeBpm: 90, // remembered metronome tempo
+  metronomeBeats: 4, // remembered metronome beats-per-bar
 };
 
 let cache = { ...DEFAULT_SETTINGS };
