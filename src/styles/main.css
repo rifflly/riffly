@@ -1,0 +1,82 @@
+/* Riffly — design tokens & base styles.
+   Design language: warm, encouraging, beginner-friendly. See CLAUDE.md. */
+
+:root {
+  /* Brand palette */
+  --color-primary: #e8705a;        /* warm coral / peach — primary accent */
+  --color-primary-dark: #d15942;
+  --color-primary-soft: #fbe4dd;
+  --color-secondary: #7b6ba8;      /* soft purple — secondary accent */
+  --color-secondary-soft: #e7e2f2;
+
+  /* Surfaces & text */
+  --color-bg: #fff8f5;             /* warm off-white background */
+  --color-surface: #ffffff;
+  --color-text: #2c2530;
+  --color-text-muted: #6d6472;
+
+  /* Feedback */
+  --color-success: #4caf82;
+  --color-warning: #e6a23c;
+
+  /* Shape — generous rounded corners */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* Touch — large targets, min 44px */
+  --touch-min: 44px;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Type */
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Elevation */
+  --shadow-sm: 0 2px 8px rgba(44, 37, 48, 0.08);
+  --shadow-md: 0 6px 20px rgba(44, 37, 48, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.5;
+  /* Respect notches / safe areas on iOS (viewport-fit=cover). */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Mobile-first: content column that also reads well on desktop. */
+#app {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+/* Comfortable default tap target for interactive elements. */
+button,
+[role="button"] {
+  min-height: var(--touch-min);
+  min-width: var(--touch-min);
+}

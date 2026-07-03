@@ -1,0 +1,8 @@
+# Normalise line endings to LF for text files (keeps diffs clean across
+# Windows dev and the Linux CI runner). Binary assets are left untouched.
+* text=auto eol=lf
+
+*.png binary
+*.pdf binary
+*.docx binary
+*.ico binary

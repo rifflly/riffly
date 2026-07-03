@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "comment": "Chord library. Populated in Phase 1. Each chord describes finger positions so diagrams can be rendered (and mirrored for left-handed mode).",
+  "chords": []
+}

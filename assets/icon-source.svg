@@ -1,0 +1,7 @@
+<!-- Source artwork for the Riffly app icon (placeholder).
+     The shipped PNG icons in /public/icons are generated from this design by
+     scripts/generate-icons.mjs. Replace this with final artwork later. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Riffly">
+  <rect width="512" height="512" rx="115" fill="#E8705A" />
+  <text x="256" y="368" font-family="Arial, Helvetica, sans-serif" font-size="340" font-weight="700" fill="#ffffff" text-anchor="middle">R</text>
+</svg>
