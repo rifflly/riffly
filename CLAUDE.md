@@ -158,10 +158,20 @@ Done:
   two in-screen views (path with progress bar + per-lesson checkmarks, and the
   lesson player with "I did it!"). Chords screen now also reads from content.js.
 
-**Phase 1 is feature-complete** (shell, timing engine, metronome, chord library,
-lessons 1–2, progress). Still to come before calling Phase 1 fully done: rule
-(d)'s real service-worker caching (offline) + "New version ready" update banner.
-Then Phase 2.
+- **Offline + updates** (rule d): `sw-template.js` is the service-worker source;
+  a Vite plugin in `vite.config.js` injects the precache manifest (all hashed
+  build assets + static files) and a content-hashed cache name, emitting
+  `dist/sw.js`. Strategy: precache the shell on install; navigations are
+  network-first (fresh assets online) falling back to the cached shell offline;
+  everything else is cache-first (hashed assets are immutable). `src/pwa.js`
+  registers the SW (production only) and shows the "New version ready — tap to
+  refresh" banner via `updatefound`; Refresh posts `SKIP_WAITING` and reloads on
+  `controllerchange`. The old placeholder `public/sw.js` was removed.
+
+**✅ Phase 1 is COMPLETE** — shell, shared timing engine, metronome, chord
+library (+ left-handed), lessons 1–2, progress, and offline/update support.
+Next: Phase 2 (chord-change trainer, rhythm generator, song sheets + practice
+studio, backup/restore, lessons 3–4).
 
 ### Testing
 
