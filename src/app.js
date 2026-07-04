@@ -4,12 +4,13 @@
  */
 import { loadSettings, getSetting } from './storage/settings.js';
 import { loadProgress } from './storage/progress.js';
+import { loadStats } from './storage/stats.js';
 import { requestPersistentStorage } from './storage/persist.js';
 import { applyLeftHanded } from './app-state.js';
 import { mountShell } from './ui/shell.js';
 
 export async function boot() {
-  await Promise.all([loadSettings(), loadProgress()]);
+  await Promise.all([loadSettings(), loadProgress(), loadStats()]);
   applyLeftHanded(getSetting('leftHanded'));
 
   mountShell(document.getElementById('app'));

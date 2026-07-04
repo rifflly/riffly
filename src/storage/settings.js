@@ -14,6 +14,10 @@ export const DEFAULT_SETTINGS = {
   persistRequested: false, // whether navigator.storage.persist() was requested
   metronomeBpm: 90, // remembered metronome tempo
   metronomeBeats: 4, // remembered metronome beats-per-bar
+  trainerBpm: 70, // remembered chord-change trainer tempo
+  trainerPair: ['Em', 'Am'], // remembered chord-change trainer pair
+  trainerAuto: false, // trainer auto-advance mode on/off
+  trainerCeiling: 120, // trainer auto-advance tempo ceiling
 };
 
 let cache = { ...DEFAULT_SETTINGS };

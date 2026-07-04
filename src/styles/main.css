@@ -590,6 +590,232 @@ button,
   background: var(--color-secondary);
 }
 
+/* ---- Practice hub: tool switcher ---------------------------------------- */
+
+.tool-switch {
+  display: flex;
+  width: 100%;
+  margin: var(--space-2) 0 var(--space-4);
+}
+
+.tool-switch .seg {
+  flex: 1;
+}
+
+/* ---- Chord-change trainer ----------------------------------------------- */
+
+.trainer-diagrams {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.trainer-slot {
+  flex: 1 1 0;
+  max-width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  opacity: 0.55;
+  transition: opacity 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+
+.trainer-slot.is-active {
+  opacity: 1;
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.trainer-diagram {
+  width: 100%;
+}
+
+.trainer-diagram svg {
+  width: 100%;
+  height: auto;
+}
+
+.trainer-chord-name {
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.trainer-arrow {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  font-size: 1.4rem;
+}
+
+.trainer-status {
+  text-align: center;
+  min-height: 1.4em;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.trainer-presets-wrap {
+  margin-bottom: var(--space-4);
+}
+
+.trainer-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+  margin-bottom: var(--space-3);
+}
+
+.chip {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chip.is-active {
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: #fff;
+}
+
+.trainer-selects {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.trainer-selects-sep {
+  color: var(--color-text-muted);
+}
+
+.trainer-select {
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.bpm-display--sm {
+  margin-bottom: var(--space-3);
+}
+
+.bpm-display--sm .bpm-num {
+  font-size: 2.4rem;
+}
+
+.trainer-ceiling {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.trainer-ceiling-val {
+  min-width: 68px;
+  text-align: center;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.stepper-sm {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  font-size: 1.2rem;
+}
+
+.trainer .btn-start {
+  width: 100%;
+}
+
+.trainer-best {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.trainer-best-val {
+  font-weight: 700;
+}
+
+.trainer-streak {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+.challenge-start {
+  width: 100%;
+}
+
+.challenge-start.is-running {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.challenge-panel {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.challenge-readout {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.challenge-timer {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.challenge-count {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--color-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.challenge-tap {
+  width: 100%;
+  padding: var(--space-5);
+  font-size: 1.2rem;
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.challenge-tap:active {
+  transform: scale(0.98);
+}
+
 /* ---- Chord library (Chords screen) -------------------------------------- */
 
 .screen-intro {

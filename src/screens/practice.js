@@ -1,28 +1,21 @@
 /**
- * Practice screen — Metronome (Phase 1).
+ * Practice screen — a hub for the timing-driven practice tools (Phase 2).
  *
- * The first feature that makes sound. It is driven entirely by the shared
- * timing engine (rule b) via the Metronome controller. Audio must be unlocked
- * first (rule c); until then we show a friendly "Enable sound" prompt.
+ * A switcher at the top lets the user pick a tool; each tool is a self-contained
+ * module exposing create() → { node, dispose }. All tools share the one timing
+ * engine (rule b), and only one is mounted at a time — switching disposes the
+ * previous tool so nothing keeps ticking. Audio must be unlocked first (rule c).
  */
 import { el, clear } from '../ui/dom.js';
 import { card } from '../ui/screen.js';
 import { isAudioUnlocked, unlockAudio, onAudioUnlock } from '../audio/audio-engine.js';
-import { Metronome } from '../audio/metronome.js';
-import { getSetting, setSetting } from '../storage/settings.js';
+import * as metronomeTool from './practice/metronome-tool.js';
+import * as chordChangesTool from './practice/chord-changes.js';
 
-const MIN_BPM = 40;
-const MAX_BPM = 208;
-
-function tempoTerm(bpm) {
-  if (bpm < 60) return 'Nice and slow';
-  if (bpm < 76) return 'Slow';
-  if (bpm < 100) return 'Relaxed';
-  if (bpm < 120) return 'Medium';
-  if (bpm < 144) return 'Brisk';
-  if (bpm < 176) return 'Fast';
-  return 'Very fast';
-}
+const TOOLS = [
+  { id: 'metronome', label: 'Metronome', mod: metronomeTool },
+  { id: 'changes', label: 'Chord Changes', mod: chordChangesTool },
+];
 
 export function render() {
   const root = el('div', { class: 'practice' });
@@ -35,29 +28,27 @@ function mount(root) {
   if (!isAudioUnlocked()) {
     mountEnablePrompt(root);
   } else {
-    mountMetronome(root);
+    mountHub(root);
   }
 }
 
 function mountEnablePrompt(root) {
-  const btn = el(
-    'button',
-    { class: 'btn btn-primary', type: 'button', onclick: () => unlockAudio() },
-    'Enable sound'
-  );
   root.append(
     card(
-      el('h2', { class: 'card-title' }, 'Metronome'),
+      el('h2', { class: 'card-title' }, 'Practice'),
       el(
         'div',
         { class: 'enable-block' },
-        el('p', { class: 'card-text' }, 'Turn on sound to use the metronome.'),
+        el('p', { class: 'card-text' }, 'Turn on sound to use the practice tools.'),
         el('p', { class: 'row-desc' }, 'You only need to do this once each visit.'),
-        btn
+        el(
+          'button',
+          { class: 'btn btn-primary', type: 'button', onclick: () => unlockAudio() },
+          'Enable sound'
+        )
       )
     )
   );
-  // Rebuild into the full metronome as soon as audio unlocks.
   const off = onAudioUnlock(() => {
     off();
     mount(root);
@@ -65,151 +56,48 @@ function mountEnablePrompt(root) {
   root._dispose = off;
 }
 
-function mountMetronome(root) {
-  const metro = new Metronome();
-  metro.setTempo(getSetting('metronomeBpm'));
-  metro.setBeatsPerBar(getSetting('metronomeBeats'));
+function mountHub(root) {
+  let active = null; // { node, dispose }
+  let currentId = TOOLS[0].id;
 
-  // --- Beat dots ---------------------------------------------------------
-  const dots = el('div', { class: 'beat-dots' });
-  function renderDots() {
-    clear(dots);
-    for (let i = 0; i < metro.beatsPerBar; i++) {
-      dots.append(el('span', { class: 'beat-dot' }));
-    }
-  }
-  function clearActiveDots() {
-    dots.querySelectorAll('.beat-dot').forEach((d) => d.classList.remove('is-active', 'is-down'));
-  }
-  renderDots();
-
-  // --- BPM display -------------------------------------------------------
-  const bpmNum = el('span', { class: 'bpm-num' }, String(metro.bpm));
-  const bpmTerm = el('span', { class: 'bpm-term' }, tempoTerm(metro.bpm));
-  const slider = el('input', {
-    type: 'range',
-    class: 'bpm-slider',
-    min: String(MIN_BPM),
-    max: String(MAX_BPM),
-    value: String(metro.bpm),
-    'aria-label': 'Tempo in beats per minute',
+  const switcher = el('div', {
+    class: 'segmented tool-switch',
+    role: 'group',
+    'aria-label': 'Practice tools',
   });
+  const container = el('div', { class: 'tool-container' });
 
-  function setBpm(value, { fromSlider = false } = {}) {
-    const bpm = metro.setTempo(value);
-    bpmNum.textContent = String(bpm);
-    bpmTerm.textContent = tempoTerm(bpm);
-    if (!fromSlider) slider.value = String(bpm);
-    setSetting('metronomeBpm', bpm);
-  }
-  slider.addEventListener('input', () => setBpm(Number(slider.value), { fromSlider: true }));
-
-  const minus = el(
-    'button',
-    { class: 'stepper', type: 'button', 'aria-label': 'Slower', onclick: () => setBpm(metro.bpm - 1) },
-    '−'
-  );
-  const plus = el(
-    'button',
-    { class: 'stepper', type: 'button', 'aria-label': 'Faster', onclick: () => setBpm(metro.bpm + 1) },
-    '+'
-  );
-
-  // --- Time signature (beats per bar) ------------------------------------
-  const seg = el('div', { class: 'segmented', role: 'group', 'aria-label': 'Beats per bar' });
-  function renderSeg() {
-    clear(seg);
-    for (const n of [2, 3, 4]) {
-      seg.append(
+  function renderSwitch() {
+    clear(switcher);
+    for (const t of TOOLS) {
+      switcher.append(
         el(
           'button',
           {
-            class: `seg${n === metro.beatsPerBar ? ' is-active' : ''}`,
+            class: `seg${t.id === currentId ? ' is-active' : ''}`,
             type: 'button',
-            onclick: () => {
-              metro.setBeatsPerBar(n);
-              setSetting('metronomeBeats', n);
-              renderSeg();
-              renderDots();
-            },
+            onclick: () => select(t.id),
           },
-          String(n)
+          t.label
         )
       );
     }
   }
-  renderSeg();
 
-  // --- Tap tempo ---------------------------------------------------------
-  let taps = [];
-  const tapBtn = el(
-    'button',
-    {
-      class: 'btn btn-tap',
-      type: 'button',
-      onclick: () => {
-        const now = performance.now();
-        if (taps.length && now - taps[taps.length - 1] > 2000) taps = [];
-        taps.push(now);
-        if (taps.length > 4) taps = taps.slice(-4);
-        if (taps.length >= 2) {
-          let sum = 0;
-          for (let i = 1; i < taps.length; i++) sum += taps[i] - taps[i - 1];
-          setBpm(Math.round(60000 / (sum / (taps.length - 1))));
-        }
-      },
-    },
-    'Tap tempo'
-  );
-
-  // --- Start / Stop ------------------------------------------------------
-  const startBtn = el('button', { class: 'btn btn-start', type: 'button' });
-  function refreshStart() {
-    startBtn.textContent = metro.running ? 'Stop' : 'Start';
-    startBtn.classList.toggle('is-running', metro.running);
-  }
-  refreshStart();
-
-  function onBeat(event) {
-    const list = dots.querySelectorAll('.beat-dot');
-    list.forEach((d) => d.classList.remove('is-active', 'is-down'));
-    const active = list[event.beatInBar];
-    if (!active) return;
-    active.classList.add('is-active');
-    if (event.isDownbeat) active.classList.add('is-down');
-    active.animate(
-      [{ transform: 'scale(1.5)' }, { transform: 'scale(1)' }],
-      { duration: 150, easing: 'ease-out' }
-    );
+  function select(id) {
+    if (id === currentId && active) return;
+    if (active && typeof active.dispose === 'function') active.dispose();
+    clear(container);
+    currentId = id;
+    active = TOOLS.find((t) => t.id === id).mod.create();
+    container.append(active.node);
+    renderSwitch();
   }
 
-  startBtn.addEventListener('click', () => {
-    const running = metro.toggle(onBeat);
-    refreshStart();
-    if (!running) clearActiveDots();
-  });
+  root.append(switcher, container);
+  root._dispose = () => {
+    if (active && typeof active.dispose === 'function') active.dispose();
+  };
 
-  // Clean up when leaving the screen so the metronome doesn't keep ticking.
-  root._dispose = () => metro.stop();
-
-  root.append(
-    card(
-      el('h2', { class: 'card-title' }, 'Metronome'),
-      dots,
-      el(
-        'div',
-        { class: 'bpm-display' },
-        el('div', { class: 'bpm-line' }, bpmNum, el('span', { class: 'bpm-unit' }, 'BPM')),
-        bpmTerm
-      ),
-      el('div', { class: 'tempo-row' }, minus, slider, plus),
-      el(
-        'div',
-        { class: 'field' },
-        el('span', { class: 'field-label' }, 'Beats per bar'),
-        seg
-      ),
-      el('div', { class: 'action-row' }, tapBtn, startBtn)
-    )
-  );
+  select(currentId);
 }
