@@ -11,10 +11,12 @@ import { card } from '../ui/screen.js';
 import { isAudioUnlocked, unlockAudio, onAudioUnlock } from '../audio/audio-engine.js';
 import * as metronomeTool from './practice/metronome-tool.js';
 import * as chordChangesTool from './practice/chord-changes.js';
+import * as backingTool from './practice/backing-tool.js';
 
 const TOOLS = [
   { id: 'metronome', label: 'Metronome', mod: metronomeTool },
-  { id: 'changes', label: 'Chord Changes', mod: chordChangesTool },
+  { id: 'changes', label: 'Changes', mod: chordChangesTool },
+  { id: 'backing', label: 'Rhythm', mod: backingTool },
 ];
 
 export function render() {

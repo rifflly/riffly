@@ -18,6 +18,9 @@ export const DEFAULT_SETTINGS = {
   trainerPair: ['Em', 'Am'], // remembered chord-change trainer pair
   trainerAuto: false, // trainer auto-advance mode on/off
   trainerCeiling: 120, // trainer auto-advance tempo ceiling
+  backingPattern: 'downstrums', // remembered backing-rhythm pattern
+  backingChord: 'G', // remembered backing-rhythm chord
+  backingBpm: 90, // remembered backing-rhythm tempo
 };
 
 let cache = { ...DEFAULT_SETTINGS };

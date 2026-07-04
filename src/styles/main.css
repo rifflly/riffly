@@ -816,6 +816,45 @@ button,
   transform: scale(0.98);
 }
 
+/* ---- Backing-rhythm tool ------------------------------------------------ */
+
+.pattern-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-2);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.pattern-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: var(--space-3) var(--space-4);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+
+.pattern-btn.is-active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+}
+
+.pattern-name {
+  font-weight: 700;
+}
+
+.pattern-sig {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
 /* ---- Chord library (Chords screen) -------------------------------------- */
 
 .screen-intro {
