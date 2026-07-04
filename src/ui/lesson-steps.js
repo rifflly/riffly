@@ -8,6 +8,8 @@ import { getChord } from '../content.js';
 import { getSetting } from '../storage/settings.js';
 import { icon } from './icons.js';
 import { buildLessonMetronome } from './lesson-metronome.js';
+import { buildLessonTrainer } from './lesson-trainer.js';
+import { buildLessonRhythm } from './lesson-rhythm.js';
 
 function paragraphs(text) {
   return String(text || '')
@@ -87,6 +89,70 @@ function metronomeCard(step) {
   return { node: card, dispose };
 }
 
+function trainerCard(step) {
+  const { node, dispose } = buildLessonTrainer(step.pair || ['Em', 'Am'], step.bpm || 60);
+  const card = el(
+    'section',
+    { class: 'card step step--trainer' },
+    el(
+      'div',
+      { class: 'step-metro-head' },
+      icon('practice', 20),
+      el('span', { class: 'step-heading step-heading--inline' }, 'Chord-change trainer')
+    ),
+    step.body ? el('p', { class: 'step-body' }, step.body) : null,
+    node
+  );
+  return { node: card, dispose };
+}
+
+function rhythmCard(step) {
+  const { node, dispose } = buildLessonRhythm(step.pattern || 'downstrums', step.chordId, step.bpm);
+  const card = el(
+    'section',
+    { class: 'card step step--rhythm' },
+    el(
+      'div',
+      { class: 'step-metro-head' },
+      icon('practice', 20),
+      el('span', { class: 'step-heading step-heading--inline' }, 'Play along')
+    ),
+    step.body ? el('p', { class: 'step-body' }, step.body) : null,
+    node
+  );
+  return { node: card, dispose };
+}
+
+function strumCard(step) {
+  const tokens = Array.isArray(step.pattern)
+    ? step.pattern
+    : String(step.pattern || '').split(/\s+/).filter(Boolean);
+  const counts = Array.isArray(step.counts) ? step.counts : null;
+  const glyph = (t) => (t === 'D' ? '↓' : t === 'U' ? '↑' : '–');
+  const cls = (t) => (t === 'D' ? 'is-down' : t === 'U' ? 'is-up' : 'is-miss');
+
+  const grid = el('div', { class: 'strum-grid' });
+  tokens.forEach((t, i) => {
+    grid.append(
+      el(
+        'div',
+        { class: `strum-cell ${cls(t)}` },
+        el('span', { class: 'strum-arrow', 'aria-hidden': 'true' }, glyph(t)),
+        counts ? el('span', { class: 'strum-count' }, counts[i] || '') : null
+      )
+    );
+  });
+
+  return el(
+    'section',
+    { class: 'card step step--strum' },
+    step.heading ? el('h3', { class: 'step-heading' }, step.heading) : null,
+    step.body ? el('p', { class: 'step-body' }, step.body) : null,
+    grid,
+    el('p', { class: 'strum-legend' }, '↓ down · ↑ up · – miss')
+  );
+}
+
 /**
  * @param {object} step
  * @returns {{ node: HTMLElement, dispose?: Function }}
@@ -101,6 +167,12 @@ export function renderStep(step) {
       return { node: practiceCard(step) };
     case 'metronome':
       return metronomeCard(step);
+    case 'trainer':
+      return trainerCard(step);
+    case 'rhythm':
+      return rhythmCard(step);
+    case 'strum':
+      return { node: strumCard(step) };
     case 'text':
     default:
       return { node: textCard(step) };

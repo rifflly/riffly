@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comment": "Lesson content by stage. Step types: text {heading?, body}, tip {body}, chord {chordId, body?}, practice {heading?, body?, checklist[]}, metronome {bpm, body}. Stages 3-4 arrive in Phase 2, stage 5 in Phase 3.",
+  "comment": "Lesson content by stage. Step types: text {heading?, body}, tip {body}, chord {chordId, body?}, practice {heading?, body?, checklist[]}, metronome {bpm, body}, trainer {pair:[a,b], bpm, body} (embedded chord-change trainer), rhythm {pattern, chordId?, bpm?, body} (embedded backing rhythm), strum {heading?, body?, pattern:[D|U|-], counts?} (strum notation). Stages 1-4 in Phase 1-2, stage 5 in Phase 3.",
   "stages": [
     {
       "id": "stage-1",
@@ -216,6 +216,370 @@
                 "Strum Em in time for four beats",
                 "Change to Am and strum four beats",
                 "Loop it — that's a real progression you're playing!"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-3",
+      "number": 3,
+      "title": "Finding Your Rhythm",
+      "subtitle": "Strum real patterns and change chords in time.",
+      "lessons": [
+        {
+          "id": "3-1",
+          "title": "Changing chords smoothly",
+          "minutes": 10,
+          "summary": "Switch between chords without stopping the beat.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Keep the beat moving",
+              "body": "The secret to smooth chord changes isn’t fast fingers — it’s not stopping. Keep your strumming hand going and switch a hair early, just before the next beat lands."
+            },
+            {
+              "type": "tip",
+              "body": "Move all your fingers as one shape, like a claw that lifts and lands together. Placing them one at a time is what makes changes feel slow."
+            },
+            {
+              "type": "trainer",
+              "pair": ["Em", "Am"],
+              "bpm": 60,
+              "body": "Start the trainer and switch to the highlighted chord each time the box lights up. Slow and steady wins here."
+            },
+            {
+              "type": "practice",
+              "heading": "Try it",
+              "body": "Loop the change until it starts to feel smoother.",
+              "checklist": [
+                "Switch on every bar with the trainer",
+                "Keep your strumming hand moving through the change",
+                "Let it sound messy at first — it always smooths out"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3-2",
+          "title": "Reading strumming",
+          "minutes": 8,
+          "summary": "Learn down, up and misses — then strum along.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "A simple map",
+              "body": "Strumming patterns use just three marks: D means strum down, U means strum up, and a dash (–) means miss the strings on that beat."
+            },
+            {
+              "type": "strum",
+              "heading": "All downstrokes",
+              "pattern": ["D", "D", "D", "D"],
+              "counts": ["1", "2", "3", "4"],
+              "body": "The simplest pattern of all: one downward strum on every beat."
+            },
+            {
+              "type": "rhythm",
+              "pattern": "downstrums",
+              "chordId": "Em",
+              "bpm": 70,
+              "body": "Press play and strum Em down on every beat along with the app."
+            },
+            {
+              "type": "tip",
+              "body": "Let your strumming arm swing from the elbow like a pendulum — loose and even, never stiff."
+            },
+            {
+              "type": "practice",
+              "body": "Get comfortable with steady downstrokes.",
+              "checklist": [
+                "Strum down on 1, 2, 3 and 4",
+                "Stay relaxed and even",
+                "Land right on each beat"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3-3",
+          "title": "The D-DU-UDU pattern",
+          "minutes": 12,
+          "summary": "Learn the most-used strum in pop and folk.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "The famous one",
+              "body": "This pattern is in a huge number of songs. Count it as 1-and-2-and-3-and-4-and: your hand strums down on the numbers and up on the ands."
+            },
+            {
+              "type": "strum",
+              "heading": "D · DU · UDU",
+              "pattern": ["D", "-", "D", "U", "-", "U", "D", "U"],
+              "counts": ["1", "&", "2", "&", "3", "&", "4", "&"],
+              "body": "Keep your hand moving the whole time. On a miss, your hand still swings — it just doesn’t touch the strings."
+            },
+            {
+              "type": "tip",
+              "body": "Don’t stop your hand on the misses. That steady up-and-down motion is what keeps the rhythm locked in."
+            },
+            {
+              "type": "rhythm",
+              "pattern": "dduudu",
+              "chordId": "G",
+              "bpm": 65,
+              "body": "Play it slowly with the app on a G chord until your hand finds the groove."
+            },
+            {
+              "type": "practice",
+              "body": "Practise the pattern slowly.",
+              "checklist": [
+                "Count 1-and-2-and out loud",
+                "Keep your hand moving on the misses",
+                "Speed up only once it feels natural"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3-4",
+          "title": "Counting and 4/4",
+          "minutes": 8,
+          "summary": "Understand the beat most songs are built on.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "What 4/4 means",
+              "body": "Most songs are in 4/4: the beats come in groups of four. You count 1, 2, 3, 4 over and over, and each group of four is called a bar."
+            },
+            {
+              "type": "metronome",
+              "bpm": 70,
+              "body": "Start the beat and count out loud with it: 1, 2, 3, 4. Tap a little harder on the 1."
+            },
+            {
+              "type": "tip",
+              "body": "The 1 is the strongest beat of each bar. Leaning on it is what makes your playing feel steady and musical."
+            },
+            {
+              "type": "practice",
+              "body": "Feel the groups of four.",
+              "checklist": [
+                "Count 1-2-3-4 with the metronome",
+                "Emphasise the 1 each time",
+                "Notice how the count loops around"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3-5",
+          "title": "Pattern and changes together",
+          "minutes": 12,
+          "summary": "Combine a strum pattern with a chord change.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "The real skill",
+              "body": "Playing songs means doing two things at once: strumming a pattern and changing chords. We’ll build up to it gently."
+            },
+            {
+              "type": "trainer",
+              "pair": ["G", "C"],
+              "bpm": 60,
+              "body": "First, practise the G to C change with the trainer until it feels comfortable."
+            },
+            {
+              "type": "tip",
+              "body": "When you add strumming, don’t freeze your hand to change chords. A missed string during a change is completely fine — keep the rhythm going."
+            },
+            {
+              "type": "practice",
+              "heading": "Bring it together",
+              "body": "Now try strumming while you change.",
+              "checklist": [
+                "Strum downstrokes, four per bar",
+                "Change G to C on each new bar",
+                "Keep strumming even if a change is a little late"
+              ]
+            },
+            {
+              "type": "text",
+              "heading": "Play a real song",
+              "body": "Head to the Songs tab and open a starter song in the studio. Choose App Rhythm and play along slowly — you’re making real music now!"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-4",
+      "number": 4,
+      "title": "New Chords & Big Wins",
+      "subtitle": "Add bright new chords — and face the famous F.",
+      "lessons": [
+        {
+          "id": "4-1",
+          "title": "E and A major",
+          "minutes": 10,
+          "summary": "Two bright majors used in loads of songs.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Two big majors",
+              "body": "E major and A major are bright, happy-sounding chords. E is the same shape as Em with one extra finger, so you already have a head start."
+            },
+            {
+              "type": "chord",
+              "chordId": "E",
+              "body": "Place your fingers as shown and strum all six strings. Hear how bright it sounds next to Em."
+            },
+            {
+              "type": "chord",
+              "chordId": "A",
+              "body": "Three fingers sit in a little row on the second fret. Start your strum from the second-thickest string."
+            },
+            {
+              "type": "tip",
+              "body": "A can feel crowded. Press with arched fingertips so every string still rings out."
+            },
+            {
+              "type": "trainer",
+              "pair": ["E", "A"],
+              "bpm": 55,
+              "body": "Practise switching between E and A with the trainer."
+            },
+            {
+              "type": "practice",
+              "body": "Get both shapes ringing cleanly.",
+              "checklist": [
+                "Every string rings on E",
+                "Fingers arched so A rings clearly",
+                "Switch between them slowly"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4-2",
+          "title": "D minor",
+          "minutes": 8,
+          "summary": "A soft, moody little chord.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "A gentle sound",
+              "body": "D minor (Dm) has a soft, slightly sad sound. It’s a small shape on the thinner strings."
+            },
+            {
+              "type": "chord",
+              "chordId": "Dm",
+              "body": "Place the three fingers as shown. Strum from the D string down — leave the two thickest strings out."
+            },
+            {
+              "type": "tip",
+              "body": "Only strum the thinnest four strings. Hitting the low strings will muddy the chord."
+            },
+            {
+              "type": "rhythm",
+              "pattern": "downstrums",
+              "chordId": "Dm",
+              "bpm": 70,
+              "body": "Play along and listen to that soft Dm sound ring out."
+            },
+            {
+              "type": "practice",
+              "body": "Make Dm feel familiar.",
+              "checklist": [
+                "Three fingers in place",
+                "Strum only the thinnest four strings",
+                "Every note rings clearly"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4-3",
+          "title": "Putting E, A and Dm together",
+          "minutes": 10,
+          "summary": "Move between your new chords in time.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Mix them up",
+              "body": "Now let’s connect your new chords. Moving between A and Dm is a common, great-sounding change to practise."
+            },
+            {
+              "type": "trainer",
+              "pair": ["A", "Dm"],
+              "bpm": 55,
+              "body": "Switch between A and Dm with the trainer. Notice how close the shapes are."
+            },
+            {
+              "type": "tip",
+              "body": "Look for a finger that can stay put or barely move between chords — that’s your anchor."
+            },
+            {
+              "type": "practice",
+              "body": "Loop the changes.",
+              "checklist": [
+                "Switch A to Dm on each bar",
+                "Keep your hand relaxed",
+                "Try E to A to Dm in a row once it feels good"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4-4",
+          "title": "The F chord (the honest truth)",
+          "minutes": 12,
+          "summary": "Learn an easy F now — the barre can wait.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Let’s be honest",
+              "body": "F is the chord every beginner dreads. Here’s the truth: the full barre F takes everyone weeks, sometimes months. Struggling with it is completely normal and says nothing about your talent."
+            },
+            {
+              "type": "text",
+              "heading": "Start with easy F",
+              "body": "So we start with a friendlier version. This mini F uses only four strings, sounds great, and gets you playing F chords today."
+            },
+            {
+              "type": "chord",
+              "chordId": "Fmini",
+              "body": "Press the four thinnest strings as shown and strum just those four. That’s a real, usable F."
+            },
+            {
+              "type": "tip",
+              "body": "Lay your index finger flat across the two thinnest strings at the first fret, and strum only the four strings shown."
+            },
+            {
+              "type": "rhythm",
+              "pattern": "downstrums",
+              "chordId": "Fmini",
+              "bpm": 70,
+              "body": "Play along with your easy F. Sounds good, doesn’t it?"
+            },
+            {
+              "type": "text",
+              "heading": "Optional challenge: the full barre F",
+              "body": "When you’re ready — no rush at all — here’s the full barre F. Lay your index finger flat across all six strings at the first fret. Expect buzzing and muted strings for a while. That’s true for absolutely everyone."
+            },
+            {
+              "type": "chord",
+              "chordId": "F",
+              "body": "The full barre F. Treat this as a long-term goal, not today’s homework. A little practice each day is all it takes."
+            },
+            {
+              "type": "practice",
+              "heading": "You did it",
+              "body": "You’ve reached the F chord — a milestone loads of players never get to. Be proud.",
+              "checklist": [
+                "Play the easy F cleanly on four strings",
+                "Try one slow barre F, just to feel it",
+                "Come back to the barre a little each day"
               ]
             }
           ]
