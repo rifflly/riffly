@@ -507,6 +507,12 @@ button,
   animation: typing 1s steps(3, end) infinite;
 }
 
+.typing-note {
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
 @keyframes typing {
   0% { opacity: 0.3; }
   50% { opacity: 1; }

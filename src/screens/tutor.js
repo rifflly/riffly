@@ -147,7 +147,13 @@ export function render() {
       if (!getHistory().length) clear(messages);
       addMessage({ role: 'user', content: text });
       addBubble('user', text);
+      await runReply();
+    }
 
+    // Stream a reply for the current history (the last message is the question).
+    // Used for a fresh send and for "Try again" — never re-adds the user message.
+    async function runReply() {
+      messages.querySelectorAll('.chat-error').forEach((e) => e.remove());
       streaming = true;
       sendBtn.disabled = true;
       const bubble = addBubble('assistant', '');
@@ -158,6 +164,12 @@ export function render() {
       try {
         const full = await streamTutorReply(getHistory(), {
           signal: abort.signal,
+          onRetry: () => {
+            if (bubble.classList.contains('is-typing')) {
+              clear(bubble);
+              bubble.append(el('span', { class: 'typing-note' }, 'catching its breath…'));
+            }
+          },
           onToken: (t) => {
             if (bubble.classList.contains('is-typing')) {
               bubble.classList.remove('is-typing');
@@ -173,7 +185,7 @@ export function render() {
         addMessage({ role: 'assistant', content: answer });
       } catch (err) {
         bubble.remove();
-        showError(err, text);
+        if (!(err && err.name === 'AbortError')) showError(err);
       } finally {
         streaming = false;
         sendBtn.disabled = false;
@@ -181,22 +193,35 @@ export function render() {
       }
     }
 
-    function showError(err, question) {
+    function showError(err) {
       const type = err instanceof TutorError ? err.type : 'other';
+      const lastUser = [...getHistory()].reverse().find((m) => m.role === 'user');
+      const question = lastUser ? lastUser.content : '';
+
       if (type === 'no_key' || type === 'auth') {
-        const box = el(
-          'div',
-          { class: 'chat-error' },
-          el('p', {}, type === 'auth' ? 'That API key was rejected. Let’s set it up again.' : 'Let’s set up your tutor first.'),
-          el('button', { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => { clearAiConfig().then(mount); } }, 'Set up the tutor')
+        messages.append(
+          el(
+            'div',
+            { class: 'chat-error' },
+            el('p', {}, type === 'auth' ? 'That API key was rejected. Let’s set it up again.' : 'Let’s set up your tutor first.'),
+            el('button', { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => { clearAiConfig().then(mount); } }, 'Set up the tutor')
+          )
         );
-        messages.append(box);
+      } else if (type === 'rate_limit' && err.transient) {
+        messages.append(
+          el(
+            'div',
+            { class: 'chat-error' },
+            el('p', {}, 'The tutor’s catching its breath — give it a few seconds, then try again.'),
+            el('button', { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => runReply() }, 'Try again')
+          )
+        );
       } else if (type === 'rate_limit') {
         const lessons = matchLessons(question);
         const box = el(
           'div',
           { class: 'chat-error' },
-          el('p', {}, 'The tutor has answered a lot today and is resting — it’ll be back tomorrow. Meanwhile, these lessons might help:')
+          el('p', {}, 'The tutor has reached today’s free limit and is resting — it’ll be back tomorrow. Meanwhile, these lessons might help:')
         );
         if (lessons.length) {
           const list = el('div', { class: 'chat-lesson-links' });
@@ -207,7 +232,14 @@ export function render() {
         }
         messages.append(box);
       } else {
-        messages.append(el('div', { class: 'chat-error' }, el('p', {}, 'Couldn’t reach the tutor just now. Check your connection and try again.')));
+        messages.append(
+          el(
+            'div',
+            { class: 'chat-error' },
+            el('p', {}, 'Couldn’t reach the tutor just now. Check your connection and try again.'),
+            el('button', { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => runReply() }, 'Try again')
+          )
+        );
       }
       scrollDown();
     }
