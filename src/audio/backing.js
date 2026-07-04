@@ -78,6 +78,7 @@ export class BackingRhythm {
     this.pattern = PATTERNS[0];
     this.chordId = 'G';
     this.running = false;
+    this.startBeat = 0; // engine beats below this are skipped (e.g. a count-in bar)
     this._removeScheduler = null;
     this._raf = null;
     this._master = null;
@@ -97,6 +98,11 @@ export class BackingRhythm {
     this.chordId = id;
   }
 
+  /** Engine beats below `n` are skipped — used by the studio for a count-in bar. */
+  setStartBeat(n) {
+    this.startBeat = Math.max(0, n || 0);
+  }
+
   setPattern(id) {
     const p = getPattern(id);
     if (p === this.pattern) return;
@@ -114,13 +120,13 @@ export class BackingRhythm {
     this.engine.setSubdivisionsPerBeat(this.pattern.sub);
   }
 
-  start(onStep) {
-    if (this.running) return;
-    this.running = true;
-    this.onStep = onStep;
-
+  /**
+   * Register this generator's scheduler on the shared engine WITHOUT starting
+   * the engine or an rAF loop. Lets the Practice Studio own the engine run and
+   * clock while this still produces the strums/drums.
+   */
+  attach() {
     const ctx = getAudioContext();
-    // Master gain → compressor → out, so stacked voices don't clip.
     this._master = ctx.createGain();
     this._master.gain.value = 0.85;
     this._comp = ctx.createDynamicsCompressor();
@@ -128,6 +134,37 @@ export class BackingRhythm {
 
     this._applyTimeSig();
     this._removeScheduler = this.engine.addScheduler((e) => this._onEvent(ctx, e));
+  }
+
+  /** Unregister the scheduler and tear down the audio bus (after tails ring). */
+  detach() {
+    if (this._removeScheduler) {
+      this._removeScheduler();
+      this._removeScheduler = null;
+    }
+    const master = this._master;
+    const comp = this._comp;
+    this._master = null;
+    this._comp = null;
+    if (master) {
+      setTimeout(() => {
+        try {
+          master.disconnect();
+          comp.disconnect();
+        } catch {
+          /* already gone */
+        }
+      }, 2000);
+    }
+  }
+
+  start(onStep) {
+    if (this.running) return;
+    this.running = true;
+    this.onStep = onStep;
+
+    const ctx = getAudioContext();
+    this.attach();
     this.engine.start();
 
     const tick = () => {
@@ -140,6 +177,7 @@ export class BackingRhythm {
   }
 
   _onEvent(ctx, e) {
+    if (e.beat < this.startBeat) return;
     const p = this.pattern;
     const stepIndex = e.beatInBar * p.sub + e.subdivision;
     const step = p.steps[stepIndex];
@@ -162,28 +200,10 @@ export class BackingRhythm {
     if (!this.running) return;
     this.running = false;
     this.engine.stop();
-    if (this._removeScheduler) {
-      this._removeScheduler();
-      this._removeScheduler = null;
-    }
     if (this._raf) {
       cancelAnimationFrame(this._raf);
       this._raf = null;
     }
-    // Let any ringing strum tails fade, then tear down the graph.
-    const master = this._master;
-    const comp = this._comp;
-    this._master = null;
-    this._comp = null;
-    if (master) {
-      setTimeout(() => {
-        try {
-          master.disconnect();
-          comp.disconnect();
-        } catch {
-          /* already gone */
-        }
-      }, 2000);
-    }
+    this.detach();
   }
 }

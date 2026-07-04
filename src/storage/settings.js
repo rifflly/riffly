@@ -21,6 +21,9 @@ export const DEFAULT_SETTINGS = {
   backingPattern: 'downstrums', // remembered backing-rhythm pattern
   backingChord: 'G', // remembered backing-rhythm chord
   backingBpm: 90, // remembered backing-rhythm tempo
+  studioView: 'both', // Practice Studio view mode: play | sing | both
+  studioBacking: 'app', // Practice Studio backing: app | silent
+  studioTempoPct: 100, // Practice Studio tempo as % of the song's written tempo
 };
 
 let cache = { ...DEFAULT_SETTINGS };
