@@ -13,5 +13,8 @@
   },
   "devDependencies": {
     "vite": "^7.0.0"
+  },
+  "dependencies": {
+    "pitchy": "^4.1.0"
   }
 }

@@ -123,6 +123,31 @@ function rhythmCard(step) {
   return { node: card, dispose };
 }
 
+function tunerLinkCard(step) {
+  return el(
+    'section',
+    { class: 'card step step--tuner' },
+    el(
+      'div',
+      { class: 'step-metro-head' },
+      icon('practice', 20),
+      el('span', { class: 'step-heading step-heading--inline' }, 'Tuner')
+    ),
+    step.body ? el('p', { class: 'step-body' }, step.body) : null,
+    el(
+      'button',
+      {
+        class: 'btn btn-primary btn-sm',
+        type: 'button',
+        onclick: () => {
+          location.hash = '#/tuner';
+        },
+      },
+      'Open the tuner'
+    )
+  );
+}
+
 function strumCard(step) {
   const tokens = Array.isArray(step.pattern)
     ? step.pattern
@@ -173,6 +198,8 @@ export function renderStep(step) {
       return rhythmCard(step);
     case 'strum':
       return { node: strumCard(step) };
+    case 'tunerlink':
+      return { node: tunerLinkCard(step) };
     case 'text':
     default:
       return { node: textCard(step) };

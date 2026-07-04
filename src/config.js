@@ -17,4 +17,10 @@ export const ROUTES = [
   { path: 'settings', label: 'Settings', icon: 'settings' },
 ];
 
+// Top-level screens that are NOT in the bottom tab bar — reached via in-app
+// links (e.g. the tuner, opened from Home and from a lesson).
+export const EXTRA_ROUTES = [{ path: 'tuner', label: 'Tuner' }];
+
+export const ALL_ROUTES = [...ROUTES, ...EXTRA_ROUTES];
+
 export const DEFAULT_ROUTE = 'learn';

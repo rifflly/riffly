@@ -45,6 +45,21 @@ function renderPath(onOpen) {
   const lessons = allLessons();
   node.append(progressCard(completedCount(), lessons.length));
 
+  node.append(
+    el(
+      'button',
+      { class: 'tuner-cta', type: 'button', onclick: () => { location.hash = '#/tuner'; } },
+      el('span', { class: 'tuner-cta-emoji', 'aria-hidden': 'true' }, '🎸'),
+      el(
+        'span',
+        { class: 'tuner-cta-text' },
+        el('span', { class: 'tuner-cta-title' }, 'Tune your guitar'),
+        el('span', { class: 'tuner-cta-sub' }, 'Get in tune before you play')
+      ),
+      el('span', { class: 'lesson-chevron', 'aria-hidden': 'true' }, '›')
+    )
+  );
+
   for (const stage of STAGES) {
     node.append(stageSection(stage, onOpen));
   }

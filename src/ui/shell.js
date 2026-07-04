@@ -3,7 +3,7 @@
  * Builds the static chrome once and swaps screen content on route change.
  */
 import { el, clear } from './dom.js';
-import { APP_NAME, ROUTES, DEFAULT_ROUTE } from '../config.js';
+import { APP_NAME, ALL_ROUTES, DEFAULT_ROUTE } from '../config.js';
 import { createRouter } from '../router.js';
 import { renderTabBar } from './tab-bar.js';
 import { createAudioBanner } from './audio-banner.js';
@@ -14,8 +14,9 @@ import * as chords from '../screens/chords.js';
 import * as practice from '../screens/practice.js';
 import * as songs from '../screens/songs.js';
 import * as settings from '../screens/settings.js';
+import * as tuner from '../screens/tuner.js';
 
-const SCREENS = { learn, chords, practice, songs, settings };
+const SCREENS = { learn, chords, practice, songs, settings, tuner };
 
 export function mountShell(root) {
   clear(root);
@@ -41,7 +42,7 @@ export function mountShell(root) {
   if (iosBanner) bannerHost.append(iosBanner);
 
   let currentScreen = null;
-  const router = createRouter(ROUTES, DEFAULT_ROUTE, (route) => {
+  const router = createRouter(ALL_ROUTES, DEFAULT_ROUTE, (route) => {
     // Let the outgoing screen clean up (e.g. stop the metronome).
     if (currentScreen && typeof currentScreen._dispose === 'function') currentScreen._dispose();
     clear(main);

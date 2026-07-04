@@ -25,6 +25,10 @@
               "body": "Your guitar has six strings. The thickest one is at the top and the thinnest at the bottom. We count them from thickest (6th) to thinnest (1st)."
             },
             {
+              "type": "tunerlink",
+              "body": "Before you play, let’s get in tune. Open the tuner and match each string — it listens through your mic and shows you if you’re sharp or flat."
+            },
+            {
               "type": "tip",
               "body": "Drop your shoulders and unclench your jaw. Loose and relaxed always sounds better than tense."
             },
