@@ -24,6 +24,18 @@ export function completedCount() {
   return cache.completedLessons.length;
 }
 
+export function getCompletedLessons() {
+  return [...cache.completedLessons];
+}
+
+/** Replace progress wholesale (used by Restore in item 5). */
+export async function replaceProgress(list) {
+  cache = { completedLessons: Array.isArray(list) ? [...list] : [] };
+  await kvSet(KEY, cache);
+  listeners.forEach((fn) => fn(cache));
+  return cache;
+}
+
 export async function setLessonComplete(id, done = true) {
   const set = new Set(cache.completedLessons);
   if (done) set.add(id);

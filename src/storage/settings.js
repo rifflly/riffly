@@ -51,6 +51,15 @@ export async function setSetting(key, value) {
   return snapshot;
 }
 
+/** Replace all settings (used by Restore in item 5). */
+export async function replaceSettings(obj) {
+  cache = { ...DEFAULT_SETTINGS, ...(obj && typeof obj === 'object' ? obj : {}) };
+  const snapshot = cache;
+  await kvSet(KEY, snapshot);
+  listeners.forEach((fn) => fn(snapshot));
+  return snapshot;
+}
+
 /** Subscribe to settings changes. Returns an unsubscribe function. */
 export function onSettingsChange(fn) {
   listeners.add(fn);

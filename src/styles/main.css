@@ -390,6 +390,57 @@ button,
   outline-offset: 2px;
 }
 
+/* ---- Backup & restore (Settings) ---------------------------------------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.data-tools {
+  margin-top: var(--space-3);
+}
+
+.data-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.restore-msg:not(:empty) {
+  margin-top: var(--space-3);
+}
+
+.restore-note {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.restore-note--info,
+.restore-note--ok {
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+}
+
+.restore-note--err {
+  background: color-mix(in srgb, var(--color-warning) 16%, transparent);
+  color: #8a5a12;
+}
+
+.restore-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
 /* ---- About row ---------------------------------------------------------- */
 
 .about {

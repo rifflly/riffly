@@ -5,7 +5,7 @@
  *  - Install help (platform-aware)
  *  - About: app version (rule d) + tagline
  */
-import { el } from '../ui/dom.js';
+import { el, clear } from '../ui/dom.js';
 import { card } from '../ui/screen.js';
 import { icon } from '../ui/icons.js';
 import { APP_NAME, APP_TAGLINE, APP_VERSION } from '../config.js';
@@ -13,6 +13,7 @@ import { getSetting, setSetting } from '../storage/settings.js';
 import { applyLeftHanded } from '../app-state.js';
 import { isAudioUnlocked, unlockAudio, onAudioUnlock } from '../audio/audio-engine.js';
 import { isIosSafari, isStandalone } from '../install/platform.js';
+import { downloadBackup, isValidBackup, summarizeBackup, applyBackup } from '../storage/backup.js';
 
 function toggleRow({ label, description, checked, onChange }) {
   const input = el('input', {
@@ -89,6 +90,17 @@ export function render() {
     el('p', { class: 'card-text' }, installText)
   );
 
+  // --- Your data (backup & restore) ---------------------------------------
+  const dataCard = card(
+    el('h2', { class: 'card-title' }, 'Your data'),
+    el(
+      'p',
+      { class: 'card-text' },
+      'Everything you do in Riffly is saved on this device only. Back it up to keep it safe or move it to another device.'
+    ),
+    renderDataTools()
+  );
+
   // --- About ---------------------------------------------------------------
   const aboutCard = card(
     el('h2', { class: 'card-title' }, 'About'),
@@ -105,6 +117,93 @@ export function render() {
     )
   );
 
-  root.append(soundCard, playingCard, installCard, aboutCard);
+  root.append(soundCard, playingCard, dataCard, installCard, aboutCard);
   return root;
+}
+
+// ---- Backup & restore (item 5) ------------------------------------------
+
+function renderDataTools() {
+  const wrap = el('div', { class: 'data-tools' });
+
+  const backupBtn = el(
+    'button',
+    { class: 'btn btn-primary btn-sm', type: 'button', onclick: () => downloadBackup() },
+    'Back up my data'
+  );
+
+  const fileInput = el('input', {
+    type: 'file',
+    accept: 'application/json,.json',
+    class: 'visually-hidden',
+    'aria-hidden': 'true',
+  });
+  const restoreBtn = el(
+    'button',
+    { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => fileInput.click() },
+    'Restore from backup'
+  );
+
+  const msg = el('div', { class: 'restore-msg' });
+
+  function showMessage(text, kind) {
+    clear(msg);
+    msg.append(el('p', { class: `restore-note restore-note--${kind}` }, text));
+  }
+
+  function showPreview(summary, backup) {
+    clear(msg);
+    const bits = [];
+    bits.push(`${summary.songs} song${summary.songs === 1 ? '' : 's'}`);
+    bits.push(`${summary.lessons} lesson${summary.lessons === 1 ? '' : 's'} complete`);
+    if (summary.streak) bits.push(`a ${summary.streak}-day streak`);
+    const when = summary.exportedAt ? ` (saved ${summary.exportedAt.slice(0, 10)})` : '';
+
+    msg.append(
+      el('p', { class: 'restore-note restore-note--info' }, `This backup has ${bits.join(', ')}${when}.`),
+      el('p', { class: 'row-desc' }, 'Restoring replaces everything currently on this device. Continue?'),
+      el(
+        'div',
+        { class: 'restore-actions' },
+        el(
+          'button',
+          {
+            class: 'btn btn-start btn-sm',
+            type: 'button',
+            onclick: async () => {
+              await applyBackup(backup);
+              clear(msg);
+              msg.append(el('p', { class: 'restore-note restore-note--ok' }, 'Restored! Reloading…'));
+              setTimeout(() => location.reload(), 700);
+            },
+          },
+          'Replace my data'
+        ),
+        el('button', { class: 'btn btn-danger btn-sm', type: 'button', onclick: () => clear(msg) }, 'Cancel')
+      )
+    );
+  }
+
+  fileInput.addEventListener('change', async () => {
+    const file = fileInput.files && fileInput.files[0];
+    if (!file) return;
+    let obj;
+    try {
+      obj = JSON.parse(await file.text());
+    } catch {
+      showMessage('Sorry, that file couldn’t be read as a Riffly backup.', 'err');
+      fileInput.value = '';
+      return;
+    }
+    if (!isValidBackup(obj)) {
+      showMessage('That doesn’t look like a Riffly backup file.', 'err');
+      fileInput.value = '';
+      return;
+    }
+    showPreview(summarizeBackup(obj), obj);
+    fileInput.value = '';
+  });
+
+  wrap.append(el('div', { class: 'data-buttons' }, backupBtn, restoreBtn), fileInput, msg);
+  return wrap;
 }

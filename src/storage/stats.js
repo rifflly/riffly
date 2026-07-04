@@ -112,6 +112,19 @@ export async function markSongPractised(id) {
   await recordPracticeSession();
 }
 
+/** Replace all stats (used by Restore in item 5). */
+export async function replaceStats(obj) {
+  const src = obj && typeof obj === 'object' ? obj : {};
+  cache = {
+    ...DEFAULTS,
+    ...src,
+    trainerBests: { ...(src.trainerBests || {}) },
+    practisedSongs: Array.isArray(src.practisedSongs) ? [...src.practisedSongs] : [],
+  };
+  await persist();
+  return cache;
+}
+
 export function onStatsChange(fn) {
   listeners.add(fn);
   return () => listeners.delete(fn);
