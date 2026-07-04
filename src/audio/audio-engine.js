@@ -12,7 +12,23 @@
 
 let ctx = null;
 let unlocked = false;
+let autoResumeSet = false;
 const listeners = new Set();
+
+// iOS/Safari suspends the AudioContext when the screen locks or the app goes to
+// the background. Once we've unlocked audio, resume it whenever the page becomes
+// visible/focused again so playback recovers without another tap (rule c).
+function setupAutoResume() {
+  if (autoResumeSet) return;
+  autoResumeSet = true;
+  const resume = () => {
+    if (unlocked && ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
+  };
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) resume();
+  });
+  window.addEventListener('focus', resume);
+}
 
 export function getAudioContext() {
   if (!ctx) {
@@ -53,6 +69,7 @@ export async function unlockAudio() {
 
   if (context.state === 'running' && !unlocked) {
     unlocked = true;
+    setupAutoResume();
     listeners.forEach((fn) => fn());
   }
   return unlocked;

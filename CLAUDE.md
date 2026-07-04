@@ -213,8 +213,43 @@ library (+ left-handed), lessons 1–2, progress, and offline/update support.
   `strum` (notation). Added mini-F (`Fmini`) + full barre `F` to
   `data/chords.json` (11 chords).
 
-Next: Phase 3 (mic tuner, audio upload + looping, time-stretch, tap-along, AI
-tutor, lessons stage 5).
+**✅ Phase 3 is COMPLETE (v0.7.0).** Added:
+
+- **Microphone tuner:** `src/audio/tuner-engine.js` (getUserMedia →
+  AnalyserNode on the shared context, `pitchy` McLeod detector, rolling median,
+  nearest-string + cents, reference tones) and `src/screens/tuner.js` (needle
+  gauge, "In tune!" hold, mic-permission pre-prompt + denial help). Top-level
+  `#/tuner` route (not a tab) reached from the Learn home CTA and a lesson
+  `tunerlink` step. Added `pitchy`.
+- **Audio upload + looping (My Audio):** `src/storage/audio-store.js` (tracks in
+  IndexedDB + metadata + ~200MB warning), `src/audio/audio-track.js` (decode +
+  play/seek + A/B loop + speed), `src/ui/waveform.js` (canvas peaks + draggable
+  A/B handles + playhead). Studio gained the My Audio path — current line + scroll
+  derive from the TRACK position in seconds (Phase-3 sync rule). Manage/remove +
+  storage meter in Settings → Backing tracks.
+- **Tap-along timing:** `src/screens/songs/tap-along.js` — play the track, tap
+  each line to record `line.timeSec`, ±0.25s nudge, re-record, clear. Shown in
+  the editor for songs with audio; the studio prefers `timeSec` over computed
+  timing. Editor now returns a dispose (stops playback on leave).
+- **Time-stretch slow-down:** `src/audio/audio-track.js` uses `soundtouchjs`
+  `PitchShifter` for pitch-preserving 50–100% playback (in loops too); auto-falls
+  back to `playbackRate` (labelled honestly) if the ScriptProcessor overruns.
+  Studio tempo slider enabled for My Audio. Added `soundtouchjs`.
+- **AI tutor (bring-your-own-key):** `src/storage/ai-config.js` (key in
+  IndexedDB), `src/ai/tutor-client.js` (streams from Gemini `streamGenerateContent`
+  SSE or Groq OpenAI-compatible SSE; classifies 429 per-minute vs daily and
+  auto-retries a short limit once; system prompt embedded), `src/ai/tutor-chat.js`
+  (session history + lesson context), `src/screens/tutor.js` (setup with Gemini/
+  Groq instructions + privacy note; streaming chat; friendly errors). New 'Ask'
+  tab (6 tabs now) + a floating Ask button on lesson screens.
+- **Lessons stage 5** (`data/lessons.json`, 18 lessons total): first real song,
+  bring-your-own-songs, where-to-go-next. New `link` lesson step type; a
+  graduation card on the Learn path when every lesson is complete.
+- **Polish:** iOS auto-resume of the AudioContext on visibility/focus
+  (`audio-engine.js`); README "share with friends" section; version → 0.7.0
+  (SW cache `riffly-0.7.0-<hash>` triggers the update banner).
+
+Riffly is feature-complete across Phases 1–3.
 
 ### Testing
 
