@@ -2082,6 +2082,131 @@ button,
   text-align: center;
 }
 
+/* ---- Practice Studio: My Audio panel + waveform ------------------------- */
+
+.audio-panel {
+  margin: var(--space-2) 0 var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+}
+
+.audio-panel > * + * {
+  margin-top: var(--space-2);
+}
+
+.audio-loop-row {
+  margin-top: var(--space-2);
+}
+
+.audio-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.audio-meta-actions {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.waveform {
+  position: relative;
+  height: 84px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  touch-action: none;
+}
+
+.wave-canvas {
+  display: block;
+  width: 100%;
+  height: 84px;
+}
+
+.wave-region {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: transparent;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  pointer-events: none;
+}
+
+.waveform.is-looping .wave-region {
+  background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+  border-color: var(--color-primary);
+}
+
+.wave-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 18px;
+  margin-left: -9px;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.wave-handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 8px;
+  width: 3px;
+  background: var(--color-primary);
+  opacity: 0.8;
+}
+
+.wave-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.wave-playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-secondary);
+  pointer-events: none;
+}
+
+/* ---- Settings: backing-track manager ------------------------------------ */
+
+.track-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.track-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
 /* ---- Songs: import ------------------------------------------------------ */
 
 .import-textarea {

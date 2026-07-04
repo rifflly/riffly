@@ -6,12 +6,13 @@ import { loadSettings, getSetting } from './storage/settings.js';
 import { loadProgress } from './storage/progress.js';
 import { loadStats } from './storage/stats.js';
 import { loadSongs } from './storage/songs.js';
+import { loadAudioMeta } from './storage/audio-store.js';
 import { requestPersistentStorage } from './storage/persist.js';
 import { applyLeftHanded } from './app-state.js';
 import { mountShell } from './ui/shell.js';
 
 export async function boot() {
-  await Promise.all([loadSettings(), loadProgress(), loadStats(), loadSongs()]);
+  await Promise.all([loadSettings(), loadProgress(), loadStats(), loadSongs(), loadAudioMeta()]);
   applyLeftHanded(getSetting('leftHanded'));
 
   mountShell(document.getElementById('app'));
