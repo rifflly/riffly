@@ -30,8 +30,8 @@ export function render() {
     setView(node, dispose);
   };
   const showEditor = (song) => {
-    const { node } = renderEditor(song, { onBack: showList, onDone: showStudio });
-    setView(node, null);
+    const { node, dispose } = renderEditor(song, { onBack: showList, onDone: showStudio });
+    setView(node, dispose);
   };
   const showImport = () => {
     const { node } = renderImport({ onBack: showList, onDone: showStudio });

@@ -7,8 +7,10 @@ import { el, clear } from '../../ui/dom.js';
 import { card } from '../../ui/screen.js';
 import { normalizeSong, emptyLine } from '../../songs/song-model.js';
 import { saveSong, deleteSong } from '../../storage/songs.js';
+import { getAudioMeta } from '../../storage/audio-store.js';
 import { renderSongPreview } from '../../ui/song-view.js';
 import { openChordPicker } from '../../ui/chord-picker.js';
+import { buildTapAlong } from './tap-along.js';
 
 const TIME_SIGNATURES = ['4/4', '3/4', '2/4', '6/8'];
 
@@ -31,6 +33,9 @@ export function renderEditor(sourceSong, { onBack, onDone }) {
 
   const root = el('div', { class: 'editor' });
   const preview = el('div', { class: 'song-preview-host' });
+
+  // Tap-along timing tool — only when this (saved) song has an uploaded track.
+  const tapAlong = draft.id && getAudioMeta(draft.id) ? buildTapAlong(draft) : null;
 
   function updatePreview() {
     clear(preview);
@@ -250,6 +255,10 @@ export function renderEditor(sourceSong, { onBack, onDone }) {
     }
     root.append(metaCard());
     root.append(linesCard());
+    if (tapAlong) {
+      root.append(tapAlong.node);
+      tapAlong.refresh();
+    }
     root.append(card(el('h2', { class: 'card-title' }, 'Preview'), preview));
     root.append(actions());
     updatePreview();
@@ -260,5 +269,5 @@ export function renderEditor(sourceSong, { onBack, onDone }) {
   }
 
   build();
-  return { node: root };
+  return { node: root, dispose: () => { if (tapAlong) tapAlong.dispose(); } };
 }

@@ -2187,6 +2187,100 @@ button,
   pointer-events: none;
 }
 
+/* ---- Tap-along timing (editor) ------------------------------------------ */
+
+.tap-transport {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+}
+
+.tap-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.tap-big {
+  width: 100%;
+  padding: var(--space-5);
+  font-size: 1.15rem;
+  background: var(--color-secondary);
+  color: #fff;
+}
+
+.tap-big:disabled {
+  opacity: 0.5;
+}
+
+.tap-big:active {
+  transform: scale(0.98);
+}
+
+.tap-hint {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin: var(--space-2) 0;
+  min-height: 1.2em;
+}
+
+.tap-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-2);
+}
+
+.tap-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+.tap-row.is-next {
+  background: var(--color-secondary-soft);
+}
+
+.tap-row-num {
+  width: 1.6em;
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.tap-row-label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.tap-row-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--color-primary);
+  min-width: 3.6em;
+  text-align: right;
+}
+
+.tap-row-nudge {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.tap-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
 /* ---- Settings: backing-track manager ------------------------------------ */
 
 .track-list {
