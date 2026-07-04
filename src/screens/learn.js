@@ -44,7 +44,9 @@ export function render() {
 function renderPath(onOpen) {
   const node = el('div', { class: 'path' });
   const lessons = allLessons();
-  node.append(progressCard(completedCount(), lessons.length));
+  const done = completedCount();
+  const total = lessons.length;
+  node.append(total && done === total ? congratsCard(total) : progressCard(done, total));
 
   node.append(
     el(
@@ -86,6 +88,25 @@ function progressCard(done, total) {
       'div',
       { class: 'progress-bar', role: 'progressbar', 'aria-valuenow': String(pct), 'aria-valuemin': '0', 'aria-valuemax': '100' },
       el('div', { class: 'progress-fill', style: `width:${pct}%` })
+    )
+  );
+}
+
+function congratsCard(total) {
+  return el(
+    'section',
+    { class: 'card congrats-card' },
+    el('div', { class: 'congrats-emoji', 'aria-hidden': 'true' }, '🎉'),
+    el('h2', { class: 'congrats-title' }, 'You did it!'),
+    el(
+      'p',
+      { class: 'congrats-text' },
+      `You’ve finished all ${total} Riffly lessons. You can play guitar — now keep the streak alive and have fun with it.`
+    ),
+    el(
+      'p',
+      { class: 'congrats-text congrats-sub' },
+      'Bring your own songs in the Songs tab, and tap Ask any time you’re stuck.'
     )
   );
 }

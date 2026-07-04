@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "comment": "Lesson content by stage. Step types: text {heading?, body}, tip {body}, chord {chordId, body?}, practice {heading?, body?, checklist[]}, metronome {bpm, body}, trainer {pair:[a,b], bpm, body} (embedded chord-change trainer), rhythm {pattern, chordId?, bpm?, body} (embedded backing rhythm), strum {heading?, body?, pattern:[D|U|-], counts?} (strum notation). Stages 1-4 in Phase 1-2, stage 5 in Phase 3.",
+  "comment": "Lesson content by stage. Step types: text {heading?, body}, tip {body}, chord {chordId, body?}, practice {heading?, body?, checklist[]}, metronome {bpm, body}, trainer {pair:[a,b], bpm, body} (embedded chord-change trainer), rhythm {pattern, chordId?, bpm?, body} (embedded backing rhythm), strum {heading?, body?, pattern:[D|U|-], counts?} (strum notation), tunerlink {body} (button to the tuner), link {heading?, body?, to, label} (button to a hash route). Stages 1-4 in Phase 1-2, stage 5 in Phase 3.",
   "stages": [
     {
       "id": "stage-1",
@@ -584,6 +584,145 @@
                 "Play the easy F cleanly on four strings",
                 "Try one slow barre F, just to feel it",
                 "Come back to the barre a little each day"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stage-5",
+      "number": 5,
+      "title": "Real Songs & Beyond",
+      "subtitle": "Play whole songs, bring your own, and keep growing.",
+      "lessons": [
+        {
+          "id": "5-1",
+          "title": "Playing your first real song",
+          "minutes": 12,
+          "summary": "Put it all together with a whole song in the studio.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Time for a real song",
+              "body": "You’ve learned chords, strumming, and how to change between them. Now let’s put it all together and play a whole song in the studio."
+            },
+            {
+              "type": "tunerlink",
+              "body": "A quick tune makes everything sound better. Open the tuner and check each string first."
+            },
+            {
+              "type": "link",
+              "to": "#/songs",
+              "label": "Open the Songs tab",
+              "body": "Tap a starter song — Amazing Grace is a gentle one to begin with."
+            },
+            {
+              "type": "text",
+              "heading": "In the studio",
+              "body": "Choose the Both view and the App Rhythm backing, then press Play. Riffly counts you in and scrolls the chords in time, with a strumming backing to play along to."
+            },
+            {
+              "type": "tip",
+              "body": "Too fast? Slide the tempo down to about 70%. Slow and clean beats fast and messy every single time."
+            },
+            {
+              "type": "practice",
+              "heading": "Play it through",
+              "body": "Have a go from beginning to end.",
+              "checklist": [
+                "Open a starter song in the studio",
+                "Slow the tempo to about 70%",
+                "Play along to the end — it counts as a practice!"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5-2",
+          "title": "Bring your own songs",
+          "minutes": 12,
+          "summary": "Import, add audio, tap-along, loop and slow down.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Play the songs you love",
+              "body": "The real fun starts when you play your own favourites. Most songs you know can be played with the handful of chords you’ve already learned."
+            },
+            {
+              "type": "text",
+              "heading": "Find the chords",
+              "body": "Search the web for your song’s name plus the word “chords”, and copy the chord sheet you find."
+            },
+            {
+              "type": "link",
+              "to": "#/songs",
+              "label": "Open the Songs tab",
+              "body": "Tap Import to paste a chord sheet, or New to build a song by hand."
+            },
+            {
+              "type": "text",
+              "heading": "Add your own audio (optional)",
+              "body": "Open your song, then choose Backing → My Audio → Add a backing track, so you can play along with the real recording."
+            },
+            {
+              "type": "text",
+              "heading": "Make it fit perfectly",
+              "body": "In the editor’s Tap-along tool, play the track and tap the start of each line so the words scroll exactly in time. You can loop a tricky part and slow it down — without changing the pitch."
+            },
+            {
+              "type": "tip",
+              "body": "Stuck on a fast section? Loop just those bars and drop to 60% speed. That’s exactly how the pros practise."
+            },
+            {
+              "type": "practice",
+              "body": "Make one song your own.",
+              "checklist": [
+                "Import or create a song",
+                "Optional: add a backing track",
+                "Play it in the studio"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "5-3",
+          "title": "Where to go next",
+          "minutes": 8,
+          "summary": "Barre chords, fingerpicking, and keeping the habit.",
+          "steps": [
+            {
+              "type": "text",
+              "heading": "Look how far you’ve come",
+              "body": "You can tune up, form chords, strum patterns, change chords in time, and play whole songs. That’s real guitar playing. Here’s where to head next."
+            },
+            {
+              "type": "text",
+              "heading": "Barre chords",
+              "body": "The full F was your first barre chord. Keep giving it a minute each day — barre chords unlock hundreds more songs, and everyone gets them in the end."
+            },
+            {
+              "type": "text",
+              "heading": "Fingerpicking",
+              "body": "Instead of strumming, try plucking the strings one at a time with your thumb and fingers. It gives a soft, pretty sound — lovely on slow songs."
+            },
+            {
+              "type": "text",
+              "heading": "Keep the streak alive",
+              "body": "A few minutes every day beats one long session a week. Little and often is the real secret to getting good."
+            },
+            {
+              "type": "tip",
+              "body": "Whenever you’re stuck, tap the Ask tab and ask your tutor. It’s there for exactly these moments."
+            },
+            {
+              "type": "practice",
+              "heading": "You’re a guitarist now",
+              "body": "Mark this done to complete your Riffly journey — and be proud of yourself.",
+              "checklist": [
+                "Pick one thing above to try next",
+                "Play a little every day",
+                "Have fun — that’s what it’s all about"
               ]
             }
           ]

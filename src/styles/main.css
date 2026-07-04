@@ -1437,6 +1437,36 @@ button,
   margin-bottom: var(--space-3);
 }
 
+/* Graduation card — shown when every lesson is complete (rule: tied to tracker) */
+.congrats-card {
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-primary-soft), var(--color-secondary-soft));
+  border: none;
+}
+
+.congrats-emoji {
+  font-size: 2.6rem;
+  line-height: 1;
+  margin-bottom: var(--space-2);
+}
+
+.congrats-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: var(--space-2);
+}
+
+.congrats-text {
+  color: var(--color-text);
+  max-width: 40ch;
+  margin: 0 auto var(--space-2);
+}
+
+.congrats-sub {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
 .progress-bar {
   height: 10px;
   border-radius: var(--radius-pill);

@@ -123,6 +123,26 @@ function rhythmCard(step) {
   return { node: card, dispose };
 }
 
+function linkCard(step) {
+  return el(
+    'section',
+    { class: 'card step step--link' },
+    step.heading ? el('h3', { class: 'step-heading' }, step.heading) : null,
+    step.body ? el('p', { class: 'step-body' }, step.body) : null,
+    el(
+      'button',
+      {
+        class: 'btn btn-primary btn-sm',
+        type: 'button',
+        onclick: () => {
+          location.hash = step.to || '#/learn';
+        },
+      },
+      step.label || 'Open'
+    )
+  );
+}
+
 function tunerLinkCard(step) {
   return el(
     'section',
@@ -200,6 +220,8 @@ export function renderStep(step) {
       return { node: strumCard(step) };
     case 'tunerlink':
       return { node: tunerLinkCard(step) };
+    case 'link':
+      return { node: linkCard(step) };
     case 'text':
     default:
       return { node: textCard(step) };
