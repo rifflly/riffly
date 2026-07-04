@@ -15,6 +15,7 @@
     "vite": "^7.0.0"
   },
   "dependencies": {
-    "pitchy": "^4.1.0"
+    "pitchy": "^4.1.0",
+    "soundtouchjs": "^0.3.0"
   }
 }

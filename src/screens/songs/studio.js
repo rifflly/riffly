@@ -230,6 +230,10 @@ export function renderStudio(song, { onBack, onEdit }) {
       track.onended = () => {
         if (phase === 'playing' && !track.loop) finishAudio();
       };
+      track.onFallback = () => {
+        updateTempoForMode();
+        setStatus('Slowed down — the pitch is a little lower on this device.');
+      };
       audioReady = true;
     } catch {
       setStatus('Sorry — that audio couldn’t be read. Try another file.');
@@ -266,6 +270,7 @@ export function renderStudio(song, { onBack, onEdit }) {
       return;
     }
     const { a, b } = loopMarkers();
+    track.setSpeed(tempoPct / 100);
     track.setLoop(loopEnabled, a, b);
     track.seek(loopEnabled ? a : 0);
     phase = 'playing';
@@ -630,16 +635,27 @@ export function renderStudio(song, { onBack, onEdit }) {
     'aria-label': 'Practice tempo (percent of written speed)',
   });
   function updateTempoForMode() {
-    const audio = backingMode === 'audio';
-    tempoSlider.disabled = audio;
-    if (audio) tempoLabel.textContent = 'Full speed · slow-down next update';
-    else tempoLabel.textContent = `${effBpm()} BPM${tempoPct < 100 ? ` (${tempoPct}%)` : ''}`;
+    tempoSlider.disabled = false;
+    if (backingMode === 'audio') {
+      tempoLabel.textContent =
+        track && track.stretchFailed
+          ? `${tempoPct}% · slowed (pitch lower on this device)`
+          : tempoPct < 100
+            ? `${tempoPct}% speed`
+            : 'Full speed';
+    } else {
+      tempoLabel.textContent = `${effBpm()} BPM${tempoPct < 100 ? ` (${tempoPct}%)` : ''}`;
+    }
   }
   tempoSlider.addEventListener('input', () => {
     tempoPct = Number(tempoSlider.value);
     setSetting('studioTempoPct', tempoPct);
     updateTempoForMode();
-    if (engine && (phase === 'playing' || phase === 'countin')) engine.setTempo(effBpm());
+    if (backingMode === 'audio') {
+      if (track) track.setSpeed(tempoPct / 100);
+    } else if (engine && (phase === 'playing' || phase === 'countin')) {
+      engine.setTempo(effBpm());
+    }
   });
 
   const playBtn = el('button', { class: 'btn studio-play', type: 'button' });
