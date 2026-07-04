@@ -15,8 +15,9 @@ import * as practice from '../screens/practice.js';
 import * as songs from '../screens/songs.js';
 import * as settings from '../screens/settings.js';
 import * as tuner from '../screens/tuner.js';
+import * as tutor from '../screens/tutor.js';
 
-const SCREENS = { learn, chords, practice, songs, settings, tuner };
+const SCREENS = { learn, chords, practice, songs, settings, tuner, tutor };
 
 export function mountShell(root) {
   clear(root);

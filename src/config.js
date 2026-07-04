@@ -14,6 +14,7 @@ export const ROUTES = [
   { path: 'chords', label: 'Chords', icon: 'chords' },
   { path: 'practice', label: 'Play', icon: 'practice' },
   { path: 'songs', label: 'Songs', icon: 'songs' },
+  { path: 'tutor', label: 'Ask', icon: 'ask' },
   { path: 'settings', label: 'Settings', icon: 'settings' },
 ];
 

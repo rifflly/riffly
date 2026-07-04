@@ -10,6 +10,7 @@ import { icon } from '../ui/icons.js';
 import { STAGES, allLessons } from '../content.js';
 import { isLessonComplete, completedCount, setLessonComplete } from '../storage/progress.js';
 import { renderStep } from '../ui/lesson-steps.js';
+import { setPendingContext } from '../ai/tutor-chat.js';
 
 export function render() {
   const root = el('div', { class: 'learn' });
@@ -144,6 +145,24 @@ function renderLesson(lesson, onBack) {
     if (dispose) disposers.push(dispose);
     node.append(stepNode);
   }
+
+  // Floating "Ask" button → opens the AI tutor pre-filled with this lesson.
+  node.append(
+    el(
+      'button',
+      {
+        class: 'ask-fab',
+        type: 'button',
+        'aria-label': 'Ask the tutor about this lesson',
+        onclick: () => {
+          setPendingContext(`I'm on the lesson “${lesson.title}”. `);
+          location.hash = '#/tutor';
+        },
+      },
+      el('span', { class: 'ask-fab-icon', 'aria-hidden': 'true' }, '💬'),
+      'Ask'
+    )
+  );
 
   const complete = isLessonComplete(lesson.id);
   if (complete) {
