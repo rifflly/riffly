@@ -12,9 +12,10 @@ import { maybeCreateIosInstallBanner } from '../install/ios-install.js';
 import * as learn from '../screens/learn.js';
 import * as chords from '../screens/chords.js';
 import * as practice from '../screens/practice.js';
+import * as songs from '../screens/songs.js';
 import * as settings from '../screens/settings.js';
 
-const SCREENS = { learn, chords, practice, settings };
+const SCREENS = { learn, chords, practice, songs, settings };
 
 export function mountShell(root) {
   clear(root);

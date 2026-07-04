@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "icons": "node scripts/generate-icons.mjs",
-    "test": "node scripts/test-timing.mjs"
+    "test": "node scripts/test-timing.mjs && node scripts/test-songs.mjs"
   },
   "devDependencies": {
     "vite": "^7.0.0"

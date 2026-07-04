@@ -12,7 +12,8 @@ export const APP_VERSION = __APP_VERSION__;
 export const ROUTES = [
   { path: 'learn', label: 'Learn', icon: 'learn' },
   { path: 'chords', label: 'Chords', icon: 'chords' },
-  { path: 'practice', label: 'Practice', icon: 'practice' },
+  { path: 'practice', label: 'Play', icon: 'practice' },
+  { path: 'songs', label: 'Songs', icon: 'songs' },
   { path: 'settings', label: 'Settings', icon: 'settings' },
 ];
 

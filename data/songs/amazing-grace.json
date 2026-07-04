@@ -1,0 +1,16 @@
+{
+  "id": "starter-amazing-grace",
+  "title": "Amazing Grace",
+  "artist": "John Newton (Traditional)",
+  "bpm": 90,
+  "timeSignature": "3/4",
+  "key": "G",
+  "barsPerLine": 2,
+  "source": "starter",
+  "lines": [
+    { "lyrics": "Amazing grace, how sweet the sound", "chords": [{ "chord": "G", "position": 0 }, { "chord": "C", "position": 19 }, { "chord": "G", "position": 29 }] },
+    { "lyrics": "That saved a wretch like me", "chords": [{ "chord": "G", "position": 0 }, { "chord": "D", "position": 25 }] },
+    { "lyrics": "I once was lost, but now am found", "chords": [{ "chord": "G", "position": 0 }, { "chord": "G7", "position": 17 }, { "chord": "C", "position": 21 }, { "chord": "G", "position": 28 }] },
+    { "lyrics": "Was blind, but now I see", "chords": [{ "chord": "G", "position": 0 }, { "chord": "D", "position": 15 }, { "chord": "G", "position": 21 }] }
+  ]
+}

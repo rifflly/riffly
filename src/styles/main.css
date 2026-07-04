@@ -127,7 +127,7 @@ h1, h2, h3, p {
   bottom: 0;
   z-index: 10;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: var(--space-1);
   padding: var(--space-2) var(--space-2)
     calc(var(--space-2) + env(safe-area-inset-bottom));
@@ -1282,6 +1282,318 @@ button,
   color: var(--color-success);
   font-weight: 600;
   margin-top: var(--space-4);
+}
+
+/* ---- Songs: list -------------------------------------------------------- */
+
+.song-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.song-actions .btn {
+  flex: 1;
+}
+
+.song-cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.song-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.song-card:active {
+  transform: scale(0.99);
+}
+
+.song-card-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.song-card-title {
+  font-weight: 700;
+}
+
+.song-card-meta {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.song-badge {
+  flex-shrink: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--color-secondary);
+  background: var(--color-secondary-soft);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+}
+
+/* ---- Songs: shared chords-above-lyrics preview -------------------------- */
+
+.song-preview,
+.song-preview-host {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  overflow-x: auto;
+}
+
+.song-line {
+  margin-bottom: var(--space-2);
+}
+
+.song-chords {
+  position: relative;
+  height: 1.25em;
+  white-space: nowrap;
+}
+
+.song-chord {
+  position: absolute;
+  top: 0;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.song-lyrics {
+  white-space: pre;
+}
+
+.song-line.is-active .song-lyrics {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+/* ---- Songs: editor ------------------------------------------------------ */
+
+.edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+  flex: 1;
+}
+
+.edit-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.edit-row {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.text-input {
+  width: 100%;
+  min-height: var(--touch-min);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.text-input:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 1px;
+}
+
+.edit-lines {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.edit-line {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+}
+
+.edit-line-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.edit-line-num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.line-controls {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.line-ctrl {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.line-ctrl:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  align-items: center;
+}
+
+.edit-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 2px 2px var(--space-2);
+  background: var(--color-primary-soft);
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+}
+
+.edit-chip-name {
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.edit-chip-at {
+  color: var(--color-text-muted);
+}
+
+.pos-input {
+  width: 44px;
+  min-height: 32px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.edit-chip-x {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.add-chord-btn {
+  padding: var(--space-1) var(--space-3);
+  min-height: 32px;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-secondary);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.add-line-btn {
+  width: 100%;
+  margin-top: var(--space-3);
+}
+
+.editor-note {
+  margin-bottom: var(--space-3);
+}
+
+.editor-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.editor-actions .btn-start {
+  flex: 1;
+}
+
+.btn-danger {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-primary-dark);
+}
+
+.chord-grid--pick {
+  margin-top: var(--space-3);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* ---- Songs: import ------------------------------------------------------ */
+
+.import-textarea {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.link-btn {
+  margin-top: var(--space-2);
+  border: none;
+  background: transparent;
+  color: var(--color-secondary);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  padding: var(--space-2) 0;
+}
+
+.import-warn {
+  margin-bottom: var(--space-2);
+}
+
+.import-warn-text {
+  background: color-mix(in srgb, var(--color-warning) 14%, transparent);
+  color: #8a5a12;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
 }
 
 /* ---- Left-handed mode (rule e) -----------------------------------------

@@ -1,0 +1,16 @@
+{
+  "id": "starter-happy-birthday",
+  "title": "Happy Birthday",
+  "artist": "Traditional",
+  "bpm": 100,
+  "timeSignature": "3/4",
+  "key": "G",
+  "barsPerLine": 2,
+  "source": "starter",
+  "lines": [
+    { "lyrics": "Happy birthday to you", "chords": [{ "chord": "G", "position": 0 }, { "chord": "D", "position": 18 }] },
+    { "lyrics": "Happy birthday to you", "chords": [{ "chord": "D", "position": 0 }, { "chord": "G", "position": 18 }] },
+    { "lyrics": "Happy birthday dear friend", "chords": [{ "chord": "G", "position": 0 }, { "chord": "C", "position": 15 }] },
+    { "lyrics": "Happy birthday to you", "chords": [{ "chord": "C", "position": 0 }, { "chord": "D", "position": 11 }, { "chord": "G", "position": 18 }] }
+  ]
+}
