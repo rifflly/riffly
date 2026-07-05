@@ -122,7 +122,18 @@ export function render() {
     )
   );
 
-  root.append(soundCard, playingCard, dataCard, tracksCard, installCard, aboutCard);
+  // --- Help / user guide ---------------------------------------------------
+  const guideCard = card(
+    el('h2', { class: 'card-title' }, 'User guide'),
+    el('p', { class: 'card-text' }, 'A friendly, step-by-step guide to everything in Riffly.'),
+    el(
+      'a',
+      { class: 'btn btn-secondary btn-sm', href: `${import.meta.env.BASE_URL}manual.html`, target: '_blank', rel: 'noopener noreferrer' },
+      'Open the guide ↗'
+    )
+  );
+
+  root.append(soundCard, playingCard, dataCard, tracksCard, installCard, guideCard, aboutCard);
   return root;
 }
 

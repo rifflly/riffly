@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Riffly — User Guide</title>
+<meta name="description" content="Step-by-step guide to Riffly: lessons, tuner, chords, practice tools, play-along songs, streaks & badges, and the AI tutor." />
+<style>
+  :root{
+    --coral:#e8705a; --coral-soft:#fbe4dd;
+    --purple:#7b6ba8; --purple-soft:#ece7f4;
+    --green:#4a9d6b; --amber:#d98a3d;
+    --bg:#fff7f3; --surface:#ffffff; --border:#f0e3dd;
+    --text:#2c2530; --muted:#857b86;
+    --radius:18px; --radius-sm:12px; --shadow:0 4px 18px rgba(44,37,48,.08);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; -webkit-text-size-adjust:100%;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:0 18px 80px}
+  header.hero{
+    text-align:center; padding:40px 18px 26px;
+    background:linear-gradient(160deg,var(--purple-soft),var(--coral-soft));
+  }
+  .logo{font-size:2.6rem; font-weight:800; letter-spacing:-.02em; color:var(--coral); margin:0}
+  .logo span{color:var(--purple)}
+  .tagline{margin:.2rem 0 0; font-weight:700; color:var(--purple)}
+  .hero p.sub{margin:.6rem auto 0; max-width:34ch; color:var(--muted)}
+  .ver{display:inline-block; margin-top:12px; font-size:.72rem; font-weight:700;
+    background:#fff; color:var(--coral); padding:3px 12px; border-radius:999px; box-shadow:var(--shadow)}
+
+  nav.toc{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+    padding:16px 18px; margin:24px 0; box-shadow:var(--shadow);
+  }
+  nav.toc h2{margin:0 0 8px; font-size:.8rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted)}
+  nav.toc ol{margin:0; padding-left:1.2rem; columns:2; column-gap:24px}
+  @media(max-width:520px){nav.toc ol{columns:1}}
+  nav.toc a{color:var(--text); text-decoration:none}
+  nav.toc a:hover{color:var(--coral); text-decoration:underline}
+
+  section{margin:30px 0}
+  h2.sec{font-size:1.4rem; margin:0 0 4px; display:flex; align-items:center; gap:10px}
+  h2.sec .n{
+    flex:none; width:30px; height:30px; border-radius:50%;
+    background:var(--coral); color:#fff; font-size:.9rem; font-weight:800;
+    display:grid; place-items:center;
+  }
+  h3{font-size:1.05rem; margin:20px 0 6px}
+  p{margin:.5rem 0}
+  ol.steps{margin:.5rem 0; padding-left:0; list-style:none; counter-reset:s}
+  ol.steps>li{
+    counter-increment:s; position:relative; padding:6px 0 6px 40px; margin:0;
+  }
+  ol.steps>li::before{
+    content:counter(s); position:absolute; left:0; top:6px;
+    width:26px; height:26px; border-radius:50%;
+    background:var(--purple-soft); color:var(--purple); font-weight:800; font-size:.82rem;
+    display:grid; place-items:center;
+  }
+  ul.plain{margin:.4rem 0; padding-left:1.1rem}
+  ul.plain li{margin:3px 0}
+
+  .callout{border-radius:var(--radius-sm); padding:12px 14px; margin:14px 0; font-size:.95rem}
+  .tip{background:var(--purple-soft)}
+  .note{background:var(--coral-soft)}
+  .warn{background:#fdecc8}
+  .callout b{display:block; margin-bottom:2px}
+
+  figure{margin:16px 0; text-align:center}
+  figure svg{max-width:100%; height:auto; border-radius:var(--radius); box-shadow:var(--shadow); background:var(--bg)}
+  figcaption{font-size:.82rem; color:var(--muted); margin-top:8px}
+
+  .pill{display:inline-block; font-size:.75rem; font-weight:700; padding:2px 9px; border-radius:999px; background:var(--coral-soft); color:var(--coral)}
+  kbd{background:#fff; border:1px solid var(--border); border-radius:6px; padding:1px 6px; font-size:.85em; box-shadow:0 1px 0 var(--border)}
+  a{color:var(--coral)}
+  hr{border:none; border-top:1px solid var(--border); margin:34px 0}
+  footer{text-align:center; color:var(--muted); font-size:.85rem; padding-top:20px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <h1 class="logo">Riff<span>ly</span></h1>
+  <p class="tagline">Learn. Play. Riff.</p>
+  <p class="sub">Your friendly, free guitar coach — lessons, tuner, play-along songs, streaks, and an optional AI tutor. Nothing to pay, no account, everything stays on your device.</p>
+  <span class="ver">User Guide · v0.9</span>
+</header>
+
+<div class="wrap">
+
+<nav class="toc" aria-label="Contents">
+  <h2>What's inside</h2>
+  <ol>
+    <li><a href="#install">Install the app</a></li>
+    <li><a href="#setup">First-time setup</a></li>
+    <li><a href="#learn">Learn — lessons &amp; rewards</a></li>
+    <li><a href="#tuner">Tuner</a></li>
+    <li><a href="#chords">Chords library</a></li>
+    <li><a href="#play">Play — practice tools</a></li>
+    <li><a href="#songs">Songs library</a></li>
+    <li><a href="#audio">Play along with your music</a></li>
+    <li><a href="#ask">Ask — the AI tutor</a></li>
+    <li><a href="#key">Getting a free AI key</a></li>
+    <li><a href="#settings">Settings &amp; backups</a></li>
+    <li><a href="#tips">Tips &amp; troubleshooting</a></li>
+  </ol>
+</nav>
+
+<!-- 1 INSTALL -->
+<section id="install">
+  <h2 class="sec"><span class="n">1</span> Install the app</h2>
+  <p>Riffly lives at one web address — <b>rifflly.github.io/riffly</b>. It works right in your browser, but installing it adds an icon to your home screen, opens full-screen, and works offline.</p>
+  <h3>🤖 Android (Chrome)</h3>
+  <ol class="steps">
+    <li>Open Chrome and go to <b>rifflly.github.io/riffly</b>.</li>
+    <li>Tap the <b>⋮</b> menu (top-right).</li>
+    <li>Tap <b>Add to Home screen</b> (or <b>Install app</b>) → <b>Add</b>.</li>
+  </ol>
+  <h3>🍎 iPhone / iPad (Safari)</h3>
+  <ol class="steps">
+    <li>Open Safari and go to <b>rifflly.github.io/riffly</b>.</li>
+    <li>Tap the <b>Share</b> button (square with an up-arrow).</li>
+    <li>Scroll down → <b>Add to Home Screen</b> → <b>Add</b>.</li>
+  </ol>
+  <h3>💻 Computer (Chrome / Edge)</h3>
+  <ol class="steps">
+    <li>Go to <b>rifflly.github.io/riffly</b>.</li>
+    <li>Click the install icon in the address bar → <b>Install</b>.</li>
+  </ol>
+  <div class="callout tip"><b>💡 Works offline</b> Once installed, Riffly is saved on your device and opens even with no internet.</div>
+</section>
+
+<!-- 2 SETUP -->
+<section id="setup">
+  <h2 class="sec"><span class="n">2</span> First-time setup</h2>
+  <p>Along the bottom are six tabs: <b>Learn · Chords · Play · Songs · Ask · Settings</b>. Tap between them any time.</p>
+  <h3>Turn on sound (once per visit)</h3>
+  <p>Phones only allow sound after you tap something. When you see a <span class="pill">Tap to enable sound</span> bar, tap <b>Enable</b>. Now the metronome, tuner, and songs can play. You do this once each time you open Riffly.</p>
+  <h3>Left- or right-handed</h3>
+  <p>Left-handed? Go to <b>Settings → Left-handed mode</b> and switch it on. Every chord diagram flips to match your view.</p>
+</section>
+
+<!-- 3 LEARN -->
+<section id="learn">
+  <h2 class="sec"><span class="n">3</span> Learn — lessons &amp; rewards</h2>
+  <p>The <b>Learn</b> tab is your step-by-step path from your very first note to whole songs — <b>18 lessons across 5 stages</b>. At the top you'll see the cover banner, your progress, and your practice rewards.</p>
+
+  <figure>
+    <!-- Learn screen mockup -->
+    <svg viewBox="0 0 320 500" width="300" role="img" aria-label="The Learn screen: cover banner, progress, streak, today's mission, weekly goal, and badges.">
+      <rect width="320" height="500" fill="#fff7f3"/>
+      <text x="16" y="30" font-family="sans-serif" font-weight="800" font-size="18" fill="#e8705a">Riffly <tspan fill="#857b86" font-weight="400">Learn</tspan></text>
+      <!-- banner -->
+      <rect x="16" y="42" width="288" height="90" rx="14" fill="url(#g1)"/>
+      <text x="160" y="82" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="15" fill="#fff">Riffly</text>
+      <text x="160" y="102" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="9" fill="#ffe">Learn. Play. Riff. 🎸</text>
+      <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7b6ba8"/><stop offset="1" stop-color="#e8705a"/></linearGradient></defs>
+      <!-- progress card -->
+      <rect x="16" y="144" width="288" height="52" rx="12" fill="#fff" stroke="#f0e3dd"/>
+      <text x="28" y="166" font-family="sans-serif" font-weight="800" font-size="9" fill="#857b86">YOUR PROGRESS</text>
+      <text x="28" y="182" font-family="sans-serif" font-size="11" fill="#2c2530">3 of 18 lessons complete</text>
+      <rect x="28" y="187" width="264" height="6" rx="3" fill="#f0e3dd"/>
+      <rect x="28" y="187" width="46" height="6" rx="3" fill="#e8705a"/>
+      <!-- rewards hub -->
+      <rect x="16" y="206" width="288" height="118" rx="12" fill="#fff" stroke="#f0e3dd"/>
+      <rect x="28" y="218" width="70" height="54" rx="10" fill="#fbe4dd"/>
+      <text x="63" y="238" text-anchor="middle" font-size="14">🔥</text>
+      <text x="63" y="256" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="15" fill="#e8705a">3</text>
+      <text x="63" y="267" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#857b86">day streak</text>
+      <rect x="106" y="218" width="186" height="54" rx="10" fill="#ece7f4"/>
+      <text x="116" y="234" font-family="sans-serif" font-weight="800" font-size="7.5" fill="#7b6ba8">TODAY'S MISSION</text>
+      <text x="116" y="250" font-family="sans-serif" font-weight="700" font-size="11" fill="#7b6ba8">Finish one lesson</text>
+      <text x="116" y="264" font-family="sans-serif" font-size="8" fill="#857b86">Learn tab</text>
+      <text x="28" y="292" font-family="sans-serif" font-size="9" fill="#857b86">This week · 2/4 days</text>
+      <circle cx="210" cy="289" r="6" fill="#e8705a"/><circle cx="226" cy="289" r="6" fill="#e8705a"/><circle cx="242" cy="289" r="6" fill="#f0e3dd"/><circle cx="258" cy="289" r="6" fill="#f0e3dd"/>
+      <rect x="28" y="304" width="52" height="14" rx="7" fill="#ece7f4"/><text x="54" y="314" text-anchor="middle" font-size="7" fill="#7b6ba8">🌟 First Win</text>
+      <rect x="86" y="304" width="60" height="14" rx="7" fill="#ece7f4"/><text x="116" y="314" text-anchor="middle" font-size="7" fill="#7b6ba8">🔀 Smooth</text>
+      <rect x="152" y="304" width="46" height="14" rx="7" fill="#f7f2ef"/><text x="175" y="314" text-anchor="middle" font-size="7" fill="#b3aab0">🔒 Song</text>
+      <!-- lesson row -->
+      <rect x="16" y="336" width="288" height="40" rx="12" fill="#fff" stroke="#f0e3dd"/>
+      <circle cx="36" cy="356" r="9" fill="#4a9d6b"/><text x="36" y="360" text-anchor="middle" font-size="9" fill="#fff">✓</text>
+      <text x="54" y="353" font-family="sans-serif" font-weight="700" font-size="10" fill="#2c2530">Meet your guitar</text>
+      <text x="54" y="366" font-family="sans-serif" font-size="8" fill="#857b86">Get comfy and learn the six strings</text>
+      <rect x="16" y="384" width="288" height="40" rx="12" fill="#fff" stroke="#f0e3dd"/>
+      <text x="36" y="408" text-anchor="middle" font-size="11">▶</text>
+      <text x="54" y="401" font-family="sans-serif" font-weight="700" font-size="10" fill="#2c2530">Your first sounds</text>
+      <text x="54" y="414" font-family="sans-serif" font-size="8" fill="#857b86">Strum and pluck the strings</text>
+    </svg>
+    <figcaption>The Learn screen — cover banner, progress, your streak, today's mission, weekly goal, and badges, above the lessons.</figcaption>
+  </figure>
+
+  <ol class="steps">
+    <li>Tap the <b>Learn</b> tab, then tap any lesson to open it.</li>
+    <li>Read each step and try it on your guitar. Some lessons have built-in tools — a metronome, chord-change trainer, or strumming player. Tap <b>Start</b> inside them to play along.</li>
+    <li>When you're done, tap <b>“I did it! ✓”</b> — you'll get a little celebration, and the lesson gets a green tick.</li>
+  </ol>
+
+  <h3>Your rewards (streak, mission, badges)</h3>
+  <ul class="plain">
+    <li><b>🔥 Daily streak</b> — grows by one each day you practise anything (a lesson, a chord switch, a song, or the metronome). Miss a day and it restarts — so a few minutes daily is the goal.</li>
+    <li><b>Today's mission</b> — a small daily challenge (e.g. “Finish one lesson”). It ticks off automatically when you do it.</li>
+    <li><b>Weekly goal</b> — the dots fill in as you practise on different days; aim for 4 days a week.</li>
+    <li><b>Badges</b> — earn them as you go: First Win, Smooth Switch, Song Starter, Rhythm Rookie, 3-Day Streak, Chord Climber. Locked ones show a 🔒.</li>
+  </ul>
+  <div class="callout note"><b>📌 Graduation</b> Finish all 18 lessons and you'll get a “You did it!” card. Tap the floating <b>💬 Ask</b> button inside a lesson to ask the tutor about that exact lesson.</div>
+</section>
+
+<!-- 4 TUNER -->
+<section id="tuner">
+  <h2 class="sec"><span class="n">4</span> Tuner — get in tune</h2>
+  <p>An out-of-tune guitar sounds wrong no matter how well you play. The tuner listens through your mic — nothing is recorded or sent anywhere.</p>
+  <ol class="steps">
+    <li>On the Learn tab, tap the <b>“Tune your guitar”</b> card at the top.</li>
+    <li>Tap <b>Start tuning</b> and allow the microphone.</li>
+    <li>Pluck one string — Riffly shows which string it is and a needle.</li>
+    <li>Turn the tuning peg until the needle sits in the middle and it says <b>“In tune! ✓”</b>.</li>
+    <li>Repeat for all six strings.</li>
+  </ol>
+  <div class="callout tip"><b>💡 No mic, or noisy room?</b> Tap a string name (E A D G B e) to hear its <b>reference tone</b> and tune by ear.</div>
+</section>
+
+<!-- 5 CHORDS -->
+<section id="chords">
+  <h2 class="sec"><span class="n">5</span> Chords — the library</h2>
+  <p>The <b>Chords</b> tab is your reference book of chord shapes.</p>
+  <figure>
+    <svg viewBox="0 0 180 200" width="150" role="img" aria-label="A chord diagram: dots show where to press, numbers show which finger, x means don't play, o means play open.">
+      <rect width="180" height="200" rx="14" fill="#fff"/>
+      <text x="90" y="26" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="16" fill="#2c2530">Em</text>
+      <!-- nut + strings -->
+      <rect x="40" y="40" width="100" height="6" fill="#2c2530"/>
+      <g stroke="#c9bcc4" stroke-width="2">
+        <line x1="40" y1="46" x2="40" y2="150"/><line x1="60" y1="46" x2="60" y2="150"/><line x1="80" y1="46" x2="80" y2="150"/><line x1="100" y1="46" x2="100" y2="150"/><line x1="120" y1="46" x2="120" y2="150"/><line x1="140" y1="46" x2="140" y2="150"/>
+      </g>
+      <g stroke="#e6dcd6" stroke-width="1.5">
+        <line x1="40" y1="80" x2="140" y2="80"/><line x1="40" y1="115" x2="140" y2="115"/><line x1="40" y1="150" x2="140" y2="150"/>
+      </g>
+      <!-- open marks -->
+      <g font-family="sans-serif" font-size="11" fill="#857b86" text-anchor="middle">
+        <text x="40" y="37">o</text><text x="80" y="37">o</text><text x="100" y="37">o</text><text x="120" y="37">o</text><text x="140" y="37">o</text>
+      </g>
+      <!-- fingers -->
+      <circle cx="60" cy="63" r="9" fill="#e8705a"/><text x="60" y="67" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="700" fill="#fff">2</text>
+      <circle cx="80" cy="63" r="9" fill="#e8705a"/><text x="80" y="67" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="700" fill="#fff">3</text>
+      <text x="90" y="185" text-anchor="middle" font-family="sans-serif" font-size="9" fill="#857b86">● press · number = finger · o = open · × = skip</text>
+    </svg>
+    <figcaption>Reading a chord diagram — dots are where your fingers press, numbers are which finger, × means don't play that string, o means play it open.</figcaption>
+  </figure>
+  <ol class="steps">
+    <li>Tap the <b>Chords</b> tab.</li>
+    <li>Tap any chord to see a big diagram and a beginner tip.</li>
+    <li>New to all this? Tap <b>“New to chords? Start here”</b> at the top for a friendly one-minute explainer — what a chord is, major vs minor, and how Riffly builds you up.</li>
+  </ol>
+</section>
+
+<!-- 6 PLAY -->
+<section id="play">
+  <h2 class="sec"><span class="n">6</span> Play — practice tools</h2>
+  <p>The <b>Play</b> tab has three tools. Tap the switcher at the top to move between them.</p>
+  <h3>Metronome</h3>
+  <p>A steady click to keep your timing. Set the speed with the slider or <b>Tap tempo</b>, choose beats per bar, and press <b>Start</b>.</p>
+  <h3>Chord Changes</h3>
+  <p>Practise switching between two chords cleanly. Pick a pair, press <b>Start</b>, and change to the highlighted chord each bar. Try the <b>one-minute challenge</b> to score your clean changes and beat your best.</p>
+  <h3>Rhythm</h3>
+  <p>A strumming + drum backing to play along with. Pick a groove, choose a chord, set the tempo, and press <b>Play</b>.</p>
+  <div class="callout note"><b>📌 It all counts</b> Practising here builds your streak, ticks off today's mission, and can unlock badges.</div>
+</section>
+
+<!-- 7 SONGS -->
+<section id="songs">
+  <h2 class="sec"><span class="n">7</span> Songs — the library</h2>
+  <p>The <b>Songs</b> tab is your play-along library, grouped by difficulty so you always know what to try next:</p>
+  <ul class="plain">
+    <li><span class="pill" style="background:#e3f1e7;color:#4a9d6b">Songs You Can Play Now</span> — two or three easy chords.</li>
+    <li><span class="pill">Songs to Level Up</span> — adds C, G, D; includes the starter singalongs.</li>
+    <li><span class="pill" style="background:#ece7f4;color:#7b6ba8">Challenge Songs</span> — barre chords and faster changes.</li>
+    <li><span class="pill" style="background:#f7e6d3;color:#d98a3d">Hindi Songs to Try</span> — familiar desi tunes and jams.</li>
+  </ul>
+  <figure>
+    <svg viewBox="0 0 300 150" width="280" role="img" aria-label="A song card showing title, mood, chords, a focus, a mission, a badge, and a start button.">
+      <rect width="300" height="150" fill="#fff7f3"/>
+      <rect x="10" y="10" width="280" height="130" rx="16" fill="#fff" stroke="#f0e3dd"/>
+      <text x="24" y="34" font-family="sans-serif" font-weight="800" font-size="14" fill="#2c2530">Midnight Em Groove</text>
+      <rect x="222" y="20" width="56" height="16" rx="8" fill="#ece7f4"/><text x="250" y="32" text-anchor="middle" font-size="8" font-weight="700" fill="#7b6ba8">First Jam</text>
+      <text x="24" y="52" font-family="sans-serif" font-size="10" fill="#857b86">🌙 Moody &amp; cool</text>
+      <rect x="24" y="60" width="30" height="16" rx="8" fill="#fbe4dd"/><text x="39" y="72" text-anchor="middle" font-size="9" font-weight="700" fill="#e8705a">Em</text>
+      <rect x="58" y="60" width="30" height="16" rx="8" fill="#fbe4dd"/><text x="73" y="72" text-anchor="middle" font-size="9" font-weight="700" fill="#e8705a">Am</text>
+      <text x="24" y="96" font-family="sans-serif" font-size="8" font-weight="800" fill="#857b86">FOCUS</text>
+      <text x="60" y="96" font-family="sans-serif" font-size="9.5" fill="#2c2530">Smooth Em ↔ Am changes</text>
+      <text x="24" y="112" font-family="sans-serif" font-size="9.5" fill="#857b86">Loop Em and Am for 60 seconds — no stops.</text>
+      <rect x="24" y="120" width="86" height="16" rx="8" fill="#e8705a"/><text x="67" y="132" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">Start the loop</text>
+    </svg>
+    <figcaption>Each song card shows its mood, the chords it uses, a skill to focus on, a mini mission, a badge, and a start button.</figcaption>
+  </figure>
+  <ol class="steps">
+    <li>Tap a starter song to open the <b>studio</b> and play along; tap a mission card to see its chord shapes and a practice goal.</li>
+    <li>Choose a <b>View</b> (Play / Sing / Both) and a <b>Backing</b> (App Rhythm / Silent), then press <b>Play</b>. Riffly counts you in and scrolls the song in time.</li>
+    <li>Add your own: <b>Import</b> a chord sheet, or tap <b>+ New song</b> to build one by hand.</li>
+  </ol>
+</section>
+
+<!-- 8 AUDIO -->
+<section id="audio">
+  <h2 class="sec"><span class="n">8</span> Play along with your own music</h2>
+  <p>Add a real recording and play along — with a waveform, a loop tool, a pitch-perfect slow-down, and a one-tap <b>Reduce vocals</b> for singing.</p>
+  <ol class="steps">
+    <li>On the Songs tab, tap <b>🎵 Add your music (MP3)</b> and choose a file (MP3, M4A, WAV). It's saved on your device and opens playing straight away. <span style="color:var(--muted)">(Or open any song → Backing → <b>My Audio</b>.)</span></li>
+    <li><b>Loop a section:</b> drag the two handles on the waveform, then turn on <b>Loop a section</b>.</li>
+    <li><b>Slow it down:</b> drag the speed slider (50–100%). Same key, no chipmunk voices.</li>
+  </ol>
+  <figure>
+    <svg viewBox="0 0 300 170" width="280" role="img" aria-label="The My Audio panel with a waveform, Loop a section toggle, and a Reduce vocals toggle.">
+      <rect width="300" height="170" fill="#fff7f3"/>
+      <rect x="10" y="10" width="280" height="150" rx="16" fill="#fff" stroke="#f0e3dd"/>
+      <!-- waveform -->
+      <g fill="#7b6ba8"><rect x="24" y="30" width="3" height="18" rx="1.5"/><rect x="30" y="24" width="3" height="30"/><rect x="36" y="34" width="3" height="10"/><rect x="42" y="20" width="3" height="38"/><rect x="48" y="30" width="3" height="18"/><rect x="54" y="26" width="3" height="26"/><rect x="60" y="36" width="3" height="6"/><rect x="66" y="22" width="3" height="34"/><rect x="72" y="32" width="3" height="14"/><rect x="78" y="28" width="3" height="22"/><rect x="84" y="24" width="3" height="30"/><rect x="90" y="34" width="3" height="10"/><rect x="96" y="20" width="3" height="38"/><rect x="102" y="30" width="3" height="18"/><rect x="108" y="26" width="3" height="26"/><rect x="114" y="36" width="3" height="6"/><rect x="120" y="22" width="3" height="34"/><rect x="126" y="32" width="3" height="14"/><rect x="132" y="28" width="3" height="22"/></g>
+      <g fill="#e8705a"><rect x="140" y="24" width="3" height="30"/><rect x="146" y="34" width="3" height="10"/><rect x="152" y="20" width="3" height="38"/><rect x="158" y="30" width="3" height="18"/><rect x="164" y="26" width="3" height="26"/><rect x="170" y="36" width="3" height="6"/><rect x="176" y="22" width="3" height="34"/></g>
+      <g fill="#7b6ba8"><rect x="182" y="32" width="3" height="14"/><rect x="188" y="28" width="3" height="22"/><rect x="194" y="24" width="3" height="30"/><rect x="200" y="34" width="3" height="10"/><rect x="206" y="20" width="3" height="38"/><rect x="212" y="30" width="3" height="18"/><rect x="218" y="26" width="3" height="26"/><rect x="224" y="36" width="3" height="6"/><rect x="230" y="22" width="3" height="34"/><rect x="236" y="32" width="3" height="14"/><rect x="242" y="28" width="3" height="22"/><rect x="248" y="24" width="3" height="30"/><rect x="254" y="34" width="3" height="10"/><rect x="260" y="20" width="3" height="38"/><rect x="266" y="30" width="3" height="18"/><rect x="272" y="26" width="3" height="26"/></g>
+      <!-- loop toggle -->
+      <text x="24" y="86" font-family="sans-serif" font-weight="700" font-size="11" fill="#2c2530">Loop a section</text>
+      <rect x="244" y="78" width="34" height="18" rx="9" fill="#e6dcd6"/><circle cx="253" cy="87" r="7" fill="#fff"/>
+      <text x="24" y="100" font-family="sans-serif" font-size="8.5" fill="#857b86">Drag the two handles, then turn this on.</text>
+      <line x1="24" y1="110" x2="276" y2="110" stroke="#f0e3dd"/>
+      <!-- reduce vocals toggle (ON) -->
+      <text x="24" y="130" font-family="sans-serif" font-weight="700" font-size="11" fill="#2c2530">Reduce vocals 🎤</text>
+      <rect x="244" y="122" width="34" height="18" rx="9" fill="#e8705a"/><circle cx="269" cy="131" r="7" fill="#fff"/>
+      <text x="24" y="144" font-family="sans-serif" font-size="8.5" fill="#857b86">Quieten the singing so you can sing along.</text>
+    </svg>
+    <figcaption>The My Audio panel — waveform + loop handles, and the “Reduce vocals” toggle for singing along.</figcaption>
+  </figure>
+  <h3>🎤 Sing it or play it yourself</h3>
+  <p>Want to <b>sing</b>? Turn on <b>Reduce vocals</b> — it quietens the singing so you can take over. Works best on stereo songs; it isn't perfect.</p>
+  <p>Want a cleaner result, or to <b>remove an instrument</b> (like the guitar) to play it yourself? Tap <b>“Mute vocals or an instrument, cleanly →”</b>. Riffly plays your file as-is, so you prep it once with a free tool, download the result, then tap <b>Replace</b>. The guide walks you through both “Sing it myself” and “Play an instrument myself”.</p>
+  <div class="callout warn"><b>⚠️ Quality varies by song</b> Removing vocals is usually cleaner than isolating one instrument — that's normal.</div>
+</section>
+
+<!-- 9 ASK -->
+<section id="ask">
+  <h2 class="sec"><span class="n">9</span> Ask — the AI tutor</h2>
+  <p>The <b>Ask</b> tab is an optional chat helper that answers guitar questions in plain, beginner-friendly language. The whole app works fine without it. You give Riffly a <b>free key</b> from Google or Groq (next section). Your key stays only on your device — Riffly has no server and never sees it.</p>
+  <figure>
+    <svg viewBox="0 0 300 180" width="280" role="img" aria-label="The Ask chat with a question, an answer, a text box, a microphone button, and Send.">
+      <rect width="300" height="180" fill="#fff7f3"/>
+      <text x="16" y="24" font-family="sans-serif" font-size="9" fill="#857b86">Powered by Google Gemini</text>
+      <rect x="150" y="36" width="134" height="26" rx="13" fill="#e8705a"/><text x="272" y="53" text-anchor="end" font-family="sans-serif" font-size="10" fill="#fff">How do I stop chords buzzing?</text>
+      <rect x="16" y="70" width="210" height="56" rx="13" fill="#ece7f4"/>
+      <text x="26" y="88" font-family="sans-serif" font-size="9.5" fill="#3a3340">Press just behind the fret, not on</text>
+      <text x="26" y="102" font-family="sans-serif" font-size="9.5" fill="#3a3340">it, and curl your fingers so the</text>
+      <text x="26" y="116" font-family="sans-serif" font-size="9.5" fill="#3a3340">tips press down. You've got this! 🎸</text>
+      <!-- composer -->
+      <rect x="16" y="140" width="180" height="28" rx="14" fill="#fff" stroke="#f0e3dd"/>
+      <text x="28" y="158" font-family="sans-serif" font-size="9.5" fill="#b3aab0">Ask your tutor a question…</text>
+      <circle cx="214" cy="154" r="14" fill="#fff" stroke="#f0e3dd"/><text x="214" y="159" text-anchor="middle" font-size="13">🎤</text>
+      <rect x="234" y="140" width="50" height="28" rx="14" fill="#e8705a"/><text x="259" y="158" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="700" fill="#fff">Send</text>
+    </svg>
+    <figcaption>The Ask chat — type a question, or tap the 🎤 mic to speak it. The answer streams in as it's written.</figcaption>
+  </figure>
+  <ol class="steps">
+    <li>Tap the <b>Ask</b> tab and type a question — like “How often should a beginner practise?” — then tap <b>Send</b>.</li>
+    <li><b>🎤 Speak instead of typing:</b> tap the microphone, allow it once, and say your question. Edit if you like, then Send.</li>
+    <li>Ask follow-ups any time. Inside a lesson, the floating <b>Ask</b> button fills in that lesson's context for you.</li>
+  </ol>
+</section>
+
+<!-- 10 KEY -->
+<section id="key">
+  <h2 class="sec"><span class="n">10</span> Getting your free AI key</h2>
+  <p>A “key” is just a long password that lets Riffly talk to a free AI service on your behalf. Pick <b>one</b> of the two.</p>
+  <h3>Option A — Google Gemini (recommended)</h3>
+  <ol class="steps">
+    <li>Go to <b>aistudio.google.com/app/apikey</b> and sign in with a Google account.</li>
+    <li>Tap <b>Create API key</b> (accept the default project if asked).</li>
+    <li>Copy the key (starts with <code>AIza…</code>). You don't need billing — the free tier is enough.</li>
+    <li>In Riffly → Ask tab, make sure <b>Google Gemini</b> is selected, paste the key, and tap <b>Save &amp; start chatting</b>.</li>
+  </ol>
+  <h3>Option B — Groq</h3>
+  <ol class="steps">
+    <li>Go to <b>console.groq.com/keys</b> and sign up (free).</li>
+    <li>Tap <b>Create API Key</b>, then copy it right away (shown once).</li>
+    <li>In Riffly → Ask → <b>Groq</b>, paste the key, and tap <b>Save &amp; start chatting</b>.</li>
+  </ol>
+  <div class="callout note"><b>📌 If you hit a free limit</b> Riffly tells you which kind: “Try again in N seconds” means wait a moment; “That's today's free limit” resets around midnight US Pacific — or tap <b>Switch provider</b> to hop to the other service. A Groq key is a handy backup since its limits are separate.</div>
+  <div class="callout warn"><b>⚠️ “Key was rejected”?</b> The key usually wasn't copied in full. Copy it again with the copy icon and re-paste.</div>
+</section>
+
+<!-- 11 SETTINGS -->
+<section id="settings">
+  <h2 class="sec"><span class="n">11</span> Settings &amp; backups</h2>
+  <ul class="plain">
+    <li><b>Sound</b> — turn sound on if it isn't already.</li>
+    <li><b>Left-handed mode</b> — flips all chord diagrams.</li>
+    <li><b>Your data → Back up my data</b> — saves a file with your progress, streak, badges, songs, and settings.</li>
+    <li><b>Restore from backup</b> — load that file on this or a new device to bring everything back.</li>
+    <li><b>Backing tracks</b> — see and remove uploaded audio.</li>
+    <li><b>Version number</b> — check you're up to date.</li>
+  </ul>
+  <div class="callout tip"><b>💡 New phone?</b> Back up on the old one, email yourself the file, then Restore on the new one.</div>
+</section>
+
+<!-- 12 TIPS -->
+<section id="tips">
+  <h2 class="sec"><span class="n">12</span> Tips &amp; troubleshooting</h2>
+  <ul class="plain">
+    <li><b>I don't see a new feature</b> — if a “New version ready — tap to refresh” bar appears, tap it. Otherwise close the app fully and reopen.</li>
+    <li><b>No sound</b> — tap <b>Enable</b> on the “Tap to enable sound” bar (once per visit).</li>
+    <li><b>Tuner/mic not working</b> — allow the microphone when asked (iPhone: Settings → Safari → Microphone).</li>
+    <li><b>Reduce vocals still has some singing</b> — that's normal for this quick trick; use “Mute vocals or an instrument, cleanly →” for a cleaner result.</li>
+    <li><b>Tutor says it's resting</b> — you've hit a free daily limit; try again later or switch provider.</li>
+  </ul>
+</section>
+
+<hr>
+<footer>
+  Riffly — Learn. Play. Riff. · Free, on-device, no account needed.<br>
+  Made with ❤️ for new guitarists.
+</footer>
+</div>
+</body>
+</html>
