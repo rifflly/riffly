@@ -572,6 +572,50 @@ button,
   flex-shrink: 0;
 }
 
+.chat-mic {
+  flex-shrink: 0;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.chat-mic:active {
+  transform: scale(0.95);
+}
+
+.chat-mic.is-listening {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  animation: mic-pulse 1.2s ease-in-out infinite;
+}
+
+.chat-mic:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--color-primary-soft); }
+  50% { box-shadow: 0 0 0 6px transparent; }
+}
+
+.chat-mic-hint {
+  align-self: stretch;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  background: var(--color-primary-soft);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  line-height: 1.4;
+}
+
 /* Floating "Ask" button on lesson screens */
 .ask-fab {
   position: fixed;
@@ -1907,6 +1951,11 @@ button,
 
 .song-actions .btn {
   flex: 1;
+}
+
+.song-add-music {
+  width: 100%;
+  margin-bottom: var(--space-4);
 }
 
 .song-cards {

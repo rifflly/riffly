@@ -30,7 +30,7 @@ const VIEW_MODES = [
   { id: 'both', label: 'Both' },
 ];
 
-export function renderStudio(song, { onBack, onEdit }) {
+export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
   const songBeats = beatsPerBar(song);
 
   // Per-line beat layout (for the engine path), and seconds layout (for My Audio).
@@ -58,7 +58,13 @@ export function renderStudio(song, { onBack, onEdit }) {
 
   // --- State -------------------------------------------------------------
   let viewMode = ['play', 'sing', 'both'].includes(getSetting('studioView')) ? getSetting('studioView') : 'both';
-  let backingMode = ['app', 'silent', 'audio'].includes(getSetting('studioBacking')) ? getSetting('studioBacking') : 'app';
+  // `initialBacking` lets a caller (e.g. "Add your music") open straight into
+  // My Audio; otherwise fall back to the remembered choice.
+  let backingMode = ['app', 'silent', 'audio'].includes(initialBacking)
+    ? initialBacking
+    : ['app', 'silent', 'audio'].includes(getSetting('studioBacking'))
+      ? getSetting('studioBacking')
+      : 'app';
   let tempoPct = Math.min(100, Math.max(50, Number(getSetting('studioTempoPct')) || 100));
 
   let phase = 'idle'; // idle | countin | playing | paused | done

@@ -271,6 +271,78 @@ export function render() {
     });
     sendBtn.addEventListener('click', send);
 
+    // ---- Voice typing (Web Speech API) ----------------------------------
+    // Free, browser-built-in speech-to-text. No backend, no dependency. When
+    // the browser doesn't support it (e.g. Firefox), micButton() returns null
+    // and no button is shown — everything else works unchanged.
+    const micBtn = buildMicButton();
+
+    function buildMicButton() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return null;
+
+      const btn = el('button', {
+        class: 'chat-mic', type: 'button', 'aria-label': 'Speak your question', 'aria-pressed': 'false', title: 'Speak your question',
+      }, '🎤');
+      let rec = null;
+      let listening = false;
+      let baseText = '';
+
+      function setListening(on) {
+        listening = on;
+        btn.classList.toggle('is-listening', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      }
+
+      function start() {
+        rec = new SR();
+        rec.lang = navigator.language || 'en-US';
+        rec.interimResults = true;
+        rec.continuous = false;
+        baseText = input.value ? `${input.value.replace(/\s*$/, '')} ` : '';
+        rec.onresult = (e) => {
+          let t = '';
+          for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
+          input.value = (baseText + t).replace(/^\s+/, '');
+          autosize();
+        };
+        rec.onerror = (e) => {
+          setListening(false);
+          if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+            micNote('Microphone access is off. Allow it in your browser settings, then tap the mic again.');
+          }
+          // 'no-speech' / 'aborted' are normal — stay quiet.
+        };
+        rec.onend = () => { setListening(false); input.focus(); };
+        try {
+          rec.start();
+          setListening(true);
+          firstTimeHint();
+        } catch { /* start() throws if already running — ignore */ }
+      }
+
+      btn.addEventListener('click', () => {
+        if (listening) { try { rec && rec.stop(); } catch { /* noop */ } }
+        else start();
+      });
+      btn._stop = () => { try { rec && rec.stop(); } catch { /* noop */ } };
+      return btn;
+    }
+
+    function micNote(text) {
+      messages.append(el('div', { class: 'chat-error' }, el('p', {}, text)));
+      scrollDown();
+    }
+
+    function firstTimeHint() {
+      try {
+        if (localStorage.getItem('riffly.micHintSeen')) return;
+        localStorage.setItem('riffly.micHintSeen', '1');
+      } catch { return; }
+      messages.append(el('div', { class: 'chat-mic-hint' }, '🎤 Speak naturally — your device turns it into text. You can edit before sending.'));
+      scrollDown();
+    }
+
     const cfg = getAiConfig();
     root.append(
       el(
@@ -285,7 +357,7 @@ export function render() {
         )
       ),
       messages,
-      el('div', { class: 'chat-composer' }, input, sendBtn)
+      el('div', { class: 'chat-composer' }, input, micBtn, sendBtn)
     );
 
     renderHistory();
@@ -300,6 +372,7 @@ export function render() {
 
     root._dispose = () => {
       if (abort) abort.abort();
+      if (micBtn && micBtn._stop) micBtn._stop();
     };
   }
 }

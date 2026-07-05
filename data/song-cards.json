@@ -195,6 +195,73 @@
           "cta": "Take it on"
         }
       ]
+    },
+    {
+      "id": "hindi",
+      "title": "Hindi Songs to Try",
+      "subtitle": "Familiar desi tunes and jams — with chords you already know. (Traditional & original, beginner-friendly.)",
+      "songs": [
+        {
+          "id": "bollywood-sunset-strum",
+          "title": "Bollywood Sunset Strum",
+          "mood": "🌆 Filmy & dreamy",
+          "chords": ["Em", "Am", "D"],
+          "skillFocus": "Soft, romantic strumming",
+          "mission": "Slow down-strums — imagine a movie scene.",
+          "badge": "Filmy Feels",
+          "cta": "Start jamming"
+        },
+        {
+          "id": "chai-and-chords",
+          "title": "Chai & Chords",
+          "mood": "☕ Chill & cosy",
+          "chords": ["C", "G", "Am", "F"],
+          "skillFocus": "Looping four easy chords",
+          "mission": "Play C-G-Am-F on repeat, nice and relaxed.",
+          "badge": "Cosy Jam",
+          "cta": "Try it"
+        },
+        {
+          "id": "raghupati-raghava",
+          "title": "Raghupati Raghava Raja Ram",
+          "mood": "🪔 Calm & devotional",
+          "chords": ["Am", "Dm", "E"],
+          "skillFocus": "Gentle minor-key bhajan feel",
+          "mission": "One slow strum per line, keep it peaceful.",
+          "badge": "Bhajan",
+          "cta": "Play it"
+        },
+        {
+          "id": "om-jai-jagdish-hare",
+          "title": "Om Jai Jagdish Hare",
+          "mood": "🙏 Peaceful aarti",
+          "chords": ["G", "C", "D"],
+          "skillFocus": "Steady singalong rhythm",
+          "mission": "Keep a calm, even beat all the way through.",
+          "badge": "Singalong",
+          "cta": "Try it"
+        },
+        {
+          "id": "sare-jahan-se-accha",
+          "title": "Sare Jahan Se Accha",
+          "mood": "🇮🇳 Proud & stirring",
+          "chords": ["C", "F", "G", "Am"],
+          "skillFocus": "Confident, marching strums",
+          "mission": "Play it strong and proud, no rush.",
+          "badge": "Desh Bhakti",
+          "cta": "Play it"
+        },
+        {
+          "id": "vande-mataram",
+          "title": "Vande Mataram",
+          "mood": "🎶 Grand & uplifting",
+          "chords": ["D", "G", "A"],
+          "skillFocus": "Building energy across a line",
+          "mission": "Start soft, grow louder — feel it rise.",
+          "badge": "Classic",
+          "cta": "Take it on"
+        }
+      ]
     }
   ]
 }

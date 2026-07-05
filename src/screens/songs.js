@@ -7,6 +7,8 @@
 import { el, clear } from '../ui/dom.js';
 import { allSongs, getSong, isStarter } from '../songs/song-library.js';
 import { emptySong } from '../songs/song-model.js';
+import { saveSong } from '../storage/songs.js';
+import { saveAudioFile } from '../storage/audio-store.js';
 import { SONG_CARD_GROUPS, getChord } from '../content.js';
 import { chordDiagramSVG } from '../ui/chord-diagram.js';
 import { openModal } from '../ui/modal.js';
@@ -29,8 +31,8 @@ export function render() {
   }
 
   const showList = () => setView(renderList(), null);
-  const showStudio = (song) => {
-    const { node, dispose } = renderStudio(song, { onBack: showList, onEdit: showEditor });
+  const showStudio = (song, initialBacking) => {
+    const { node, dispose } = renderStudio(song, { onBack: showList, onEdit: showEditor, initialBacking });
     setView(node, dispose);
   };
   const showEditor = (song) => {
@@ -41,6 +43,30 @@ export function render() {
     const { node } = renderImport({ onBack: showList, onDone: showStudio });
     setView(node, null);
   };
+
+  // Direct audio add: pick a file → wrap it in a lightweight song → open the
+  // studio already in My Audio mode, ready to play. The song is saved under
+  // "Your songs" so it's reusable.
+  async function handleAudioPick(inputEl) {
+    const file = inputEl.files && inputEl.files[0];
+    inputEl.value = ''; // let the user re-pick the same file later
+    if (!file) return;
+    try {
+      const saved = await saveSong({
+        ...emptySong(),
+        title: fileToTitle(file.name),
+        lines: [{ lyrics: 'Play along with your music ✨', chords: [] }],
+      });
+      await saveAudioFile(saved.id, file);
+      showStudio(saved, 'audio');
+    } catch {
+      alert('Sorry — that file couldn’t be added. Try an MP3, M4A or WAV.');
+    }
+  }
+
+  function fileToTitle(name) {
+    return String(name || 'My song').replace(/\.[^.]+$/, '').replace(/[_-]+/g, ' ').trim() || 'My song';
+  }
 
   function renderList() {
     const node = el('div', { class: 'song-list-view' });
@@ -54,6 +80,15 @@ export function render() {
       )
     );
 
+    // One-tap: add your own music file and play along right away.
+    const audioInput = el('input', { type: 'file', accept: 'audio/*', class: 'visually-hidden', 'aria-hidden': 'true' });
+    audioInput.addEventListener('change', () => handleAudioPick(audioInput));
+    node.append(
+      el('button', { class: 'btn btn-primary song-add-music', type: 'button', onclick: () => audioInput.click() },
+        '🎵  Add your music (MP3)'),
+      audioInput
+    );
+
     // "Practice with Your Song" — guides users to free external tools (no audio
     // processing in-app; opens a small how-to modal with safe outbound links).
     node.append(
@@ -64,8 +99,8 @@ export function render() {
         el(
           'span',
           { class: 'byo-text' },
-          el('span', { class: 'byo-title' }, 'Practice with Your Song'),
-          el('span', { class: 'byo-sub' }, 'Upload a song, mute a part, and play along your way.')
+          el('span', { class: 'byo-title' }, 'Remove vocals or instruments'),
+          el('span', { class: 'byo-sub' }, 'Free tools to mute a part before you add your music.')
         ),
         el('span', { class: 'byo-arrow', 'aria-hidden': 'true' }, '›')
       )
