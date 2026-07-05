@@ -9,16 +9,32 @@ import { getAiConfig } from '../storage/ai-config.js';
 export const SYSTEM_PROMPT =
   "You are Riffly's guitar tutor. Your student is a complete beginner learning acoustic guitar. Answer in warm, plain, non-technical language. Keep answers short — a few sentences unless asked for more. Be encouraging, never condescending. If a question is not about guitar, music, or practising, gently steer back to guitar.";
 
+// ---- Model + generation config (SINGLE SOURCE OF TRUTH) -----------------
+// To migrate models later, change these two lines only — nothing else.
+// gemini-2.0-flash was retired, so the Gemini model is bumped to the current
+// supported flash model. The stream functions use MODELS[provider] directly,
+// so this also fixes existing installs that saved the old model id.
+export const MODELS = {
+  gemini: 'gemini-2.5-flash',
+  groq: 'llama-3.1-8b-instant',
+};
+
+// Shared generation settings for every provider (smaller cap = less quota use).
+export const GENERATION = {
+  maxOutputTokens: 300, // was 500
+  temperature: 0.7,
+};
+
 export const PROVIDERS = {
   gemini: {
     label: 'Google Gemini',
-    defaultModel: 'gemini-2.0-flash',
+    defaultModel: MODELS.gemini,
     keysUrl: 'https://aistudio.google.com/app/apikey',
     keysLabel: 'aistudio.google.com/app/apikey',
   },
   groq: {
     label: 'Groq',
-    defaultModel: 'llama-3.1-8b-instant',
+    defaultModel: MODELS.groq,
     keysUrl: 'https://console.groq.com/keys',
     keysLabel: 'console.groq.com/keys',
   },
@@ -33,8 +49,15 @@ export class TutorError extends Error {
   }
 }
 
-/** Inspect a 429 to tell a short per-minute limit from a daily quota. */
-function parseRetryAfter(res, body) {
+/**
+ * Classify a 429 into one of three kinds so the UI can be honest about it:
+ *   'retry'   — a short-window (per-minute) limit; worth retrying in N seconds.
+ *   'daily'   — a per-day / project quota; won't clear until the daily reset.
+ *   'unknown' — a 429 we can't confidently label (do NOT claim it's daily).
+ * Reads the Retry-After header, Gemini's error.details (RetryInfo/QuotaFailure),
+ * and the human message as fallbacks.
+ */
+function classifyRateLimit(res, body) {
   let sec = NaN;
   const hdr = res.headers && res.headers.get && res.headers.get('retry-after');
   if (hdr) sec = parseFloat(hdr);
@@ -64,12 +87,13 @@ function parseRetryAfter(res, body) {
     if (mm) sec = parseInt(mm[1] || '0', 10) * 60 + parseFloat(mm[2]);
   }
 
-  let transient;
-  if (perDay) transient = false;
-  else if (perMinute) transient = true;
-  else transient = !Number.isNaN(sec) && sec <= 120;
-  if (Number.isNaN(sec)) sec = transient ? 20 : 0;
-  return { sec, transient };
+  let kind;
+  if (perDay) kind = 'daily';
+  else if (perMinute) kind = 'retry';
+  else if (!Number.isNaN(sec) && sec <= 120) kind = 'retry';
+  else kind = 'unknown'; // previously mislabelled as "daily" — the reported bug
+  if (Number.isNaN(sec)) sec = kind === 'retry' ? 20 : 0;
+  return { sec, kind };
 }
 
 async function buildError(res) {
@@ -80,9 +104,10 @@ async function buildError(res) {
     /* non-JSON error body */
   }
   if (res.status === 429) {
-    const { sec, transient } = parseRetryAfter(res, body);
+    const { sec, kind } = classifyRateLimit(res, body);
     const err = new TutorError('rate_limit', 'The tutor is rate-limited.');
-    err.transient = transient;
+    err.limitKind = kind; // 'retry' | 'daily' | 'unknown'
+    err.transient = kind === 'retry'; // kept for the quiet auto-retry below
     err.retryAfterSec = sec;
     return err;
   }
@@ -128,15 +153,27 @@ async function readSSE(res, onData) {
   }
 }
 
-async function streamGroq(cfg, history, onToken, signal) {
+// Fold the rolling summary of older turns into the system instruction so the
+// model keeps continuity without us re-sending the whole transcript.
+function buildSystemInstruction(summary) {
+  if (!summary) return SYSTEM_PROMPT;
+  return `${SYSTEM_PROMPT}\n\nContext from earlier in this chat (for your memory — don't repeat it back): ${summary}`;
+}
+
+async function streamGroq(cfg, context, onToken, signal) {
   const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
     signal,
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${cfg.apiKey}` },
     body: JSON.stringify({
-      model: cfg.model || PROVIDERS.groq.defaultModel,
+      model: MODELS.groq,
       stream: true,
-      messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history.map((m) => ({ role: m.role, content: m.content }))],
+      max_tokens: GENERATION.maxOutputTokens,
+      temperature: GENERATION.temperature,
+      messages: [
+        { role: 'system', content: buildSystemInstruction(context.summary) },
+        ...context.recent.map((m) => ({ role: m.role, content: m.content })),
+      ],
     }),
   });
   if (!res.ok) throw await buildError(res);
@@ -157,17 +194,17 @@ async function streamGroq(cfg, history, onToken, signal) {
   return full;
 }
 
-async function streamGemini(cfg, history, onToken, signal) {
-  const model = cfg.model || PROVIDERS.gemini.defaultModel;
+async function streamGemini(cfg, context, onToken, signal) {
+  const model = MODELS.gemini;
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${encodeURIComponent(cfg.apiKey)}`;
   const res = await fetch(url, {
     method: 'POST',
     signal,
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
-      contents: history.map((m) => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
-      generationConfig: { maxOutputTokens: 500, temperature: 0.7 },
+      systemInstruction: { parts: [{ text: buildSystemInstruction(context.summary) }] },
+      contents: context.recent.map((m) => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
+      generationConfig: { maxOutputTokens: GENERATION.maxOutputTokens, temperature: GENERATION.temperature },
     }),
   });
   if (!res.ok) throw await buildError(res);
@@ -187,17 +224,32 @@ async function streamGemini(cfg, history, onToken, signal) {
   return full;
 }
 
+// Provider adapters. Each streams a reply for a lean context and returns the
+// full text. To add a provider (or a fallback), add one entry + a stream fn.
+const ADAPTERS = {
+  gemini: streamGemini,
+  groq: streamGroq,
+};
+
+// FALLBACK SEAM — return a { provider, apiKey } to try when the primary hits a
+// hard quota. No-op for now (auto-fallback needs a second key from the user);
+// wire it up here later, e.g. read a saved secondary key from ai-config.
+function getFallback(/* cfg, err */) {
+  return null;
+}
+
 /**
- * Stream a tutor reply for the given chat history.
- * @param {Array<{role:'user'|'assistant', content:string}>} history
- * @param {{ onToken:(t:string)=>void, signal?:AbortSignal }} opts
+ * Stream a tutor reply for a lean request context.
+ * @param {{ summary:string, recent:Array<{role:'user'|'assistant', content:string}> }} context
+ * @param {{ onToken:(t:string)=>void, signal?:AbortSignal, onRetry?:(sec:number)=>void }} opts
  * @returns {Promise<string>} the full reply
  */
-export async function streamTutorReply(history, { onToken, signal, onRetry } = {}) {
+export async function streamTutorReply(context, { onToken, signal, onRetry } = {}) {
   const cfg = getAiConfig();
   if (!cfg || !cfg.apiKey) throw new TutorError('no_key', 'No API key set yet.');
 
-  const run = () => (cfg.provider === 'groq' ? streamGroq(cfg, history, onToken, signal) : streamGemini(cfg, history, onToken, signal));
+  const adapter = ADAPTERS[cfg.provider] || streamGemini;
+  const run = () => adapter(cfg, context, onToken, signal);
   const mapNet = (err) => {
     if (err instanceof TutorError) return err;
     if (err && err.name === 'AbortError') return err;

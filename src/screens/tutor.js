@@ -10,7 +10,7 @@ import { card } from '../ui/screen.js';
 import { allLessons } from '../content.js';
 import { hasAiKey, setAiConfig, clearAiConfig, getAiConfig } from '../storage/ai-config.js';
 import { PROVIDERS, streamTutorReply, TutorError } from '../ai/tutor-client.js';
-import { getHistory, addMessage, clearHistory, takePendingContext } from '../ai/tutor-chat.js';
+import { getHistory, addMessage, clearHistory, takePendingContext, getRequestContext, foldSummary } from '../ai/tutor-chat.js';
 
 const EXAMPLES = [
   'How do I switch chords more smoothly?',
@@ -105,6 +105,8 @@ export function render() {
   function renderChat() {
     let streaming = false;
     let abort = null;
+    let lastSendAt = 0;
+    const SEND_COOLDOWN_MS = 1200; // ignore rapid double-taps / chip spam
 
     const messages = el('div', { class: 'chat-messages' });
     const input = el('textarea', { class: 'chat-input', rows: '1', placeholder: 'Ask your tutor a question…', 'aria-label': 'Message' });
@@ -141,7 +143,10 @@ export function render() {
 
     async function send() {
       const text = input.value.trim();
-      if (!text || streaming) return;
+      if (!text || streaming) return; // in-flight guard (one request at a time)
+      const now = Date.now();
+      if (now - lastSendAt < SEND_COOLDOWN_MS) return; // cheap rate-limit protection
+      lastSendAt = now;
       input.value = '';
       autosize();
       if (!getHistory().length) clear(messages);
@@ -162,7 +167,7 @@ export function render() {
 
       abort = new AbortController();
       try {
-        const full = await streamTutorReply(getHistory(), {
+        const full = await streamTutorReply(getRequestContext(), {
           signal: abort.signal,
           onRetry: () => {
             if (bubble.classList.contains('is-typing')) {
@@ -183,6 +188,7 @@ export function render() {
         const answer = bubble.textContent || full || '…';
         bubble.textContent = answer;
         addMessage({ role: 'assistant', content: answer });
+        foldSummary(); // compress older turns so the next request stays lean
       } catch (err) {
         bubble.remove();
         if (!(err && err.name === 'AbortError')) showError(err);
@@ -207,30 +213,38 @@ export function render() {
             el('button', { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => { clearAiConfig().then(mount); } }, 'Set up the tutor')
           )
         );
-      } else if (type === 'rate_limit' && err.transient) {
-        messages.append(
-          el(
-            'div',
-            { class: 'chat-error' },
-            el('p', {}, 'The tutor’s catching its breath — give it a few seconds, then try again.'),
-            el('button', { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => runReply() }, 'Try again')
-          )
-        );
       } else if (type === 'rate_limit') {
-        const lessons = matchLessons(question);
-        const box = el(
-          'div',
-          { class: 'chat-error' },
-          el('p', {}, 'The tutor has reached today’s free limit and is resting — it’ll be back tomorrow. Meanwhile, these lessons might help:')
-        );
-        if (lessons.length) {
-          const list = el('div', { class: 'chat-lesson-links' });
-          for (const l of lessons) list.append(el('button', { class: 'chip', type: 'button', onclick: () => { location.hash = '#/learn'; } }, l.title));
-          box.append(list);
+        // Three honest cases — never blanket-label a 429 as "daily".
+        const kind = err.limitKind || (err.transient ? 'retry' : 'unknown');
+        const tryAgain = () => el('button', { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => runReply() }, 'Try again');
+        const switchProvider = () => el('button', { class: 'btn btn-secondary btn-sm', type: 'button', onclick: () => { clearAiConfig().then(mount); } }, 'Switch provider');
+
+        if (kind === 'retry') {
+          const n = Math.max(1, Math.round(err.retryAfterSec || 20));
+          messages.append(
+            el('div', { class: 'chat-error' },
+              el('p', {}, `Too many requests right now. Try again in ${n} seconds.`),
+              el('div', { class: 'chat-error-actions' }, tryAgain()))
+          );
+        } else if (kind === 'daily') {
+          const box = el('div', { class: 'chat-error' },
+            el('p', {}, 'Free quota reached for this project. It usually resets at midnight Pacific time.'),
+            el('div', { class: 'chat-error-actions' }, switchProvider()));
+          const lessons = matchLessons(question);
+          if (lessons.length) {
+            box.append(el('p', { class: 'row-desc' }, 'Meanwhile, these lessons might help:'));
+            const list = el('div', { class: 'chat-lesson-links' });
+            for (const l of lessons) list.append(el('button', { class: 'chip', type: 'button', onclick: () => { location.hash = '#/learn'; } }, l.title));
+            box.append(list);
+          }
+          messages.append(box);
         } else {
-          box.append(el('button', { class: 'chip', type: 'button', onclick: () => { location.hash = '#/learn'; } }, 'Go to lessons'));
+          messages.append(
+            el('div', { class: 'chat-error' },
+              el('p', {}, 'Quota limit reached. Please try again shortly, or switch provider.'),
+              el('div', { class: 'chat-error-actions' }, tryAgain(), switchProvider()))
+          );
         }
-        messages.append(box);
       } else {
         messages.append(
           el(

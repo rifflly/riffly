@@ -1,6 +1,6 @@
 {
   "name": "riffly",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "private": true,
   "type": "module",
   "description": "Riffly — a free, offline-first PWA that teaches complete beginners to play acoustic guitar. Learn. Play. Riff.",
