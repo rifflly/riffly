@@ -18,6 +18,7 @@ import { BackingRhythm } from '../../audio/backing.js';
 import { AudioTrack } from '../../audio/audio-track.js';
 import { renderSongLine } from '../../ui/song-view.js';
 import { createWaveform } from '../../ui/waveform.js';
+import { openAudioHelp } from '../../ui/audio-help.js';
 import { beatsPerBar, lineBars, lineDurationSec } from '../../songs/song-model.js';
 import { isStarter } from '../../songs/song-library.js';
 import { markSongPractised } from '../../storage/stats.js';
@@ -79,6 +80,9 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
   let removeClick = null;
   let raf = null;
   let lineEls = [];
+  // Auto-scroll only nudges for a short window after the line changes; the rest
+  // of the time you can scroll the sheet (and the controls above it) freely.
+  let scrollAnimUntil = 0;
 
   // My Audio state
   let audioMeta = getAudioMeta(song.id);
@@ -376,6 +380,7 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
   function setCurrentLine(idx) {
     if (idx === currentLineIndex) return;
     currentLineIndex = idx;
+    scrollAnimUntil = performance.now() + 900; // open a brief auto-scroll window
     applyLineStates();
     const chord = primaryChord(song.lines[idx]);
     if (chord && backing) backing.setChord(chord);
@@ -389,6 +394,7 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
   }
 
   function autoScroll() {
+    if (performance.now() > scrollAnimUntil) return; // outside the window → don't fight manual scrolling
     const active = lineEls[currentLineIndex];
     const main = document.getElementById('screen');
     if (!active || !main) return;
@@ -396,6 +402,15 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
     const lineRect = active.getBoundingClientRect();
     const target = main.scrollTop + (lineRect.top - (mainRect.top + main.clientHeight * 0.33));
     main.scrollTop += (target - main.scrollTop) * 0.18;
+  }
+
+  // A manual scroll (wheel/touch) cancels the current auto-scroll nudge so the
+  // view stays where you put it.
+  const cancelAutoScroll = () => { scrollAnimUntil = 0; };
+  const scrollHost = document.getElementById('screen');
+  if (scrollHost) {
+    scrollHost.addEventListener('wheel', cancelAutoScroll, { passive: true });
+    scrollHost.addEventListener('touchmove', cancelAutoScroll, { passive: true });
   }
 
   // ======================================================================
@@ -525,6 +540,18 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
       },
     });
 
+    const canReduce = !!(track && track.canReduceVocals);
+    const reduceToggle = el('input', {
+      type: 'checkbox',
+      class: 'switch-input',
+      ...(track && track.reduceVocals ? { checked: true } : {}),
+      ...(canReduce ? {} : { disabled: true }),
+      onchange: (e) => {
+        const effective = track.setReduceVocals(e.target.checked);
+        e.target.checked = effective; // reflect what actually applied
+      },
+    });
+
     audioPanel.append(
       waveform.node,
       el(
@@ -537,6 +564,24 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
           el('span', { class: 'row-desc' }, 'Drag the two handles, then turn this on.')
         ),
         el('span', { class: 'switch' }, loopToggle, el('span', { class: 'switch-track' }))
+      ),
+      el(
+        'label',
+        { class: 'row row--toggle audio-loop-row' },
+        el(
+          'span',
+          { class: 'row-text' },
+          el('span', { class: 'row-label' }, 'Reduce vocals'),
+          el('span', { class: 'row-desc' }, canReduce
+            ? 'Quieten the singing so you can sing along. Works best on stereo songs; not perfect.'
+            : 'This track is mono — vocal reduce needs a stereo song.')
+        ),
+        el('span', { class: 'switch' }, reduceToggle, el('span', { class: 'switch-track' }))
+      ),
+      el(
+        'button',
+        { class: 'link-btn audio-help-link', type: 'button', onclick: () => openAudioHelp() },
+        'Mute vocals or an instrument, cleanly →'
       ),
       el(
         'div',
@@ -715,6 +760,10 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
     dispose: () => {
       stopAll();
       if (waveform) waveform.destroy();
+      if (scrollHost) {
+        scrollHost.removeEventListener('wheel', cancelAutoScroll);
+        scrollHost.removeEventListener('touchmove', cancelAutoScroll);
+      }
     },
   };
 }

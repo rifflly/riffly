@@ -12,6 +12,7 @@ import { saveAudioFile } from '../storage/audio-store.js';
 import { SONG_CARD_GROUPS, getChord } from '../content.js';
 import { chordDiagramSVG } from '../ui/chord-diagram.js';
 import { openModal } from '../ui/modal.js';
+import { openAudioHelp } from '../ui/audio-help.js';
 import { getSetting } from '../storage/settings.js';
 import { renderStudio } from './songs/studio.js';
 import { renderEditor } from './songs/editor.js';
@@ -94,7 +95,7 @@ export function render() {
     node.append(
       el(
         'button',
-        { class: 'byo-card', type: 'button', onclick: openPracticeWithSong },
+        { class: 'byo-card', type: 'button', onclick: () => openAudioHelp() },
         el('span', { class: 'byo-emoji', 'aria-hidden': 'true' }, '🎤'),
         el(
           'span',
@@ -181,42 +182,6 @@ export function render() {
       card.mission ? el('p', { class: 'song-lib-mission' }, card.mission) : null,
       el('span', { class: 'song-lib-cta' }, card.cta || 'Play')
     );
-  }
-
-  function byoAction(href, title, desc) {
-    return el(
-      'a',
-      { class: 'byo-action', href, target: '_blank', rel: 'noopener noreferrer' },
-      el(
-        'span',
-        { class: 'byo-action-main' },
-        el('span', { class: 'byo-action-title' }, title),
-        el('span', { class: 'byo-action-desc' }, desc)
-      ),
-      el('span', { class: 'byo-action-go', 'aria-hidden': 'true' }, '↗')
-    );
-  }
-
-  function openPracticeWithSong() {
-    const content = el(
-      'div',
-      { class: 'byo-modal' },
-      el('h2', { class: 'byo-modal-title' }, 'Practice with Your Song'),
-      el('p', { class: 'byo-modal-body' }, 'Upload a song, mute the voice or instrument, and play along your way.'),
-      el('p', { class: 'byo-modal-sub' }, 'Sing it, strum it, or take over the missing part.'),
-      byoAction(
-        'https://vocalremover.org',
-        'Remove vocals and sing',
-        'Strip out the singing so you can be the singer.'
-      ),
-      byoAction(
-        'https://github.com/fabiogra/moseca',
-        'Split stems and mute a part',
-        'Separate vocals, drums and bass — mute the one you want to play.'
-      ),
-      el('p', { class: 'byo-disclaimer' }, 'These are free tools that open in a new tab. How clean the result sounds depends on the song and the tool.')
-    );
-    openModal(content, { label: 'Practice with Your Song' });
   }
 
   function openMission(card) {

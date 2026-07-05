@@ -27,6 +27,8 @@ export class AudioTrack {
     this.loopStart = 0;
     this.loopEnd = 0;
     this.speed = 1;
+    this.reduceVocals = false; // center-channel (L−R) vocal reduction for sing-along
+    this._karaokeBuffer = null; // lazily built L−R buffer
     this.stretchFailed = false; // sticky: once the device can't keep up, stay on fallback
     this.onEnded = null;
     this.onFallback = null; // called when we drop to playbackRate slow-down
@@ -57,6 +59,53 @@ export class AudioTrack {
 
   get duration() {
     return this.buffer ? this.buffer.duration : 0;
+  }
+
+  /** Vocal reduction only works on true stereo (needs a left/right difference). */
+  get canReduceVocals() {
+    return !!(this.buffer && this.buffer.numberOfChannels >= 2);
+  }
+
+  /**
+   * Toggle center-channel vocal reduction. Builds an L−R buffer once and swaps
+   * which buffer plays; restarts the current engine in place if playing so loop
+   * + slow-down carry over. Returns the effective state.
+   */
+  setReduceVocals(on) {
+    const next = !!on && this.canReduceVocals;
+    if (next === this.reduceVocals) return this.reduceVocals;
+    this.reduceVocals = next;
+    if (next && !this._karaokeBuffer) this._buildKaraokeBuffer();
+    if (this.playing) {
+      const pos = this.position();
+      this._teardown();
+      this._startAt(pos);
+    }
+    return this.reduceVocals;
+  }
+
+  _activeBuffer() {
+    return this.reduceVocals && this._karaokeBuffer ? this._karaokeBuffer : this.buffer;
+  }
+
+  // Poor-man's karaoke: vocals are usually centre-panned, so (L−R) cancels a lot
+  // of them. Crude (also dents centre bass/drums, silent on mono) but free and
+  // instant. Same length/rate as the source, so position/loop are unaffected.
+  _buildKaraokeBuffer() {
+    const b = this.buffer;
+    if (!b || b.numberOfChannels < 2) return;
+    const L = b.getChannelData(0);
+    const R = b.getChannelData(1);
+    const n = b.length;
+    const out = this.ctx.createBuffer(2, n, b.sampleRate);
+    const o0 = out.getChannelData(0);
+    const o1 = out.getChannelData(1);
+    for (let i = 0; i < n; i++) {
+      const d = (L[i] - R[i]) * 0.5;
+      o0[i] = d;
+      o1[i] = d;
+    }
+    this._karaokeBuffer = out;
   }
 
   setLoop(enabled, a = this.loopStart, b = this.loopEnd) {
@@ -138,7 +187,7 @@ export class AudioTrack {
 
   _startSource(offset) {
     const src = this.ctx.createBufferSource();
-    src.buffer = this.buffer;
+    src.buffer = this._activeBuffer();
     // At full speed, rate 1. On fallback slow-down, rate = speed (pitch drops).
     this._rate = this.stretchFailed ? this.speed : 1;
     src.playbackRate.value = this._rate;
@@ -164,7 +213,7 @@ export class AudioTrack {
   }
 
   _startShifter(offset) {
-    const shifter = new PitchShifter(this.ctx, this.buffer, BUFFER_SIZE);
+    const shifter = new PitchShifter(this.ctx, this._activeBuffer(), BUFFER_SIZE);
     shifter.tempo = this.speed;
     shifter.percentagePlayed = (offset / this.duration) * 100;
     this._shifterTime = offset;

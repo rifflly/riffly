@@ -2325,6 +2325,60 @@ button,
   margin-top: var(--space-3);
 }
 
+/* ---- Sing/play-along guide (audio-help modal) --------------------------- */
+
+.audio-goal {
+  margin-bottom: var(--space-3);
+}
+
+.audio-help-back {
+  margin-bottom: var(--space-3);
+}
+
+.audio-steps {
+  list-style: none;
+  counter-reset: step;
+  margin: 0 0 var(--space-2);
+  padding: 0;
+}
+
+.audio-steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: var(--space-3);
+  line-height: 1.45;
+}
+
+.audio-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.audio-step-link {
+  display: inline-block;
+  margin-top: var(--space-2);
+}
+
+/* Link that opens the guide from the studio's My Audio panel. */
+.audio-help-link {
+  align-self: flex-start;
+  margin: var(--space-1) 0 var(--space-2);
+  font-size: 0.85rem;
+}
+
 /* ---- Songs: shared chords-above-lyrics preview -------------------------- */
 
 .song-preview,
