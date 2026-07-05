@@ -1282,6 +1282,54 @@ button,
   padding: 0 var(--space-1);
 }
 
+.chord-basics-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.chord-basics-card:active {
+  transform: scale(0.99);
+}
+
+.chord-basics-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.chord-basics-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.chord-basics-title {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.chord-basics-sub {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.chord-basics-arrow {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+}
+
 .chord-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1413,6 +1461,54 @@ button,
 .chord-tip {
   color: var(--color-text-muted);
   line-height: 1.5;
+}
+
+/* ---- Chord basics (About chords modal) ---------------------------------- */
+
+.chord-basics {
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  padding-right: var(--space-1);
+}
+
+.chord-basics-modal-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: var(--space-2);
+}
+
+.chord-basics-intro {
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: var(--space-4);
+}
+
+.chord-basics-section {
+  margin-bottom: var(--space-4);
+}
+
+.chord-basics-section:last-child {
+  margin-bottom: 0;
+}
+
+.chord-basics-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--space-1);
+}
+
+.chord-basics-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.chord-basics-body {
+  color: var(--color-text-muted);
+  line-height: 1.55;
 }
 
 @keyframes fade-in {
@@ -1855,6 +1951,323 @@ button,
   background: var(--color-secondary-soft);
   padding: 2px var(--space-2);
   border-radius: var(--radius-pill);
+}
+
+/* ---- Songs: curated library (grouped cards) ----------------------------- */
+
+.song-group {
+  margin-top: var(--space-5);
+}
+
+.song-group-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.song-group-sub {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+  line-height: 1.4;
+}
+
+.song-lib-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 560px) {
+  .song-lib-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.song-lib-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  text-align: left;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.song-lib-card:active {
+  transform: scale(0.99);
+}
+
+.song-lib-card:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
+.song-lib-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.song-lib-title {
+  font-weight: 800;
+  font-size: 1.02rem;
+  line-height: 1.2;
+}
+
+.song-lib-mood {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.song-lib-chords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.chord-chip {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+}
+
+.song-lib-focus {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.song-lib-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.song-lib-mission {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+.song-lib-cta {
+  align-self: flex-start;
+  margin-top: var(--space-1);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--color-primary);
+  padding: 6px var(--space-3);
+  border-radius: var(--radius-pill);
+}
+
+/* ---- Songs: mission modal ---------------------------------------------- */
+
+.mission {
+  text-align: center;
+}
+
+.mission-badge-row {
+  min-height: 20px;
+  margin-bottom: var(--space-2);
+}
+
+.mission-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.mission-mood {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.mission-chords {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.mission-chord {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 92px;
+}
+
+.mission-chord-diagram {
+  width: 100%;
+}
+
+.mission-chord-diagram svg {
+  width: 100%;
+  height: auto;
+}
+
+.mission-chord-name {
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.mission-focus {
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+  line-height: 1.45;
+}
+
+.mission-goal {
+  background: var(--color-secondary-soft);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.mission-goal-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-bottom: 2px;
+}
+
+.mission-hint {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+}
+
+/* ---- Songs: Practice with Your Song (entry card + modal) ---------------- */
+
+.byo-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  background: linear-gradient(135deg, var(--color-secondary-soft), var(--color-primary-soft));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+
+.byo-card:active {
+  transform: scale(0.99);
+}
+
+.byo-emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.byo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.byo-title {
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.byo-sub {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.byo-arrow {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+}
+
+.byo-modal-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: var(--space-2);
+}
+
+.byo-modal-body {
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.byo-modal-sub {
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin-bottom: var(--space-4);
+}
+
+.byo-action {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-3);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.byo-action:active {
+  transform: scale(0.99);
+}
+
+.byo-action-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.byo-action-title {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.byo-action-desc {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+.byo-action-go {
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+}
+
+.byo-disclaimer {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  line-height: 1.45;
+  margin-top: var(--space-3);
 }
 
 /* ---- Songs: shared chords-above-lyrics preview -------------------------- */

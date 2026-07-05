@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "comment": "Beginner 'about chords' reference shown on the Chords screen (rule f). Each section: { emoji, heading, body }.",
+  "title": "Chord basics",
+  "intro": "A friendly, no-pressure explainer. Read as much or as little as you like — then go play.",
+  "sections": [
+    {
+      "emoji": "🎵",
+      "heading": "What is a chord?",
+      "body": "A chord is a mini team of notes played together to make your guitar sound full and musical. Think of it like several strings joining forces to create one big feeling."
+    },
+    {
+      "emoji": "✨",
+      "heading": "Why do chords exist?",
+      "body": "Chords help turn simple notes into real music by adding harmony, color, and emotion. They are one of the main reasons songs can feel happy, dreamy, powerful, or a little dramatic."
+    },
+    {
+      "emoji": "📜",
+      "heading": "A tiny bit of history",
+      "body": "Chords have been around for centuries as music grew from single melodies into richer harmonies. Over time, they became a huge part of styles like folk, blues, rock, pop, and jazz."
+    },
+    {
+      "emoji": "🙂",
+      "heading": "Major vs minor",
+      "body": "Major chords usually sound bright and cheerful, while minor chords often sound softer, moodier, or more emotional. Neither is better — they just tell different musical stories."
+    },
+    {
+      "emoji": "❤️",
+      "heading": "Why guitar players love chords",
+      "body": "Chords let you play songs quickly, support singing, and sound great even as a beginner. With just a few simple shapes, you can already start making real music."
+    },
+    {
+      "emoji": "🚀",
+      "heading": "How chords work in Riffly",
+      "body": "In Riffly, you begin with easy chords like E minor and A minor, then learn how to switch between them smoothly and strum in time. Step by step, those simple shapes grow into real songs, better rhythm, and bigger musical confidence."
+    }
+  ]
+}

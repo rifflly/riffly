@@ -4,7 +4,7 @@
  * Content is data-driven from /data/chords.json (rule f). Diagrams mirror for
  * left-handed players when Left-handed mode is on (rule e).
  */
-import { CHORDS } from '../content.js';
+import { CHORDS, CHORD_BASICS } from '../content.js';
 import { el } from '../ui/dom.js';
 import { chordDiagramSVG } from '../ui/chord-diagram.js';
 import { openModal } from '../ui/modal.js';
@@ -24,6 +24,21 @@ export function render() {
     )
   );
 
+  root.append(
+    el(
+      'button',
+      { class: 'chord-basics-card', type: 'button', onclick: openBasics },
+      el('span', { class: 'chord-basics-emoji', 'aria-hidden': 'true' }, '🎸'),
+      el(
+        'span',
+        { class: 'chord-basics-text' },
+        el('span', { class: 'chord-basics-title' }, 'New to chords? Start here'),
+        el('span', { class: 'chord-basics-sub' }, 'A quick, friendly guide to what chords are and why they matter.')
+      ),
+      el('span', { class: 'chord-basics-arrow', 'aria-hidden': 'true' }, '›')
+    )
+  );
+
   const grid = el('div', { class: 'chord-grid' });
   for (const chord of CHORDS) {
     grid.append(
@@ -37,6 +52,30 @@ export function render() {
   }
   root.append(grid);
   return root;
+}
+
+function openBasics() {
+  const content = el('div', { class: 'chord-basics' });
+  content.append(el('h2', { class: 'chord-basics-modal-title' }, CHORD_BASICS.title || 'Chord basics'));
+  if (CHORD_BASICS.intro) {
+    content.append(el('p', { class: 'chord-basics-intro' }, CHORD_BASICS.intro));
+  }
+  for (const section of CHORD_BASICS.sections || []) {
+    content.append(
+      el(
+        'section',
+        { class: 'chord-basics-section' },
+        el(
+          'h3',
+          { class: 'chord-basics-heading' },
+          section.emoji ? el('span', { class: 'chord-basics-icon', 'aria-hidden': 'true' }, section.emoji) : null,
+          el('span', {}, section.heading)
+        ),
+        el('p', { class: 'chord-basics-body' }, section.body)
+      )
+    );
+  }
+  openModal(content, { label: CHORD_BASICS.title || 'Chord basics' });
 }
 
 function openChord(chord, mirror) {

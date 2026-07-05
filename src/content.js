@@ -3,9 +3,13 @@
  */
 import lessons from '../data/lessons.json';
 import chords from '../data/chords.json';
+import chordBasics from '../data/chord-basics.json';
+import songCards from '../data/song-cards.json';
 
 export const STAGES = lessons.stages;
 export const CHORDS = chords.chords;
+export const CHORD_BASICS = chordBasics;
+export const SONG_CARD_GROUPS = songCards.groups;
 
 const chordMap = new Map(CHORDS.map((c) => [c.id, c]));
 

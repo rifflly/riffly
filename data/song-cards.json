@@ -1,0 +1,200 @@
+{
+  "version": 1,
+  "comment": "Curated, motivational song library shown on the Songs screen (rule f). Grouped by difficulty. Each card: { id, title, mood, chords[], skillFocus, mission, badge, cta, songId? }. If songId matches a playable starter/user song, the card opens the Practice Studio; otherwise it opens a 'mission' modal showing the chord shapes. Chords are limited to the app's taught set (Em, Am, D, E, A, Dm, C, G, G7, F).",
+  "groups": [
+    {
+      "id": "play-now",
+      "title": "Songs You Can Play Now",
+      "subtitle": "Two or three easy chords. You've totally got these.",
+      "songs": [
+        {
+          "id": "midnight-em-groove",
+          "title": "Midnight Em Groove",
+          "mood": "🌙 Moody & cool",
+          "chords": ["Em", "Am"],
+          "skillFocus": "Smooth Em ↔ Am changes",
+          "mission": "Loop Em and Am for 60 seconds — no stops.",
+          "badge": "First Jam",
+          "cta": "Start the loop"
+        },
+        {
+          "id": "sunny-two-chord-jam",
+          "title": "Sunny Two-Chord Jam",
+          "mood": "☀️ Bright & happy",
+          "chords": ["E", "A"],
+          "skillFocus": "Clean E ↔ A switch",
+          "mission": "Four down-strums each, keep it smooth.",
+          "badge": "Warm-Up",
+          "cta": "Try it"
+        },
+        {
+          "id": "rolling-riverboat",
+          "title": "Rolling Riverboat",
+          "mood": "🌊 Easy & rolling",
+          "chords": ["D", "A"],
+          "skillFocus": "D ↔ A timing",
+          "mission": "Change on every bar for 8 bars straight.",
+          "badge": "Steady Hands",
+          "cta": "Jam along"
+        },
+        {
+          "id": "campfire-starter",
+          "title": "Campfire Starter",
+          "mood": "🔥 Chill & folky",
+          "chords": ["Em", "D"],
+          "skillFocus": "Em to D without looking",
+          "mission": "One strum per beat, switch each bar.",
+          "badge": "Campfire",
+          "cta": "Warm up"
+        },
+        {
+          "id": "little-storm-cloud",
+          "title": "Little Storm Cloud",
+          "mood": "⛈️ Dramatic & sad",
+          "chords": ["Am", "Dm"],
+          "skillFocus": "Feeling the minor mood",
+          "mission": "Slow strums — lean into the sad vibe.",
+          "badge": "All The Feels",
+          "cta": "Play it"
+        },
+        {
+          "id": "three-chord-sunrise",
+          "title": "Three-Chord Sunrise",
+          "mood": "🌅 Uplifting",
+          "chords": ["Em", "Am", "D"],
+          "skillFocus": "Linking three chords in a row",
+          "mission": "Em → Am → D, repeat four times.",
+          "badge": "Combo",
+          "cta": "Start jamming"
+        }
+      ]
+    },
+    {
+      "id": "level-up",
+      "title": "Songs to Level Up",
+      "subtitle": "Add C, G and D. Real singalongs unlock here.",
+      "songs": [
+        {
+          "id": "amazing-grace-card",
+          "songId": "starter-amazing-grace",
+          "title": "Amazing Grace",
+          "mood": "🕊️ Peaceful & timeless",
+          "chords": ["G", "C", "D"],
+          "skillFocus": "Gentle 3/4 waltz strumming",
+          "mission": "Play it slow and sing along.",
+          "badge": "Classic",
+          "cta": "Open in Studio"
+        },
+        {
+          "id": "happy-birthday-card",
+          "songId": "starter-happy-birthday",
+          "title": "Happy Birthday",
+          "mood": "🎉 Fun & festive",
+          "chords": ["G", "C", "D"],
+          "skillFocus": "Quick G ↔ D changes",
+          "mission": "Nail it before someone's next birthday.",
+          "badge": "Crowd-Pleaser",
+          "cta": "Open in Studio"
+        },
+        {
+          "id": "clementine-card",
+          "songId": "starter-clementine",
+          "title": "Oh My Darling, Clementine",
+          "mood": "🤠 Playful & old-timey",
+          "chords": ["G", "C", "D"],
+          "skillFocus": "Keeping a steady waltz",
+          "mission": "Hold that 1-2-3 count the whole way.",
+          "badge": "Singalong",
+          "cta": "Open in Studio"
+        },
+        {
+          "id": "when-the-saints",
+          "title": "When the Saints Go Marching In",
+          "mood": "🎺 Joyful & marching",
+          "chords": ["G", "C", "D"],
+          "skillFocus": "Upbeat chord changes",
+          "mission": "Speed up a little each verse.",
+          "badge": "Energy",
+          "cta": "Jam along"
+        },
+        {
+          "id": "down-in-the-valley",
+          "title": "Down in the Valley",
+          "mood": "🌾 Gentle & sweet",
+          "chords": ["G", "D"],
+          "skillFocus": "Lazy 3/4 strum",
+          "mission": "Two chords, all the feels.",
+          "badge": "Easy Win",
+          "cta": "Play it"
+        },
+        {
+          "id": "this-little-light",
+          "title": "This Little Light of Mine",
+          "mood": "✨ Feel-good",
+          "chords": ["G", "C", "D"],
+          "skillFocus": "Adding a down-up strum",
+          "mission": "Try a D-DU rhythm on each chord.",
+          "badge": "Groove",
+          "cta": "Try it"
+        },
+        {
+          "id": "auld-lang-syne",
+          "title": "Auld Lang Syne",
+          "mood": "🥂 Warm & nostalgic",
+          "chords": ["G", "C", "D", "Em"],
+          "skillFocus": "Flowing through four chords",
+          "mission": "Smooth changes, no gaps between.",
+          "badge": "Milestone",
+          "cta": "Play it"
+        }
+      ]
+    },
+    {
+      "id": "challenge",
+      "title": "Challenge Songs",
+      "subtitle": "Barre chords and faster switches. Level: brave.",
+      "songs": [
+        {
+          "id": "house-of-the-rising-sun",
+          "title": "House of the Rising Sun",
+          "mood": "🎭 Dark & epic",
+          "chords": ["Am", "C", "D", "F", "E"],
+          "skillFocus": "Picking strings in order",
+          "mission": "Pluck each string, let it ring.",
+          "badge": "Boss Level",
+          "cta": "Take the challenge"
+        },
+        {
+          "id": "scarborough-fair",
+          "title": "Scarborough Fair",
+          "mood": "🌫️ Haunting & pretty",
+          "chords": ["Am", "C", "G", "Em", "D"],
+          "skillFocus": "Gentle fingerpicking",
+          "mission": "Let every note ring out clean.",
+          "badge": "Pro Move",
+          "cta": "Try it"
+        },
+        {
+          "id": "f-chord-bootcamp",
+          "title": "F-Chord Bootcamp",
+          "mood": "💪 Focused",
+          "chords": ["F", "C", "G"],
+          "skillFocus": "The mighty F barre",
+          "mission": "Hold F for four clean beats.",
+          "badge": "Barre Beast",
+          "cta": "Train it"
+        },
+        {
+          "id": "greensleeves",
+          "title": "Greensleeves",
+          "mood": "🍃 Elegant & moody",
+          "chords": ["Am", "C", "G", "Dm", "E", "F"],
+          "skillFocus": "A slow minor waltz",
+          "mission": "Slow and graceful wins this one.",
+          "badge": "Maestro",
+          "cta": "Take it on"
+        }
+      ]
+    }
+  ]
+}
