@@ -13,19 +13,34 @@ const DEFAULTS = {
   lastPracticeDate: null, // YYYY-MM-DD (local) of the last counted session
   trainerBests: {}, // { [pairKey]: bestCleanBars }
   practisedSongs: [], // song ids marked practised in the studio
+  // ---- rewards (Part 2) ----
+  badges: [], // earned badge ids
+  activityTypes: [], // all-time set of practice-action types done (for badges)
+  practiceDays: [], // YYYY-MM-DD list of days practised (for the weekly goal)
+  missionDate: null, // YYYY-MM-DD the mission types below belong to
+  missionTypes: [], // action types done TODAY (for today's mission)
 };
 
 let cache = { ...DEFAULTS };
 const listeners = new Set();
 
-export async function loadStats() {
-  const saved = (await kvGet(KEY)) || {};
-  cache = {
+// Normalise a raw saved object into a full, array-safe stats cache.
+function hydrate(saved = {}) {
+  const arr = (v) => (Array.isArray(v) ? [...v] : []);
+  return {
     ...DEFAULTS,
     ...saved,
     trainerBests: { ...(saved.trainerBests || {}) },
-    practisedSongs: Array.isArray(saved.practisedSongs) ? [...saved.practisedSongs] : [],
+    practisedSongs: arr(saved.practisedSongs),
+    badges: arr(saved.badges),
+    activityTypes: arr(saved.activityTypes),
+    practiceDays: arr(saved.practiceDays),
+    missionTypes: arr(saved.missionTypes),
   };
+}
+
+export async function loadStats() {
+  cache = hydrate((await kvGet(KEY)) || {});
   return cache;
 }
 
@@ -69,8 +84,21 @@ export function getStreak() {
  */
 export async function recordPracticeSession() {
   const today = localDateStr();
-  if (cache.lastPracticeDate === today) return cache.streak;
 
+  // Today's mission rolls over at local midnight.
+  if (cache.missionDate !== today) {
+    cache.missionDate = today;
+    cache.missionTypes = [];
+  }
+  // Track which days were practised (for the weekly goal); keep ~90 days.
+  if (!cache.practiceDays.includes(today)) {
+    cache.practiceDays = [...cache.practiceDays, today].slice(-90);
+  }
+
+  if (cache.lastPracticeDate === today) {
+    await persist(); // day/mission bookkeeping may have changed
+    return cache.streak;
+  }
   if (cache.lastPracticeDate && dayDiff(cache.lastPracticeDate, today) === 1) {
     cache.streak += 1;
   } else {
@@ -79,6 +107,51 @@ export async function recordPracticeSession() {
   cache.lastPracticeDate = today;
   await persist();
   return cache.streak;
+}
+
+// ---- rewards: badges, activity types, mission (Part 2) -------------------
+
+export function getBadges() {
+  return cache.badges;
+}
+export function hasBadge(id) {
+  return cache.badges.includes(id);
+}
+/** Add a badge if new. Returns true only the first time it's earned. */
+export async function awardBadge(id) {
+  if (cache.badges.includes(id)) return false;
+  cache.badges = [...cache.badges, id];
+  await persist();
+  return true;
+}
+
+export function getActivityTypes() {
+  return cache.activityTypes;
+}
+export async function addActivityType(type) {
+  if (!type || cache.activityTypes.includes(type)) return;
+  cache.activityTypes = [...cache.activityTypes, type];
+  await persist();
+}
+
+export function getPracticeDays() {
+  return cache.practiceDays;
+}
+
+/** Action types done today (empty if the stored mission day isn't today). */
+export function getMissionTypes() {
+  return cache.missionDate === localDateStr() ? cache.missionTypes : [];
+}
+export async function markMissionType(type) {
+  const today = localDateStr();
+  if (cache.missionDate !== today) {
+    cache.missionDate = today;
+    cache.missionTypes = [];
+  }
+  if (type && !cache.missionTypes.includes(type)) {
+    cache.missionTypes = [...cache.missionTypes, type];
+    await persist();
+  }
 }
 
 // ---- chord-change trainer best scores ------------------------------------
@@ -114,13 +187,7 @@ export async function markSongPractised(id) {
 
 /** Replace all stats (used by Restore in item 5). */
 export async function replaceStats(obj) {
-  const src = obj && typeof obj === 'object' ? obj : {};
-  cache = {
-    ...DEFAULTS,
-    ...src,
-    trainerBests: { ...(src.trainerBests || {}) },
-    practisedSongs: Array.isArray(src.practisedSongs) ? [...src.practisedSongs] : [],
-  };
+  cache = hydrate(obj && typeof obj === 'object' ? obj : {});
   await persist();
   return cache;
 }

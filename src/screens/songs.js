@@ -140,8 +140,15 @@ export function render() {
   }
 
   function renderCardGroup(group) {
-    const section = el('section', { class: 'song-group' });
-    section.append(el('h2', { class: 'song-group-title' }, group.title));
+    const section = el('section', { class: 'song-group', dataset: { group: group.id } });
+    section.append(
+      el(
+        'h2',
+        { class: 'song-group-title' },
+        el('span', {}, group.title),
+        el('span', { class: 'song-group-count' }, String(group.songs.length))
+      )
+    );
     if (group.subtitle) section.append(el('p', { class: 'song-group-sub' }, group.subtitle));
 
     const grid = el('div', { class: 'song-lib-grid' });

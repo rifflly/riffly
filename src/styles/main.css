@@ -1571,6 +1571,240 @@ button,
   to { opacity: 1; transform: scale(1); }
 }
 
+/* ---- Learn: hero cover banner ------------------------------------------ */
+
+.learn-hero {
+  margin: 0 0 var(--space-4);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  /* Warm placeholder tint while the image loads. */
+  background: linear-gradient(135deg, var(--color-secondary-soft), var(--color-primary-soft));
+}
+
+.learn-hero-img {
+  display: block;
+  width: 100%;
+  /* Taller, proportional banner so BOTH the "Riffly" wordmark AND the smiling
+     character fit. Same framing on phone, tablet, and laptop (content is capped
+     at 560px → ~300px on mobile, ~475px max on desktop). */
+  aspect-ratio: 10 / 9;
+  max-height: 480px;
+  object-fit: cover;
+  /* Crop from the top: logo + "Learn. Play. Riff." tagline + the smiling face. */
+  object-position: center top;
+}
+
+/* ---- Rewards hub (streak / mission / weekly / badges) ------------------- */
+
+.rewards-hub {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rewards-top {
+  display: flex;
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.streak-box {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--color-primary-soft);
+  border-radius: var(--radius-md);
+}
+
+.streak-flame {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.streak-num {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.1;
+}
+
+.streak-label {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.mission-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.mission-kicker {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+}
+
+.mission-text {
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.mission-text.is-done {
+  color: var(--color-primary);
+}
+
+.mission-hint-sm {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.week-goal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.week-label {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.week-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.week-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-border);
+}
+
+.week-dot.is-done {
+  background: var(--color-primary);
+}
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.badge-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  opacity: 0.55;
+}
+
+.badge-chip.is-earned {
+  opacity: 1;
+  color: var(--color-secondary);
+  background: var(--color-secondary-soft);
+  border-color: transparent;
+}
+
+.badge-emoji {
+  font-size: 0.95rem;
+}
+
+.streak-box.is-cold {
+  background: var(--color-bg);
+  border: 1px dashed var(--color-border);
+}
+.streak-box.is-cold .streak-num {
+  color: var(--color-text-muted);
+}
+
+/* Make today's mission easy to notice while it's still pending. */
+.mission-box.is-pending {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-secondary-soft);
+}
+.mission-box.is-pending .mission-text {
+  color: var(--color-secondary);
+}
+.mission-box.is-done .mission-text {
+  color: var(--color-primary);
+}
+
+.badge-strip {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.badge-strip-count {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* ---- Toasts ------------------------------------------------------------- */
+
+.toast-host {
+  position: fixed;
+  left: 50%;
+  bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  pointer-events: none;
+  width: max-content;
+  max-width: 90vw;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast.is-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-emoji {
+  font-size: 1.1rem;
+}
+
 /* ---- Learn: lesson path ------------------------------------------------- */
 
 .progress-card {
@@ -2011,19 +2245,39 @@ button,
 /* ---- Songs: curated library (grouped cards) ----------------------------- */
 
 .song-group {
-  margin-top: var(--space-5);
+  margin-top: var(--space-6, 32px);
+  --tier: var(--color-primary);
 }
+.song-group[data-group='play-now'] { --tier: #4a9d6b; }
+.song-group[data-group='level-up'] { --tier: var(--color-primary); }
+.song-group[data-group='challenge'] { --tier: var(--color-secondary); }
+.song-group[data-group='hindi'] { --tier: #d98a3d; }
 
 .song-group-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   font-size: 1.15rem;
   font-weight: 800;
   margin-bottom: 2px;
+  padding-left: var(--space-2);
+  border-left: 4px solid var(--tier);
+}
+
+.song-group-count {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 1px 8px;
+  border-radius: var(--radius-pill);
+  color: var(--tier);
+  background: color-mix(in srgb, var(--tier) 15%, transparent);
 }
 
 .song-group-sub {
   font-size: 0.85rem;
   color: var(--color-text-muted);
-  margin-bottom: var(--space-3);
+  margin: 2px 0 var(--space-3);
+  padding-left: calc(var(--space-2) + 4px);
   line-height: 1.4;
 }
 

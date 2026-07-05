@@ -22,6 +22,8 @@ import { openAudioHelp } from '../../ui/audio-help.js';
 import { beatsPerBar, lineBars, lineDurationSec } from '../../songs/song-model.js';
 import { isStarter } from '../../songs/song-library.js';
 import { markSongPractised } from '../../storage/stats.js';
+import { recordActivity } from '../../storage/rewards.js';
+import { celebrateBadges } from '../../ui/toast.js';
 import { getSetting, setSetting } from '../../storage/settings.js';
 import { getAudioMeta, getAudioData, saveAudioFile, deleteAudio, formatBytes } from '../../storage/audio-store.js';
 
@@ -184,7 +186,9 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
     showCountIn(false);
     setStatus(`You practised “${song.title}”! 🎉 Lovely work.`);
     refreshTransport();
-    markSongPractised(song.id);
+    markSongPractised(song.id)
+      .then(() => recordActivity('song'))
+      .then(({ newBadges }) => celebrateBadges(newBadges));
   }
 
   function startEngineFrame() {
@@ -309,7 +313,9 @@ export function renderStudio(song, { onBack, onEdit, initialBacking } = {}) {
     if (waveform && track) waveform.setPlayhead(track.duration);
     setStatus(`You practised “${song.title}”! 🎉 Lovely work.`);
     refreshTransport();
-    markSongPractised(song.id);
+    markSongPractised(song.id)
+      .then(() => recordActivity('song'))
+      .then(({ newBadges }) => celebrateBadges(newBadges));
   }
 
   function startAudioFrame() {

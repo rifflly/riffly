@@ -11,6 +11,8 @@ import { el, clear } from '../../ui/dom.js';
 import { card } from '../../ui/screen.js';
 import { Metronome } from '../../audio/metronome.js';
 import { getSetting, setSetting } from '../../storage/settings.js';
+import { recordActivity } from '../../storage/rewards.js';
+import { celebrateBadges } from '../../ui/toast.js';
 
 const MIN_BPM = 40;
 const MAX_BPM = 208;
@@ -147,6 +149,7 @@ export function create() {
     const running = metro.toggle(onBeat);
     refreshStart();
     if (!running) clearActiveDots();
+    else recordActivity('rhythm').then(({ newBadges }) => celebrateBadges(newBadges));
   });
 
   const node = card(

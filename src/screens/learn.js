@@ -9,8 +9,14 @@ import { el, clear } from '../ui/dom.js';
 import { icon } from '../ui/icons.js';
 import { STAGES, allLessons } from '../content.js';
 import { isLessonComplete, completedCount, setLessonComplete } from '../storage/progress.js';
+import { recordActivity } from '../storage/rewards.js';
 import { renderStep } from '../ui/lesson-steps.js';
+import { buildRewardsHub } from '../ui/rewards-hub.js';
+import { showToast, celebrateBadges } from '../ui/toast.js';
 import { setPendingContext } from '../ai/tutor-chat.js';
+
+// Short, non-childish cheers rotated by how many lessons are done.
+const LESSON_CHEERS = ['Lesson complete!', 'Nailed it!', 'That’s progress!', 'Keep it rolling!', 'Nicely done!'];
 
 export function render() {
   const root = el('div', { class: 'learn' });
@@ -46,7 +52,15 @@ function renderPath(onOpen) {
   const lessons = allLessons();
   const done = completedCount();
   const total = lessons.length;
+
+  // Hero cover banner (above "Your progress"). Static image from /public,
+  // referenced via BASE_URL so it works under the GitHub Pages subpath.
+  node.append(learnHero());
+
   node.append(total && done === total ? congratsCard(total) : progressCard(done, total));
+
+  // Practice rewards: streak, today's mission, weekly goal, badges (Part 2).
+  node.append(buildRewardsHub());
 
   node.append(
     el(
@@ -67,6 +81,20 @@ function renderPath(onOpen) {
     node.append(stageSection(stage, onOpen));
   }
   return node;
+}
+
+function learnHero() {
+  const src = `${import.meta.env.BASE_URL}Poster-Riffly.png`;
+  return el(
+    'div',
+    { class: 'learn-hero' },
+    el('img', {
+      class: 'learn-hero-img',
+      src,
+      alt: 'Riffly — Learn. Play. Riff. A teenager smiling while playing an acoustic guitar.',
+      decoding: 'async',
+    })
+  );
 }
 
 function progressCard(done, total) {
@@ -200,6 +228,9 @@ function renderLesson(lesson, onBack) {
           type: 'button',
           onclick: async () => {
             await setLessonComplete(lesson.id, true);
+            const { newBadges } = await recordActivity('lesson');
+            showToast(LESSON_CHEERS[completedCount() % LESSON_CHEERS.length], { emoji: '🎉' });
+            celebrateBadges(newBadges);
             onBack();
           },
         },

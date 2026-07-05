@@ -145,8 +145,9 @@ export function render() {
       const text = input.value.trim();
       if (!text || streaming) return; // in-flight guard (one request at a time)
       const now = Date.now();
-      if (now - lastSendAt < SEND_COOLDOWN_MS) return; // cheap rate-limit protection
+      if (now - lastSendAt < SEND_COOLDOWN_MS) return; // debounce rapid taps
       lastSendAt = now;
+      streaming = true; // lock synchronously so a same-tick second call can't slip through
       input.value = '';
       autosize();
       if (!getHistory().length) clear(messages);
@@ -223,12 +224,12 @@ export function render() {
           const n = Math.max(1, Math.round(err.retryAfterSec || 20));
           messages.append(
             el('div', { class: 'chat-error' },
-              el('p', {}, `Too many requests right now. Try again in ${n} seconds.`),
+              el('p', {}, `Whoa, a bit fast! Try again in ${n}s.`),
               el('div', { class: 'chat-error-actions' }, tryAgain()))
           );
         } else if (kind === 'daily') {
           const box = el('div', { class: 'chat-error' },
-            el('p', {}, 'Free quota reached for this project. It usually resets at midnight Pacific time.'),
+            el('p', {}, 'That’s today’s free limit. It resets around midnight Pacific — or switch provider to keep going.'),
             el('div', { class: 'chat-error-actions' }, switchProvider()));
           const lessons = matchLessons(question);
           if (lessons.length) {
@@ -241,7 +242,7 @@ export function render() {
         } else {
           messages.append(
             el('div', { class: 'chat-error' },
-              el('p', {}, 'Quota limit reached. Please try again shortly, or switch provider.'),
+              el('p', {}, 'Hit a limit. Try again soon, or switch provider.'),
               el('div', { class: 'chat-error-actions' }, tryAgain(), switchProvider()))
           );
         }

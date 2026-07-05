@@ -21,9 +21,10 @@ import { getSetting, setSetting } from '../../storage/settings.js';
 import {
   getTrainerBest,
   recordTrainerScore,
-  recordPracticeSession,
   getStreak,
 } from '../../storage/stats.js';
+import { recordActivity } from '../../storage/rewards.js';
+import { celebrateBadges } from '../../ui/toast.js';
 
 const MIN_BPM = 40;
 const MAX_BPM = 160;
@@ -271,7 +272,7 @@ export function create() {
     refreshStart();
     // A real practice bout (≥15s) counts toward the daily streak.
     if (!silent && ranMs >= 15000) {
-      recordPracticeSession().then(refreshStreak);
+      recordActivity('chordswitch').then(({ newBadges }) => { refreshStreak(); celebrateBadges(newBadges); });
       status.textContent = 'Nice work — that counts toward your streak. 🎉';
     } else if (!silent) {
       status.textContent = 'Pick two chords, then press Start.';
@@ -372,7 +373,7 @@ export function create() {
 
     const key = pairKey(pair[0], pair[1]);
     status.textContent = 'Scoring…';
-    recordPracticeSession().then(refreshStreak);
+    recordActivity('chordswitch').then(({ newBadges }) => { refreshStreak(); celebrateBadges(newBadges); });
     // recordTrainerScore stores only if it beats the saved best (Promise<boolean>).
     recordTrainerScore(key, count).then((isBest) => {
       status.textContent =

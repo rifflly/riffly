@@ -224,19 +224,15 @@ async function streamGemini(cfg, context, onToken, signal) {
   return full;
 }
 
-// Provider adapters. Each streams a reply for a lean context and returns the
-// full text. To add a provider (or a fallback), add one entry + a stream fn.
+// Provider adapters — the whole "provider structure" is just this map. Each
+// streams a reply for a lean context and returns the full text. Gemini and Groq
+// are both live; the active one is chosen by the user (BYOK) via cfg.provider.
+// To add a provider or an auto-fallback later: add an entry here + a stream fn,
+// then in streamTutorReply's catch, retry with ADAPTERS[fallbackProvider].
 const ADAPTERS = {
   gemini: streamGemini,
   groq: streamGroq,
 };
-
-// FALLBACK SEAM — return a { provider, apiKey } to try when the primary hits a
-// hard quota. No-op for now (auto-fallback needs a second key from the user);
-// wire it up here later, e.g. read a saved secondary key from ai-config.
-function getFallback(/* cfg, err */) {
-  return null;
-}
 
 /**
  * Stream a tutor reply for a lean request context.
