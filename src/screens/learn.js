@@ -84,7 +84,7 @@ function renderPath(onOpen) {
 }
 
 function learnHero() {
-  const src = `${import.meta.env.BASE_URL}Poster-Riffly.png`;
+  const src = `${import.meta.env.BASE_URL}Poster-Riffly.jpg`;
   return el(
     'div',
     { class: 'learn-hero' },
